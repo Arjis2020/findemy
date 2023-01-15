@@ -1,0 +1,13 @@
+.course-creators :not(:first-child){
+    margin-left: 5px;
+}
+
+.two-column-ul {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.two-column-ul li {
+    width: calc(50% - 0.5rem);
+}

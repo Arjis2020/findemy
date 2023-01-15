@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import CourseDetails from './components/CourseDetails'
 import Footer from './components/Footer'
 import Home from './components/Home'
 import Login from './components/Login'
@@ -27,6 +28,10 @@ export default function Router() {
         <Route
           path='/search'
           element={<SearchResults />}
+        />
+        <Route 
+          path='/course'
+          element={<CourseDetails />}
         />
       </Routes>
       <Footer 

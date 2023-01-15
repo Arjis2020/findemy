@@ -8,6 +8,9 @@ function App() {
   const theme = createTheme({
     palette: {
       mode: 'light',
+      primary: {
+        main: '#a435f0'
+      },
       common: {
         black: '#1c1d1f'
       }
