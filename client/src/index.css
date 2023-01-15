@@ -1,0 +1,31 @@
+@font-face {
+  font-family: SuisseBold;
+  src: url('./fonts/SuisseWorks-Bold-v1.woff2');
+}
+
+@font-face {
+  font-family: UdemySansBold;
+  src: url('./fonts/Udemy-Sans-Bold-v1.woff2');
+}
+
+@font-face {
+  font-family: UdemySansRegular;
+  src: url('./fonts/Udemy-Sans-Regular-v1.woff2');
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: #5624d0;
+}
+
+* {
+  box-sizing: border-box;
+}
