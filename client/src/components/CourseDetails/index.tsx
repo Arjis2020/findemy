@@ -29,11 +29,11 @@ export default function CourseDetails() {
   const [afterScrollTrigger, setAfterScrollTrigger] = useState(false)
 
   const handleScroll = () => {
-    const stackRect = stackRef.current!.getBoundingClientRect()
-    const cardRect = cardRef.current!.getBoundingClientRect()
+    const stackRect = stackRef.current?.getBoundingClientRect()
+    const cardRect = cardRef.current?.getBoundingClientRect()
 
-    const stackBottom = Math.floor(stackRect.bottom)
-    const cardBottom = Math.floor(cardRect.bottom)
+    const stackBottom = Math.floor(stackRect?.bottom || 0)
+    const cardBottom = Math.floor(cardRect?.bottom || 0)
 
     setAfterScrollTrigger(
       stackBottom <= cardBottom + 30
@@ -60,7 +60,9 @@ export default function CourseDetails() {
       alignItems={matches ? 'center' : 'stretch'}
       ref={stackRef}
     >
-      <Summary />
+      <Summary
+        view={matches ? 'mobile' : 'desktop'}
+      />
       <SummaryBanner
         view={matches ? 'mobile' : 'desktop'}
       />
@@ -82,7 +84,7 @@ export default function CourseDetails() {
           <Box
             sx={{
               position: 'fixed',
-              top: '5rem',
+              top: '1rem',
               bottom: 'none',
               left: cardProperties.left,
               width: cardProperties.width,
@@ -103,7 +105,7 @@ export default function CourseDetails() {
             sx={{
               position: 'absolute',
               top: 'auto',
-              bottom: '1.5rem',
+              bottom: '2.3rem',
               left: cardProperties.left,
               width: cardProperties.width,
               zIndex: '-1',
@@ -118,7 +120,7 @@ export default function CourseDetails() {
       <Stack
         pl={!matches ? 15 : 7.5}
         pr={!matches ? 8 : 7.5}
-        maxWidth={!matches ? '66%' : '70%'}
+        maxWidth={!matches ? '66%' : '74%'}
         alignItems={matches ? 'center' : 'stretch'}
       >
         <WhatYouWillLearn

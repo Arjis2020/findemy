@@ -12,7 +12,8 @@ export default function Instructor() {
     return (
         <Stack
             sx={{
-                my: 2
+                my: 2,
+                mb: 4
             }}
             spacing={2}
         >

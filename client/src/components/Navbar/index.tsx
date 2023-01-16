@@ -9,11 +9,19 @@ import { Fragment, useState } from 'react'
 import { ArrowForwardIosSharp } from '@mui/icons-material'
 import LanguageIcon from '@mui/icons-material/Language';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function Header() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
     const [open, setOpen] = useState(false)
+
+    const location = useLocation()
+
+    const whitelistedAppbarRelativeRoutes = [
+        '/course'
+    ]
+
+    const shouldPositionRelative = whitelistedAppbarRelativeRoutes.includes(location.pathname)
 
     const toggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
@@ -298,7 +306,7 @@ export default function Header() {
 
     return (
         <AppBar
-            position='sticky'
+            position={!shouldPositionRelative ? 'fixed' : 'relative'}
             color='transparent'
             sx={{
                 background: '#fff'

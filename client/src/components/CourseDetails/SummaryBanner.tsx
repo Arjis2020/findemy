@@ -4,6 +4,7 @@ import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import LanguageIcon from '@mui/icons-material/Language';
 import SubtitlesIcon from '@mui/icons-material/Subtitles';
 import './index.css'
+import VideoPreview from './VideoPreview';
 
 type SummaryBannerProps = {
     view: "desktop" | "mobile"
@@ -189,12 +190,13 @@ export default function SummaryBanner({ view }: SummaryBannerProps) {
         return (
             <Stack
                 spacing={5}
-                maxWidth='70%'
+                maxWidth='80%'
                 color='#fff'
             >
                 <Stack
                     spacing={1.5}
                 >
+                    <VideoPreview />
                     <Typography
                         variant='h4'
                         color='#fff'
