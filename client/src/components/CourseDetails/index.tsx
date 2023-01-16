@@ -1,8 +1,12 @@
-import { Box, Fade, Stack, useScrollTrigger } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Box, Fade, Stack, Theme, useMediaQuery, useScrollTrigger } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
+import Description from './Description'
+import Instructor from './Instructor'
+import Requirements from './Requirements'
 import Summary from './Summary'
 import SummaryBanner from './SummaryBanner'
 import SummaryCard from './SummaryCard'
+import TopCompanies from './TopCompanies'
 import WhatYouWillLearn from './WhatYouWillLearn'
 
 export default function CourseDetails() {
@@ -13,79 +17,117 @@ export default function CourseDetails() {
     'Learn all about React Hooks and React Components'
   ]
 
+  const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
+
   const trigger = useScrollTrigger({
     disableHysteresis: true
   })
 
+  const stackRef = useRef<Element>()
+  const cardRef = useRef<Element>()
+
+  const [afterScrollTrigger, setAfterScrollTrigger] = useState(false)
+
+  const handleScroll = () => {
+    const stackRect = stackRef.current!.getBoundingClientRect()
+    const cardRect = cardRef.current!.getBoundingClientRect()
+
+    const stackBottom = Math.floor(stackRect.bottom)
+    const cardBottom = Math.floor(cardRect.bottom)
+
+    setAfterScrollTrigger(
+      stackBottom <= cardBottom + 30
+    )
+  }
+
+  const cardProperties = {
+    left: '66%',
+    width: '21rem'
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, {
+      passive: true
+    })
+    return () => window.removeEventListener('scroll', handleScroll)
+  })
+
   return (
-    <Stack>
+    <Stack
+      sx={{
+        position: 'relative'
+      }}
+      alignItems={matches ? 'center' : 'stretch'}
+      ref={stackRef}
+    >
       <Summary />
-      <SummaryBanner />
-      {!trigger && <Box
-        sx={{
-          position: 'absolute',
-          top: '7.5rem',
-          left: '64%',
-          width: '21rem'
-        }}
-      >
-        <SummaryCard />
-      </Box>}
-      <Fade
-        appear={false}
-        in={trigger}
-        timeout={250}
-        mountOnEnter
-        unmountOnExit
-      >
-        <Box
+      <SummaryBanner
+        view={matches ? 'mobile' : 'desktop'}
+      />
+      {!matches && <Box>
+        {!trigger && <Box
           sx={{
-            position: 'fixed',
-            top: '6rem',
-            left: '64%',
-            width: '21rem',
-            zIndex: '99999'
+            position: 'absolute',
+            top: '2.5rem',
+            left: cardProperties.left,
+            width: cardProperties.width
           }}
         >
-          <SummaryCard
-            showVideo={false}
-          />
-        </Box>
-      </Fade>
+          <SummaryCard />
+        </Box>}
+        <Fade
+          appear={false}
+          in={trigger && !afterScrollTrigger}
+        >
+          <Box
+            sx={{
+              position: 'fixed',
+              top: '5rem',
+              bottom: 'none',
+              left: cardProperties.left,
+              width: cardProperties.width,
+              zIndex: '99999',
+            }}
+            ref={cardRef}
+          >
+            <SummaryCard
+              showVideo={false}
+            />
+          </Box>
+        </Fade>
+        <Fade
+          in={afterScrollTrigger}
+          appear={false}
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 'auto',
+              bottom: '1.5rem',
+              left: cardProperties.left,
+              width: cardProperties.width,
+              zIndex: '-1',
+            }}
+          >
+            <SummaryCard
+              showVideo={false}
+            />
+          </Box>
+        </Fade>
+      </Box>}
       <Stack
-        px={10}
-        maxWidth='66%'
+        pl={!matches ? 15 : 7.5}
+        pr={!matches ? 8 : 7.5}
+        maxWidth={!matches ? '66%' : '70%'}
+        alignItems={matches ? 'center' : 'stretch'}
       >
         <WhatYouWillLearn
           points={learningPoints}
         />
-        <WhatYouWillLearn
-          points={learningPoints}
-        />
-        <WhatYouWillLearn
-          points={learningPoints}
-        />
-        <WhatYouWillLearn
-          points={learningPoints}
-        />
-        <WhatYouWillLearn
-          points={learningPoints}
-        />
-        <WhatYouWillLearn
-          points={learningPoints}
-        />
-        <WhatYouWillLearn
-          points={learningPoints}
-        />
-        <WhatYouWillLearn
-          points={learningPoints}
-        />
-        <WhatYouWillLearn
-          points={learningPoints}
-        />
-        <WhatYouWillLearn
-          points={learningPoints}
-        />
+        <TopCompanies />
+        <Requirements />
+        <Description />
+        <Instructor />
       </Stack>
     </Stack>
   )

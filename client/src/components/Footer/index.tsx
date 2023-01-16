@@ -14,7 +14,8 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
     const businessBrandingWhitelistedRoutes = [
         '/login',
         '/signup',
-        '/search'
+        '/search',
+        '/course'
     ]
 
     const location = useLocation()

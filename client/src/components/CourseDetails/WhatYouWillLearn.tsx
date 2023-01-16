@@ -13,7 +13,8 @@ export default function WhatYouWillLearn({ points }: WhatYouWillLearnProps) {
                 pb: 1,
                 px: 3,
                 border: '1px solid #d1d7dc',
-                my: 2
+                mb: 2,
+                mt: 4
             }}
             width='100%'
         >
@@ -27,10 +28,6 @@ export default function WhatYouWillLearn({ points }: WhatYouWillLearnProps) {
             </Typography>
             <ul
                 className='two-column-ul'
-                style={{
-                    listStyle: 'none',
-                    padding: 0,
-                }}
             >
                 {
                     points.map(point => {

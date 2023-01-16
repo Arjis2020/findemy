@@ -1,8 +1,8 @@
 import { Star } from '@mui/icons-material'
 import { AppBar, Box, Slide, Stack, Toolbar, Typography, useScrollTrigger, useTheme } from '@mui/material'
-import { ReactElement, useState } from 'react'
+import { memo, ReactElement, useState } from 'react'
 
-export default function Summary() {
+export default memo(function Summary() {
     const trigger = useScrollTrigger({
         disableHysteresis: true
     })
@@ -104,4 +104,4 @@ export default function Summary() {
             </AppBar>
         </RevealOnScroll>
     )
-}
+})

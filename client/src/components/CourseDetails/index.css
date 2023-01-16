@@ -2,10 +2,24 @@
     margin-left: 5px;
 }
 
+.single-column-ul {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 0px;
+    padding-left: 15px;
+    margin-top: 15px;
+}
+
+.single-column-ul > :not(:first-child) {
+    margin-top: 8px;
+}
+
 .two-column-ul {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+    list-style: none;
+    padding: 0px;
 }
 
 .two-column-ul li {
