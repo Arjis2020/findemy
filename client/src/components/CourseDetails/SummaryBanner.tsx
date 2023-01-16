@@ -112,6 +112,7 @@ export default function SummaryBanner() {
                             <Typography
                                 component='a'
                                 fontSize={14}
+                                ml={0.5}
                                 sx={{
                                     textDecoration: 'underline'
                                 }}
