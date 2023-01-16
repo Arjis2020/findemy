@@ -1,16 +1,15 @@
 import { StarBorder } from '@mui/icons-material'
-import { Box, Button, Rating, Stack, Typography } from '@mui/material'
+import { Box, Button, Rating, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import LanguageIcon from '@mui/icons-material/Language';
 import SubtitlesIcon from '@mui/icons-material/Subtitles';
 import './index.css'
 import VideoPreview from './VideoPreview';
 
-type SummaryBannerProps = {
-    view: "desktop" | "mobile"
-}
+export default function SummaryBanner() {
+    const laptop = useMediaQuery((theme: Theme) => theme.breakpoints.down('desktop'))
+    const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
-export default function SummaryBanner({ view }: SummaryBannerProps) {
     const DesktopView = () => {
         return (
             <Stack
@@ -101,32 +100,35 @@ export default function SummaryBanner({ view }: SummaryBannerProps) {
                     direction='row'
                     spacing={0.5}
                     alignItems='center'
+                    sx={{
+                        flexFlow: 'row wrap'
+                    }}
                 >
                     <Typography
                         fontSize={14}
                     >
                         Created by
+                        <span className='course-creators'>
+                            <Typography
+                                component='a'
+                                fontSize={14}
+                                sx={{
+                                    textDecoration: 'underline'
+                                }}
+                                color='#cec0fc'>
+                                Academind by Maximillian Schwarmüller
+                            </Typography>,
+                            <Typography
+                                component='a'
+                                fontSize={14}
+                                sx={{
+                                    textDecoration: 'underline'
+                                }}
+                                color='#cec0fc'>
+                                Maximillian Schwarmüller
+                            </Typography>
+                        </span>
                     </Typography>
-                    <span className='course-creators'>
-                        <Typography
-                            component='a'
-                            fontSize={14}
-                            sx={{
-                                textDecoration: 'underline'
-                            }}
-                            color='#cec0fc'>
-                            Academind by Maximillian Schwarmüller
-                        </Typography>,
-                        <Typography
-                            component='a'
-                            fontSize={14}
-                            sx={{
-                                textDecoration: 'underline'
-                            }}
-                            color='#cec0fc'>
-                            Maximillian Schwarmüller
-                        </Typography>
-                    </span>
                 </Stack>
                 <Stack
                     spacing={2}
@@ -190,7 +192,7 @@ export default function SummaryBanner({ view }: SummaryBannerProps) {
         return (
             <Stack
                 spacing={5}
-                maxWidth='80%'
+                maxWidth={!laptop ? '66%' : !tablet ? '70%' : '100%'}
                 color='#fff'
             >
                 <Stack
@@ -280,32 +282,36 @@ export default function SummaryBanner({ view }: SummaryBannerProps) {
                         direction='row'
                         spacing={0.5}
                         alignItems='center'
+                        sx={{
+                            flexFlow: 'row wrap'
+                        }}
                     >
                         <Typography
                             fontSize={14}
                         >
                             Created by
+                            <span className='course-creators'>
+                                <Typography
+                                    component='a'
+                                    fontSize={14}
+                                    ml={0.5}
+                                    sx={{
+                                        textDecoration: 'underline'
+                                    }}
+                                    color='#cec0fc'>
+                                    Academind by Maximillian Schwarmüller
+                                </Typography>,
+                                <Typography
+                                    component='a'
+                                    fontSize={14}
+                                    sx={{
+                                        textDecoration: 'underline'
+                                    }}
+                                    color='#cec0fc'>
+                                    Maximillian Schwarmüller
+                                </Typography>
+                            </span>
                         </Typography>
-                        <span className='course-creators'>
-                            <Typography
-                                component='a'
-                                fontSize={14}
-                                sx={{
-                                    textDecoration: 'underline'
-                                }}
-                                color='#cec0fc'>
-                                Academind by Maximillian Schwarmüller
-                            </Typography>,
-                            <Typography
-                                component='a'
-                                fontSize={14}
-                                sx={{
-                                    textDecoration: 'underline'
-                                }}
-                                color='#cec0fc'>
-                                Maximillian Schwarmüller
-                            </Typography>
-                        </span>
                     </Stack>
                     <Stack
                         spacing={1}
@@ -472,11 +478,12 @@ export default function SummaryBanner({ view }: SummaryBannerProps) {
             sx={{
                 background: theme => theme.palette.common.black
             }}
-            px={15}
+            pl={!laptop ? 15 : !tablet ? 7.5 : 2}
+            pr={!laptop ? 8 : !tablet ? 7.5 : 2}
             py={4}
-            alignItems={view === 'mobile' ? 'center' : 'stretch'}
+            alignItems={!laptop ? 'stretch' : 'center'}
         >
-            {view === 'desktop' ?
+            {!laptop ?
                 <DesktopView />
                 :
                 <MobileView />

@@ -19,6 +19,7 @@ export default function TopCompanies() {
                 border: '1px solid #d1d7dc',
                 my: 2
             }}
+            width='100%'
         >
             <Typography
                 fontFamily='UdemySansBold'
@@ -37,6 +38,9 @@ export default function TopCompanies() {
                 direction='row'
                 justifyContent='space-between'
                 mt={2}
+                sx={{
+                    flexFlow: 'row wrap'
+                }}
             >
                 {partners.map(partner =>
                     <img

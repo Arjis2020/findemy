@@ -1,12 +1,11 @@
 import { Star } from '@mui/icons-material'
-import { AppBar, Box, Button, Slide, Stack, Toolbar, Typography, useScrollTrigger } from '@mui/material'
+import { AppBar, Box, Button, Slide, Stack, Theme, Toolbar, Typography, useMediaQuery, useScrollTrigger } from '@mui/material'
 import { memo, ReactElement } from 'react'
 
-type SummaryProps = {
-    view: 'mobile' | 'desktop'
-}
+export default memo(function Summary() {
+    const laptop = useMediaQuery((theme: Theme) => theme.breakpoints.down('desktop'))
+    const mobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
-export default memo(function Summary({ view }: SummaryProps) {
     const trigger = useScrollTrigger({
         disableHysteresis: true
     })
@@ -17,7 +16,7 @@ export default memo(function Summary({ view }: SummaryProps) {
 
     const RevealOnScroll = ({ children }: RevealOnScrollProps) => {
         return (
-            view === 'desktop' ?
+            !laptop ?
                 <Slide
                     direction='down'
                     in={trigger}
@@ -33,20 +32,44 @@ export default memo(function Summary({ view }: SummaryProps) {
         )
     }
 
+    const BuyButton = () => (
+        <Button
+            variant='contained'
+            sx={{
+                background: theme => theme.palette.common.black,
+                fontFamily: 'UdemySansBold',
+                fontSize: 16,
+                borderRadius: 0,
+                color: '#fff',
+                textTransform: 'none',
+                py: 1.8,
+                px: 1.5,
+                "&:hover": {
+                    background: "#000"
+                }
+            }}
+            fullWidth
+            disableElevation
+            disableRipple
+        >
+            Buy now
+        </Button>
+    )
+
     return (
         <RevealOnScroll>
             <AppBar
                 position='fixed'
                 sx={{
-                    background: theme => theme.palette.common.black,
+                    background: theme => !mobile ? theme.palette.common.black : theme.palette.common.white,
                     zIndex: 2,
-                    top: view === 'desktop' ? !trigger ? 0 : 0 : 'auto',
-                    bottom: view === 'desktop' ? 'auto' : 0,
-                    py: view === 'desktop' ? 'auto' : 1.5
+                    top: !laptop ? 0 : 'auto',
+                    bottom: !laptop ? 'auto' : 0,
+                    py: !laptop ? 'auto' : 1.5
                 }}
             >
                 <Toolbar>
-                    <Stack
+                    {!mobile ? <Stack
                         direction='row'
                         justifyContent='space-between'
                         alignItems='center'
@@ -117,7 +140,7 @@ export default memo(function Summary({ view }: SummaryProps) {
                                 </Typography>
                             </Stack>
                         </Stack>
-                        {view === 'mobile' && <Stack
+                        {laptop && <Stack
                             direction='row'
                             spacing={2}
                             alignItems='center'
@@ -163,6 +186,9 @@ export default memo(function Summary({ view }: SummaryProps) {
                             </Button>
                         </Stack>}
                     </Stack>
+                    :
+                    <BuyButton />    
+                }
                 </Toolbar>
             </AppBar>
         </RevealOnScroll>

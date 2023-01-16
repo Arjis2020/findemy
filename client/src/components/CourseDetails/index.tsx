@@ -17,7 +17,8 @@ export default function CourseDetails() {
     'Learn all about React Hooks and React Components'
   ]
 
-  const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
+  const laptop = useMediaQuery((theme: Theme) => theme.breakpoints.down('desktop'))
+  const mobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
   const trigger = useScrollTrigger({
     disableHysteresis: true
@@ -57,16 +58,12 @@ export default function CourseDetails() {
       sx={{
         position: 'relative'
       }}
-      alignItems={matches ? 'center' : 'stretch'}
+      alignItems={laptop ? 'center' : 'stretch'}
       ref={stackRef}
     >
-      <Summary
-        view={matches ? 'mobile' : 'desktop'}
-      />
-      <SummaryBanner
-        view={matches ? 'mobile' : 'desktop'}
-      />
-      {!matches && <Box>
+      <Summary />
+      <SummaryBanner />
+      {!laptop && <Box>
         {!trigger && <Box
           sx={{
             position: 'absolute',
@@ -118,10 +115,10 @@ export default function CourseDetails() {
         </Fade>
       </Box>}
       <Stack
-        pl={!matches ? 15 : 7.5}
-        pr={!matches ? 8 : 7.5}
-        maxWidth={!matches ? '66%' : '74%'}
-        alignItems={matches ? 'center' : 'stretch'}
+        pl={!laptop ? 15 : !mobile ? 7.5 : 2}
+        pr={!laptop ? 8 : !mobile ? 7.5 : 2}
+        maxWidth={!laptop ? '66%' : !mobile ? '74%' : '100%'}
+        alignItems={laptop ? 'center' : 'stretch'}
       >
         <WhatYouWillLearn
           points={learningPoints}
