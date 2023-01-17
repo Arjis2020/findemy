@@ -103,7 +103,7 @@ export default function Cart() {
                         <CheckoutView
                             totalPrice={totalPrice}
                             totalRealPrice={totalRealPrice}
-                            discount={discount}
+                            discountPercentage={discountPercentage}
                         />
                     </Stack>
                     :

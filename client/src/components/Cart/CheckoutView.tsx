@@ -3,7 +3,7 @@ import { Button, Divider, Stack, Theme, Typography, useMediaQuery } from '@mui/m
 import { Link } from 'react-router-dom'
 import { OrderMeta } from '.'
 
-export default function CheckoutView({ totalPrice, totalRealPrice, discount }: Partial<OrderMeta>) {
+export default function CheckoutView({ totalPrice, totalRealPrice, discountPercentage }: Partial<OrderMeta>) {
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
@@ -34,7 +34,7 @@ export default function CheckoutView({ totalPrice, totalRealPrice, discount }: P
                 ₹{totalRealPrice}
             </Typography>
             <Typography>
-                {discount}% off
+                {discountPercentage}% off
             </Typography>
             <Link
                 to='/checkout'

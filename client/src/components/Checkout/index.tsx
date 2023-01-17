@@ -55,16 +55,13 @@ export default function Checkout({ orders, orderMeta }: CheckoutProps) {
     const MobileView = () => (
         <Stack
             direction='row'
-            // spacing={8}
             pb={20}
-            >
+        >
             <Stack
                 spacing={3}
                 px={4}
                 py={4}
-                // alignItems='center'
                 width='100%'
-                justifyContent='stretch'
             >
                 <Typography
                     variant='h4'
