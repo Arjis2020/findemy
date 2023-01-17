@@ -24,7 +24,7 @@ function App() {
         sm: 600,
         md: 900,
         lg: 1200,
-        xl: 1536,
+        xl: 1300,
         mobile: 0,
         tablet: 890,
         laptop: 1024,

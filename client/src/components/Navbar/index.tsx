@@ -306,7 +306,8 @@ export default function Header() {
 
     return (
         <AppBar
-            position={!shouldPositionRelative ? 'fixed' : 'relative'}
+            position={!shouldPositionRelative ? 'sticky' : 'relative'}
+            // position='sticky'
             color='transparent'
             sx={{
                 background: '#fff'

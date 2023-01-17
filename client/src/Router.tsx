@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Cart from './components/Cart'
 import CourseDetails from './components/CourseDetails'
 import Footer from './components/Footer'
 import Home from './components/Home'
@@ -8,7 +9,7 @@ import SearchResults from './components/SearchResults'
 import Signup from './components/Signup'
 
 export default function Router() {
-  
+
   return (
     <BrowserRouter>
       <Navbar />
@@ -21,7 +22,7 @@ export default function Router() {
           path='/login'
           element={<Login />}
         />
-        <Route 
+        <Route
           path='/signup'
           element={<Signup />}
         />
@@ -29,12 +30,16 @@ export default function Router() {
           path='/search'
           element={<SearchResults />}
         />
-        <Route 
+        <Route
           path='/course'
           element={<CourseDetails />}
         />
+        <Route
+          path='/cart'
+          element={<Cart />}
+        />
       </Routes>
-      <Footer 
+      <Footer
       />
     </BrowserRouter>
   )

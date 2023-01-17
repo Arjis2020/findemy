@@ -3,6 +3,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import './index.css'
 import Partners from './Partners';
 import { useLocation } from 'react-router-dom';
+import { APP_NAME } from '../../utils/Constants';
 
 type FooterProps = {
     showBusinessBranding?: boolean
@@ -22,7 +23,9 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
 
     const DesktopView = () => {
         return (
-            <Stack>
+            <Stack
+                spacing={6}
+            >
                 <Stack
                     direction='row'
                     justifyContent='space-between'
@@ -150,6 +153,12 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
                         </Stack>
                     </Button>
                 </Stack>
+                <Typography
+                    fontFamily='UdemySansBold'
+                    variant='h4'
+                >
+                    {APP_NAME}
+                </Typography>
             </Stack>
         )
     }
@@ -157,116 +166,126 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
     const MobileView = () => {
         return (
             <Stack
-                spacing={2}
-                alignItems='start'
+                spacing={6}
             >
-                <Button
-                    sx={{
-                        border: '1px solid #fff',
-                        minWidth: 0,
-                        borderRadius: 0,
-                        color: 'inherit',
-                        fontSize: 16,
-                        p: 0,
-                        textTransform: 'none',
-                    }}
+                <Stack
+                    spacing={2}
+                    alignItems='start'
                 >
-                    <Stack
-                        direction='row'
-                        spacing={1}
+                    <Button
                         sx={{
-                            width: '100%',
-                            p: 0.8,
-                            px: '1.6rem'
+                            border: '1px solid #fff',
+                            minWidth: 0,
+                            borderRadius: 0,
+                            color: 'inherit',
+                            fontSize: 16,
+                            p: 0,
+                            textTransform: 'none',
                         }}
                     >
-                        <LanguageIcon />
-                        <Typography
-                            fontSize={16}
+                        <Stack
+                            direction='row'
+                            spacing={1}
+                            sx={{
+                                width: '100%',
+                                p: 0.8,
+                                px: '1.6rem'
+                            }}
                         >
-                            English
+                            <LanguageIcon />
+                            <Typography
+                                fontSize={16}
+                            >
+                                English
+                            </Typography>
+                        </Stack>
+                    </Button>
+                    <Stack
+                        spacing={1}
+                    >
+                        <Typography
+                            fontSize={14}
+                        >
+                            Findemy Business
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Teach on Findemy
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Get the app
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            About us
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Contact us
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Findemy Business
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Teach on Findemy
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Get the app
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            About us
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Contact us
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Findemy Business
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Teach on Findemy
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Get the app
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            About us
+                        </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            Contact us
                         </Typography>
                     </Stack>
-                </Button>
-                <Stack
-                    spacing={1}
-                >
-                    <Typography
-                        fontSize={14}
-                    >
-                        Findemy Business
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Teach on Findemy
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Get the app
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        About us
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Contact us
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Findemy Business
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Teach on Findemy
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Get the app
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        About us
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Contact us
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Findemy Business
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Teach on Findemy
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Get the app
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        About us
-                    </Typography>
-                    <Typography
-                        fontSize={14}
-                    >
-                        Contact us
-                    </Typography>
                 </Stack>
+                <Typography
+                    fontFamily='UdemySansBold'
+                    variant='h4'
+                >
+                    {APP_NAME}
+                </Typography>
             </Stack>
         )
     }
