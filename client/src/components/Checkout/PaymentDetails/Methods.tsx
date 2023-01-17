@@ -1,5 +1,5 @@
 import { ExpandMore } from '@mui/icons-material'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Radio, RadioGroup, Stack, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import CreditDebitCard from './PaymentMethods/CreditDebitCard'
 import MobileBanking from './PaymentMethods/MobileBanking'
@@ -137,6 +137,7 @@ export default function Methods() {
                         justifyContent='space-between'
                         alignContent='center'
                         width='100%'
+                        spacing={1}
                     >
                         <Stack
                             direction='row'
@@ -173,9 +174,10 @@ export default function Methods() {
                             direction='row'
                             spacing={0.2}
                             alignItems='center'
+                            flexWrap='wrap'
                         >
                             {icons?.map(icon => (
-                                <Box
+                                <Stack
                                     sx={{
                                         border: '1px solid #d1d7dc',
                                         background: '#fff',
@@ -186,7 +188,7 @@ export default function Methods() {
                                     }}
                                 >
                                     {icon}
-                                </Box>
+                                </Stack>
                             ))}
                         </Stack>
                     </Stack>

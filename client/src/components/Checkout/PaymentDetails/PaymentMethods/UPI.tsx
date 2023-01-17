@@ -1,12 +1,13 @@
-import { Button, Divider, Stack, TextField, Typography } from '@mui/material'
+import { Button, Divider, Stack, TextField, Theme, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
 export default function UPI() {
     const { handleSubmit, register } = useForm()
+    const matches = useMediaQuery((theme : Theme) => theme.breakpoints.down('laptop'))
     return (
         <Stack
-            direction='row'
+            direction={!matches ? 'row' : 'column'}
             alignItems='start'
             px={2}
             pt={2}
@@ -15,7 +16,7 @@ export default function UPI() {
             <Stack
                 spacing={2}
                 flex={1}
-                pb={10}
+                pb={!matches ? 10 : 0}
             >
                 <Typography>
                     Enter your UPI ID / VPA and make payment on your UPI app.
@@ -79,7 +80,7 @@ export default function UPI() {
                 </Button>
             </Stack>
             <Divider
-                orientation='vertical'
+                orientation={!matches ? 'vertical' : 'horizontal'}
                 flexItem
             >
                 or

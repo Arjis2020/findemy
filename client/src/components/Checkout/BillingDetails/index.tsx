@@ -1,9 +1,11 @@
-import { Stack, Typography } from '@mui/material'
+import { Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import { APP_NAME } from '../../../utils/Constants'
 import Country from './Country'
 import StateTerritory from './StateTerritory'
 
 export default function BillingDetails() {
+    const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
+
     return (
         <Stack
             spacing={1}
@@ -18,8 +20,8 @@ export default function BillingDetails() {
                     Billing address
                 </Typography>
                 <Stack
-                    direction='row'
-                    spacing={3}
+                    direction={!matches ? 'row' : 'column'}
+                    spacing={!matches ? 3 : 2}
                 >
                     <Country />
                     <StateTerritory />

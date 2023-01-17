@@ -1,5 +1,5 @@
 import { ExpandMore } from '@mui/icons-material'
-import { FormControl, NativeSelect, Stack, Typography } from '@mui/material'
+import { FormControl, NativeSelect, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
 
 export default function StateTerritory() {
@@ -41,6 +41,7 @@ export default function StateTerritory() {
         'Uttar Pradesh',
         'West Bengal'
     ]
+
     return (
         <Stack
             spacing={1}
