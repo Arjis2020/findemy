@@ -1,10 +1,10 @@
 import { StarBorder } from '@mui/icons-material'
 import { Box, Button, Rating, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import { CartCourse } from '.'
+import { Orders } from '.'
 
 type CourseViewProps = {
-    item: CartCourse
+    item: Orders
 }
 
 export default function CourseView({ item }: CourseViewProps) {

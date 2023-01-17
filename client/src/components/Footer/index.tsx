@@ -19,6 +19,10 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
         '/course'
     ]
 
+    const blackListedRoutes = [
+        '/checkout'
+    ]
+
     const location = useLocation()
 
     const DesktopView = () => {
@@ -291,9 +295,10 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
     }
 
     showBusinessBranding = typeof showBusinessBranding !== 'undefined' && businessBrandingWhitelistedRoutes.includes(location.pathname)
+    const omitFooter = blackListedRoutes.includes(location.pathname)
 
     return (
-        <footer
+        !omitFooter ? <footer
             className='footer-container'
         >
             {showBusinessBranding && <Box
@@ -322,5 +327,7 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
                 }
             </Box>
         </footer>
+            :
+            null
     )
 }

@@ -1,13 +1,9 @@
 import { Check } from '@mui/icons-material'
 import { Button, Divider, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
+import { Link } from 'react-router-dom'
+import { OrderMeta } from '.'
 
-type CheckoutViewProps = {
-    totalPrice: number,
-    totalRealPrice: number,
-    discount: number
-}
-
-export default function CheckoutView({ totalPrice, totalRealPrice, discount }: CheckoutViewProps) {
+export default function CheckoutView({ totalPrice, totalRealPrice, discount }: Partial<OrderMeta>) {
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
@@ -40,22 +36,29 @@ export default function CheckoutView({ totalPrice, totalRealPrice, discount }: C
             <Typography>
                 {discount}% off
             </Typography>
-            <Button
-                variant='contained'
-                sx={{
-                    borderRadius: 0,
-                    py: 1.5,
-                    textTransform: 'none',
-                    fontFamily: 'UdemySansBold',
-                    fontSize: 16,
-                    mt: 1
+            <Link
+                to='/checkout'
+                style={{
+                    textDecoration: 'none'
                 }}
-                fullWidth
-                disableElevation
-                disableRipple
             >
-                Checkout
-            </Button>
+                <Button
+                    variant='contained'
+                    sx={{
+                        borderRadius: 0,
+                        py: 1.5,
+                        textTransform: 'none',
+                        fontFamily: 'UdemySansBold',
+                        fontSize: 16,
+                        mt: 1,
+                    }}
+                    fullWidth
+                    disableElevation
+                    disableRipple
+                >
+                    Checkout
+                </Button>
+            </Link>
             <Stack
                 spacing={2}
                 mt={2}

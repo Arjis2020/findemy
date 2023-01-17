@@ -3,7 +3,7 @@ import CheckoutView from './CheckoutView'
 import CourseView from './CourseView'
 import YouMayAlsoLike from './YouMayAlsoLike'
 
-export type CartCourse = {
+export type Orders = {
     id: number | string,
     title: string,
     author: string,
@@ -14,11 +14,18 @@ export type CartCourse = {
     levels: string,
     thumbnail: string,
     price: number,
-    realPrice: number
+    realPrice: number,
+}
+
+export type OrderMeta = {
+    totalPrice: number,
+    totalRealPrice: number,
+    discountPercentage: number,
+    discount: number
 }
 
 export default function Cart() {
-    const courses: Array<CartCourse> = [
+    let orders: Array<Orders> = [
         {
             id: 1,
             title: 'React - The Complete Guide (incl Hooks, React Router, Redux)',
@@ -47,9 +54,11 @@ export default function Cart() {
         },
     ]
 
-    const totalPrice = courses.reduce((sum, i) => sum + i.price, 0)
-    const totalRealPrice = courses.reduce((sum, i) => sum + i.realPrice, 0)
-    const discount = Math.floor(((totalRealPrice - totalPrice) / totalRealPrice) * 100)
+
+    const totalPrice = orders.reduce((sum, i) => sum + i.price, 0)
+    const totalRealPrice = orders.reduce((sum, i) => sum + i.realPrice, 0)
+    const discountPercentage = Math.floor(((totalRealPrice - totalPrice) / totalRealPrice) * 100)
+    const discount = totalRealPrice - totalPrice
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
@@ -83,9 +92,9 @@ export default function Cart() {
                                 fontSize={14}
                                 fontFamily='UdemySansBold'
                             >
-                                {courses.length} Courses in Cart
+                                {orders.length} Courses in Cart
                             </Typography>
-                            {courses.map(course => (
+                            {orders.map(course => (
                                 <CourseView
                                     item={course}
                                 />
@@ -104,7 +113,7 @@ export default function Cart() {
                         <CheckoutView
                             totalPrice={totalPrice}
                             totalRealPrice={totalRealPrice}
-                            discount={discount}
+                            discountPercentage={discountPercentage}
                         />
                         <Stack
                             divider={<Divider />}
@@ -114,9 +123,9 @@ export default function Cart() {
                                 fontSize={14}
                                 fontFamily='UdemySansBold'
                             >
-                                {courses.length} Courses in Cart
+                                {orders.length} Courses in Cart
                             </Typography>
-                            {courses.map(course => (
+                            {orders.map(course => (
                                 <CourseView
                                     item={course}
                                 />

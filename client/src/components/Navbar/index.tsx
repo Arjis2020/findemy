@@ -9,13 +9,15 @@ import { Fragment, useState } from 'react'
 import { ArrowForwardIosSharp } from '@mui/icons-material'
 import LanguageIcon from '@mui/icons-material/Language';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { APP_NAME } from '../../utils/Constants'
 
 export default function Header() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
     const [open, setOpen] = useState(false)
 
     const location = useLocation()
+    const navigate = useNavigate()
 
     const whitelistedAppbarRelativeRoutes = [
         '/course'
@@ -87,7 +89,7 @@ export default function Header() {
                             color: 'inherit'
                         }}
                     >
-                        Findemy
+                        {APP_NAME}
                     </Link>
                 </Typography>
                 <Search />
@@ -136,7 +138,7 @@ export default function Header() {
                             color: 'inherit'
                         }}
                     >
-                        Findemy
+                        {APP_NAME}
                     </Link>
                 </Typography>
                 <Stack
@@ -304,6 +306,43 @@ export default function Header() {
         </SwipeableDrawer>
     )
 
+    const CheckoutView = () => (
+        <Stack
+            direction='row'
+            justifyContent='space-between'
+            alignItems='center'
+            width='100%'
+        >
+            <Typography
+                fontFamily='UdemySansBold'
+            >
+                {APP_NAME}
+            </Typography>
+            <Button
+                variant='text'
+                sx={{
+                    textTransform: 'none',
+                    fontFamily: 'UdemySansBold',
+                    color: '#5624d0',
+                    background: 'none',
+                    "&:hover": {
+                        background: 'none'
+                    }
+                }}
+                disableElevation
+                disableRipple
+                type='submit'
+                onClick={() => navigate(-1)}
+            >
+                Cancel
+            </Button>
+        </Stack>
+    )
+
+    const checkoutRoute = '/checkout'
+
+    const shouldDisplayCheckoutNavbar = location.pathname === checkoutRoute
+
     return (
         <AppBar
             position={!shouldPositionRelative ? 'sticky' : 'relative'}
@@ -315,10 +354,12 @@ export default function Header() {
         >
             <Toolbar>
                 {
-                    !matches ?
-                        <DesktopView />
+                    shouldDisplayCheckoutNavbar ? <CheckoutView />
                         :
-                        <MobileView />
+                        !matches ?
+                            <DesktopView />
+                            :
+                            <MobileView />
                 }
                 {MenuDrawer}
             </Toolbar>
