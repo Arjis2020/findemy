@@ -1,3 +1,4 @@
+import { StarBorder } from "@mui/icons-material";
 import { Box, Rating, Stack, Theme, Typography, useMediaQuery } from "@mui/material";
 
 export default function Courses() {
@@ -69,6 +70,14 @@ export default function Courses() {
                                 color: '#e59819',
                                 fontSize: 15
                             }}
+                            emptyIcon={
+                                <StarBorder
+                                    fontSize='inherit'
+                                    sx={{
+                                        color: '#e59819'
+                                    }}
+                                />
+                            }
                         />
                         <Typography
                             color="#6a6f73"
@@ -204,6 +213,14 @@ export default function Courses() {
                                 color: '#e59819',
                                 fontSize: 15
                             }}
+                            emptyIcon={
+                                <StarBorder
+                                    fontSize='inherit'
+                                    sx={{
+                                        color: '#e59819'
+                                    }}
+                                />
+                            }
                         />
                         <Typography
                             color="#6a6f73"
@@ -284,9 +301,9 @@ export default function Courses() {
     return (
         <Box>
             {matches ?
-            <MobileView />
-            :
-            <DesktopView />}
+                <MobileView />
+                :
+                <DesktopView />}
         </Box>
     )
 }

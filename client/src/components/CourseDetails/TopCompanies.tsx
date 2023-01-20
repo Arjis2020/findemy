@@ -1,5 +1,4 @@
 import { Stack, Typography } from '@mui/material'
-import React from 'react'
 
 export default function TopCompanies() {
     const partners = [
@@ -42,8 +41,9 @@ export default function TopCompanies() {
                     flexFlow: 'row wrap'
                 }}
             >
-                {partners.map(partner =>
+                {partners.map((partner, i) =>
                     <img
+                        key={i}
                         src={partner}
                         height={44}
                     />

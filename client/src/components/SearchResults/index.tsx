@@ -38,6 +38,8 @@ export default function SearchResults() {
                 p={!matches ? 4 : 1}
                 py={4}
                 spacing={2.5}
+                overflow='hidden'
+                width='100%'
             >
                 <Typography
                     fontFamily='UdemySansBold'
@@ -183,12 +185,12 @@ export default function SearchResults() {
                     direction='row'
                     spacing={!matches ? 7.5 : 0}
                     sx={{
-                        transition: '400ms cubic-bezier(.2,0,.38,.9);',
+                        width: !filtersExpanded && !matches ? 'calc(100% + 18.7rem)' : '100%',
                         transform: !filtersExpanded && !matches ? 'translate(-18.7rem)' : 'none',
-                        width: !filtersExpanded && !matches ? 'calc(100% + 18.7rem)' : '100%'
+                        transition: '400ms cubic-bezier(.2,0,.38,.9);',
                     }}
                 >
-                    <FiltersDrawer 
+                    <FiltersDrawer
                         drawerState={filtersExpanded}
                         toggleDrawerState={() => setFiltersExpanded(!filtersExpanded)}
                     />
@@ -196,7 +198,7 @@ export default function SearchResults() {
                         divider={<Divider />}
                         spacing={2}
                         sx={{
-                            width: '100%'
+                            width:'100%'
                         }}
                     >
                         {Array.from(new Array(10)).map(i => (

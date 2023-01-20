@@ -5,10 +5,14 @@ export default function Cart() {
   return (
     <Link
       to='/cart'
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
     >
       <ShoppingCartOutlinedIcon
         sx={{
-          mr: 1,
           color: '#000'
         }}
       />

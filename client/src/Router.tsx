@@ -1,4 +1,5 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Cart, { OrderMeta, Orders } from './components/Cart'
 import Checkout from './components/Checkout'
 import CourseDetails from './components/CourseDetails'
@@ -8,6 +9,8 @@ import Login from './components/Login'
 import Navbar from './components/Navbar'
 import SearchResults from './components/SearchResults'
 import Signup from './components/Signup'
+import { RootState } from './redux/reducers'
+import { LoginStateAction } from './redux/reducers/auth.reducer'
 
 export default function Router() {
   const orders: Array<Orders> = [
@@ -51,6 +54,8 @@ export default function Router() {
     discount
   }
 
+  const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
+
   return (
     <BrowserRouter>
       <Navbar />
@@ -61,11 +66,24 @@ export default function Router() {
         />
         <Route
           path='/login'
-          element={<Login />}
+          element={user.data?.id ?
+            <Navigate
+              to='../'
+            />
+            :
+            <Login />
+          }
         />
         <Route
           path='/signup'
-          element={<Signup />}
+          element={
+            user.data?.id ?
+              <Navigate
+                to='../'
+              />
+              :
+              <Signup />
+          }
         />
         <Route
           path='/search'

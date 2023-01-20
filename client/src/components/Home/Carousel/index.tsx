@@ -1,14 +1,14 @@
 import { Box, Card, IconButton, Rating, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import CarouselData from '../../../carousel.data.json'
 import GridCarousel from 'react-grid-carousel'
-import { ArrowBackIosSharp, ArrowForwardIosSharp } from '@mui/icons-material'
+import { ArrowBackIosSharp, ArrowForwardIosSharp, StarBorder } from '@mui/icons-material'
 
 export default function Carousel() {
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.up('tablet'))
     const desktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('desktop'))
 
     const datasetLength = desktop ? 5 : tablet ? 3 : 1
-    
+
     return (
         <GridCarousel
             gap={15}
@@ -20,53 +20,53 @@ export default function Carousel() {
             }}
             arrowRight={
                 <IconButton
-                sx={{
-                    position: 'absolute',
-                    top: 'calc(50% - 100px)',
-                    left: 'initial',
-                    right: 0,
-                    background: theme => theme.palette.common.black,
-                    height: '3rem',
-                    width: '3rem',
-                    border: '1px solid #6a6f73',
-                    "&:hover": {
-                        background: "#000"
-                    },
-                    zIndex: 10
-                }}
-                >
-                <ArrowForwardIosSharp
                     sx={{
-                        color: '#fff'
+                        position: 'absolute',
+                        top: 'calc(50% - 100px)',
+                        left: 'initial',
+                        right: 0,
+                        background: theme => theme.palette.common.black,
+                        height: '3rem',
+                        width: '3rem',
+                        border: '1px solid #6a6f73',
+                        "&:hover": {
+                            background: "#000"
+                        },
+                        zIndex: 10
                     }}
-                    fontSize='small'
+                >
+                    <ArrowForwardIosSharp
+                        sx={{
+                            color: '#fff'
+                        }}
+                        fontSize='small'
                     />
-            </IconButton>
+                </IconButton>
             }
             arrowLeft={
                 <IconButton
-                sx={{
-                    zIndex: 10,
-                    position: 'absolute',
-                    top: 'calc(50% - 100px)',
-                    right: 'initial',
-                    left: 0,
-                    background: theme => theme.palette.common.black,
-                    height: '3rem',
-                    width: '3rem',
-                    border: '1px solid #6a6f73',
-                    "&:hover": {
-                        background: "#000"
-                    }
-                }}
-            >
-                <ArrowBackIosSharp
                     sx={{
-                        color: '#fff'
+                        zIndex: 10,
+                        position: 'absolute',
+                        top: 'calc(50% - 100px)',
+                        right: 'initial',
+                        left: 0,
+                        background: theme => theme.palette.common.black,
+                        height: '3rem',
+                        width: '3rem',
+                        border: '1px solid #6a6f73',
+                        "&:hover": {
+                            background: "#000"
+                        }
                     }}
-                    fontSize='small'
-                />
-            </IconButton>
+                >
+                    <ArrowBackIosSharp
+                        sx={{
+                            color: '#fff'
+                        }}
+                        fontSize='small'
+                    />
+                </IconButton>
             }
         >
             {CarouselData.map((data) => {
@@ -128,6 +128,14 @@ export default function Carousel() {
                                             color: '#e59819',
                                             fontSize: 15
                                         }}
+                                        emptyIcon={
+                                            <StarBorder
+                                                fontSize='inherit'
+                                                sx={{
+                                                    color: '#e59819'
+                                                }}
+                                            />
+                                        }
                                     />
                                     <Typography
                                         color="#6a6f73"

@@ -104,8 +104,8 @@ export default function Methods() {
     const handleAccordionStateChange = (id: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
         if (isExpanded)
             setActiveAccordion(id)
-        else
-            setActiveAccordion(undefined)
+        // else
+        //     setActiveAccordion(undefined)
     }
 
     const AccordionGenerator = ({ id, title, icons, defIcon, children }: AccordionGeneratorProps) => {
@@ -128,7 +128,8 @@ export default function Methods() {
                         background: '#F7F9FA',
                         "& .MuiAccordionSummary-content": {
                             m: 0
-                        }
+                        },
+                        borderBottom: id === activeAccordion ? '1px solid #D3D7DB' : 'none'
                     }}
                     disableRipple
                 >

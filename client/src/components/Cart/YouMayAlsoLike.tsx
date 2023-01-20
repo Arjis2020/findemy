@@ -1,7 +1,7 @@
 import { Box, Card, IconButton, Rating, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import CarouselData from '../../carousel.data.json'
 import GridCarousel from 'react-grid-carousel'
-import { ArrowBackIosSharp, ArrowForwardIosSharp } from '@mui/icons-material'
+import { ArrowBackIosSharp, ArrowForwardIosSharp, StarBorder } from '@mui/icons-material'
 
 export default function YouMayAlsoLike() {
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.up('tablet'))
@@ -128,6 +128,14 @@ export default function YouMayAlsoLike() {
                                             color: '#e59819',
                                             fontSize: 15
                                         }}
+                                        emptyIcon={
+                                            <StarBorder
+                                                fontSize='inherit'
+                                                sx={{
+                                                    color: '#e59819'
+                                                }}
+                                            />
+                                        }
                                     />
                                     <Typography
                                         color="#6a6f73"

@@ -1,8 +1,17 @@
 import { Container, Stack, Typography } from '@mui/material'
+import { FieldValues } from 'react-hook-form'
+import { useDispatch} from 'react-redux'
+import { triggerLogin, TriggerLoginAction } from '../../redux/actions/auth.action'
 import EmailPassword from './EmailPassword'
 import Methods from './Methods'
 
 export default function Login() {
+  const dispatch = useDispatch()
+
+  const onLogin = (values: FieldValues) => {
+    dispatch(triggerLogin(values as TriggerLoginAction))
+  }
+
   return (
     <Container
       maxWidth='xs'
@@ -22,7 +31,9 @@ export default function Login() {
           spacing={1}
         >
           <Methods />
-          <EmailPassword />
+          <EmailPassword
+            onLogin={onLogin}
+          />
         </Stack>
       </Stack>
     </Container>

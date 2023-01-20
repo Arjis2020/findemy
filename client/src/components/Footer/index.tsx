@@ -3,7 +3,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import './index.css'
 import Partners from './Partners';
 import { useLocation } from 'react-router-dom';
-import { APP_NAME } from '../../utils/Constants';
+import { APP_NAME } from '../../utils/constants';
 
 type FooterProps = {
     showBusinessBranding?: boolean

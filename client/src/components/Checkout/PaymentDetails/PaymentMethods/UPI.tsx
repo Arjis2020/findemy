@@ -31,7 +31,7 @@ export default function UPI() {
                         UPI ID / VPA
                     </Typography>
                     <TextField
-                        placeholder='Name on card'
+                        placeholder='UPI ID / VPA'
                         InputProps={{
                             sx: {
                                 borderRadius: 0

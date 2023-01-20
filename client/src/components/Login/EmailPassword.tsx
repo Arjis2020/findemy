@@ -1,15 +1,34 @@
 import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { FieldValues, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import ReportIcon from '@mui/icons-material/Report';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/reducers';
+import { LoginStateAction } from '../../redux/reducers/auth.reducer';
 
-export default function EmailPassword() {
-    const { handleSubmit, formState: { errors }, register } = useForm()
+type EmailPasswordProps = {
+    onLogin: (values: FieldValues) => void
+}
 
-    const onSubmit = (values: object, e: any) => {
-        console.log(values)
+export default function EmailPassword({ onLogin }: EmailPasswordProps) {
+    const { handleSubmit, formState: { errors }, register, getValues } = useForm()
+    const [btnDisabled, setBtnDisabled] = useState<boolean>(false)
+
+    const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
+    const error = user.err
+
+    useEffect(() => {
+        if (error) {
+            setBtnDisabled(false)
+        }
+    }, [error])
+
+    const onSubmit = (values: FieldValues, e: any) => {
+        setBtnDisabled(true)
+        onLogin(values)
     }
 
     const [visibility, setVisibility] = useState(false)
@@ -26,6 +45,25 @@ export default function EmailPassword() {
             <Stack
                 spacing={1}
             >
+                {error &&
+                    <Stack
+                        sx={{
+                            background: '#fcaea0'
+                        }}
+                        spacing={2}
+                        p={2}
+                        direction='row'
+                    >
+                        <ReportIcon
+                            fontSize='large'
+                        />
+                        <Typography
+                            fontFamily='UdemySansBold'
+                        >
+                            There was a problem logging in. Check your email and password or create an account.
+                        </Typography>
+                    </Stack>
+                }
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                 >
@@ -43,7 +81,8 @@ export default function EmailPassword() {
                             <TextField
                                 variant='standard'
                                 type='email'
-                                error={!!errors.email}
+                                error={!!(errors.email?.message && getValues().email)}
+                                helperText={getValues().email && errors.email?.message?.toString() ? errors.email?.message?.toString() : ""}
                                 label='Email'
                                 InputProps={{
                                     disableUnderline: true,
@@ -76,7 +115,8 @@ export default function EmailPassword() {
                             }}
                         >
                             <TextField
-                                error={!!errors.password}
+                                error={!!(errors.password)}
+                                helperText={errors.password?.message?.toString()}
                                 type={visibility ? 'text' : 'password'}
                                 variant='standard'
                                 label='Password'
@@ -112,7 +152,6 @@ export default function EmailPassword() {
                                 inputProps={{
                                     minLength: 8,
                                     required: true,
-                                    pattern: '^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'
                                 }}
                                 {...register('password', {
                                     onChange: (event) => {
@@ -136,18 +175,17 @@ export default function EmailPassword() {
                         </Box>
                         <Button
                             type='submit'
+                            variant='contained'
                             sx={{
-                                background: '#a435f0',
                                 fontFamily: 'UdemySansBold',
                                 textTransform: 'capitalize',
-                                color: '#fff',
                                 borderRadius: 0,
                                 py: 1.5,
                                 fontSize: 16,
-                                "&:hover": {
-                                    background: '#8710d8'
-                                }
                             }}
+                            disabled={btnDisabled}
+                            disableElevation
+                            disableRipple
                             fullWidth
                         >
                             Log in

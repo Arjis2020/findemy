@@ -1,5 +1,5 @@
 import { Stack, Theme, Typography, useMediaQuery } from '@mui/material'
-import { APP_NAME } from '../../../utils/Constants'
+import { APP_NAME } from '../../../utils/constants'
 import Country from './Country'
 import StateTerritory from './StateTerritory'
 

@@ -1,16 +1,22 @@
 import { Box, Button, Divider, IconButton, Stack, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import PasswordStrength from './PasswordStrength';
 
-export default function Details() {
-    const { handleSubmit, formState: { errors }, register } = useForm()
+type SignupDetailsProps = {
+    onSignup: (values: FieldValues) => void
+}
 
-    const onSubmit = (values: object, e: any) => {
-        console.log(values)
+export default function Details({ onSignup }: SignupDetailsProps) {
+    const { handleSubmit, formState: { errors }, register } = useForm()
+    const [btnDisabled, setBtnDisabled] = useState<boolean>(false)
+
+    const onSubmit = (values: FieldValues, e: any) => {
+        setBtnDisabled(true)
+        onSignup(values)
     }
 
     const [visibility, setVisibility] = useState(false)
@@ -153,7 +159,7 @@ export default function Details() {
                                     inputProps={{
                                         minLength: 8,
                                         required: true,
-                                        pattern: '^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'
+                                        // pattern: '^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'
                                     }}
                                     {...register('password', {
                                         onChange: (event) => {
@@ -186,18 +192,16 @@ export default function Details() {
                             <Button
                                 type='submit'
                                 sx={{
-                                    background: '#a435f0',
                                     fontFamily: 'UdemySansBold',
                                     textTransform: 'none',
-                                    color: '#fff',
                                     borderRadius: 0,
                                     py: 1.5,
                                     fontSize: 16,
-                                    "&:hover": {
-                                        background: '#8710d8'
-                                    }
                                 }}
                                 fullWidth
+                                disableElevation
+                                disableRipple
+                                disabled={btnDisabled}
                             >
                                 Sign up
                             </Button>

@@ -35,8 +35,9 @@ export default function Partners() {
                 width='fit-content'
                 alignItems='center'
             >
-                {partners.map(partner => <Grid
+                {partners.map((partner, i) => <Grid
                     item
+                    key={i}
                 >
                     <img
                         src={partner}

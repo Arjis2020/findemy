@@ -1,6 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, AppBar, Box, Button, Checkbox, Divider, Drawer, Radio, RadioGroup, Rating, Stack, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ReactNode, useState } from 'react';
+import { StarBorder } from '@mui/icons-material';
 
 type FiltersDrawerProps = {
     drawerState: boolean,
@@ -23,7 +24,7 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState }: Filter
         count: number
     }
 
-    const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+    const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
     const AccordionComponent = ({ title, children }: AccordionComponentProps) => {
         return (
@@ -95,6 +96,14 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState }: Filter
                             readOnly
                             value={rating}
                             precision={0.5}
+                            emptyIcon={
+                                <StarBorder
+                                    fontSize='inherit'
+                                    sx={{
+                                        color: '#e59819'
+                                    }}
+                                />
+                            }
                         />
                         <Typography
                             fontSize={14}
@@ -223,7 +232,7 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState }: Filter
     const DesktopDrawerContent = () => {
         return (
             <Stack
-                width='15rem'
+                width={'15rem'}
             >
                 <AccordionContent />
             </Stack>
