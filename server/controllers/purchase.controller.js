@@ -1,4 +1,4 @@
-const Purchases = require('../models/purchases.model')
+const Purchases = require('../models/purchase.model')
 const insert = require('../databaseUtils/insert')
 
 const purchase = async (req, res) => {

@@ -1,14 +1,11 @@
 import { Stack, Typography } from '@mui/material'
 import React from 'react'
 
-export default function Requirements() {
-    const requirements = [
-        'JavaScript + HTML + CSS fundamentals are absolutely required',
-        `You DON'T need to be a JavaScript expert to succeed in this course!`,
-        'ES6+ JavaScript knowledge is beneficial but not a must-have',
-        'NO prior React or any other JS framework experience is required!'
-    ]
+type RequirementsProps = {
+    requirements: Array<string>
+}
 
+export default function Requirements({ requirements }: RequirementsProps) {
     return (
         <Stack
             mt={2}

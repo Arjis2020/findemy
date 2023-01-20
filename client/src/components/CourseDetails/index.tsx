@@ -1,5 +1,7 @@
 import { Box, Fade, Stack, Theme, useMediaQuery, useScrollTrigger } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { getCourseDetails } from '../../API/handlers/course.handler'
 import Description from './Description'
 import Instructor from './Instructor'
 import Requirements from './Requirements'
@@ -10,12 +12,21 @@ import TopCompanies from './TopCompanies'
 import WhatYouWillLearn from './WhatYouWillLearn'
 
 export default function CourseDetails() {
-  const learningPoints = [
-    'Build powerful, fast, user-friendly and reactive web apps',
-    'Provide amazing user experiences by leveraging the power of JavaScript with ease',
-    'Apply for high-paid jobs or work as a freelancer in one the most-demanded sectors you can find in web dev right now',
-    'Learn all about React Hooks and React Components'
-  ]
+  const [courseDetails, setCourseDetails] = useState<Course>()
+
+  // const learningPoints = [
+  //   'Build powerful, fast, user-friendly and reactive web apps',
+  //   'Provide amazing user experiences by leveraging the power of JavaScript with ease',
+  //   'Apply for high-paid jobs or work as a freelancer in one the most-demanded sectors you can find in web dev right now',
+  //   'Learn all about React Hooks and React Components'
+  // ]
+
+  const [searchParams] = useSearchParams()
+
+  useEffect(() => {
+    getCourseDetails(searchParams.get('cid') || "")
+      .then(data => setCourseDetails(data))
+  }, [])
 
   const laptop = useMediaQuery((theme: Theme) => theme.breakpoints.down('desktop'))
   const mobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
@@ -61,8 +72,12 @@ export default function CourseDetails() {
       alignItems={laptop ? 'center' : 'stretch'}
       ref={stackRef}
     >
-      <Summary />
-      <SummaryBanner />
+      <Summary
+        values={courseDetails || {}}
+      />
+      <SummaryBanner
+        values={courseDetails || {}}
+      />
       {!laptop && <Box>
         {!trigger && <Box
           sx={{
@@ -72,7 +87,9 @@ export default function CourseDetails() {
             width: cardProperties.width
           }}
         >
-          <SummaryCard />
+          <SummaryCard
+            values={courseDetails || {}}
+          />
         </Box>}
         <Fade
           appear={false}
@@ -91,6 +108,7 @@ export default function CourseDetails() {
           >
             <SummaryCard
               showVideo={false}
+              values={courseDetails || {}}
             />
           </Box>
         </Fade>
@@ -110,6 +128,7 @@ export default function CourseDetails() {
           >
             <SummaryCard
               showVideo={false}
+              values={courseDetails || {}}
             />
           </Box>
         </Fade>
@@ -121,12 +140,18 @@ export default function CourseDetails() {
         alignItems={laptop ? 'center' : 'stretch'}
       >
         <WhatYouWillLearn
-          points={learningPoints}
+          points={courseDetails?.learnings || []}
         />
         <TopCompanies />
-        <Requirements />
-        <Description />
-        <Instructor />
+        <Requirements
+          requirements={courseDetails?.requirements || []}
+        />
+        <Description
+          description={courseDetails?.detailedDescription || ""}
+        />
+        <Instructor
+          instructors={courseDetails?.instructors || []}
+        />
       </Stack>
     </Stack>
   )

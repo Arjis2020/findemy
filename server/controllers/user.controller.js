@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const Users = require('../models/users.model')
+const Users = require('../models/user.model')
 const insert = require('../databaseUtils/insert')
 const jwt = require('jsonwebtoken')
 const { COOKIE_TOKEN } = require('../constants')
@@ -26,16 +26,6 @@ const login = async (req, res) => {
         // check the password
         const isValidPassword = bcrypt.compareSync(password, user.password)
         if (isValidPassword) {
-            // generate a JWT token
-            const authToken = jwt.sign({
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                created_at: user.created_at
-            }, process.env.JWT_SECRET, {
-                expiresIn: process.env.JWT_EXPIRES_IN
-            })
-
             // log him in
             const response = {
                 id: user.id,
@@ -43,6 +33,12 @@ const login = async (req, res) => {
                 name: user.name,
                 created_at: user.created_at
             }
+
+            // generate a JWT token
+            const authToken = jwt.sign(response, process.env.JWT_SECRET, {
+                expiresIn: process.env.JWT_EXPIRES_IN
+            })
+
             res
             .cookie(COOKIE_TOKEN, authToken, {
                 maxAge: +process.env.JWT_EXPIRES_IN,

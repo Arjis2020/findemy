@@ -21,7 +21,7 @@ import { RootState } from '../../redux/reducers'
 export default function Header() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
     const [open, setOpen] = useState(false)
-    const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction 
+    const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
 
     const location = useLocation()
     const navigate = useNavigate()
@@ -30,7 +30,7 @@ export default function Header() {
         '/course'
     ]
 
-    const shouldPositionRelative = whitelistedAppbarRelativeRoutes.includes(location.pathname)
+    const shouldPositionRelative = whitelistedAppbarRelativeRoutes.includes("/" + location.pathname.split('/')[1])
 
     const toggleDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
         if (

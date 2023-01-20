@@ -6,9 +6,15 @@ import SubtitlesIcon from '@mui/icons-material/Subtitles';
 import './index.css'
 import VideoPreview from './VideoPreview';
 
-export default function SummaryBanner() {
+type SummaryBannerProps = {
+    values: Partial<Course>
+}
+
+export default function SummaryBanner({ values }: SummaryBannerProps) {
     const laptop = useMediaQuery((theme: Theme) => theme.breakpoints.down('desktop'))
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
+
+    const discountPercentage = Math.floor(((values.price! - values.discountedPrice!) / values.price!) * 100)
 
     const DesktopView = () => {
         return (
@@ -22,12 +28,12 @@ export default function SummaryBanner() {
                     color='#fff'
                     fontFamily='UdemySansBold'
                 >
-                    React - The Complete Guide (incl Hooks, React Router, Redux)
+                    {values.title}
                 </Typography>
                 <Typography
                     fontSize={18}
                 >
-                    Dive in and learn React.js from scratch! Learn Reactjs, Hooks, Redux, React Routing, Animations, Next.js and way more!
+                    {values.shortDescription}
                 </Typography>
                 <Stack
                     direction='row'
@@ -59,7 +65,7 @@ export default function SummaryBanner() {
                             fontFamily='UdemySansBold'
                             fontSize={14}
                         >
-                            4.6
+                            {values.rating}
                         </Typography>
                         <Rating
                             value={4.5}
@@ -88,12 +94,12 @@ export default function SummaryBanner() {
                         }}
                         color='#cec0fc'
                     >
-                        (173,987 ratings)
+                        ({values.totalRatings?.toLocaleString()} ratings)
                     </Typography>
                     <Typography
                         fontSize={14}
                     >
-                        686,194 students
+                        {values.instructors?.at(0)?.students.toLocaleString()} students
                     </Typography>
                 </Stack>
                 <Stack
@@ -109,17 +115,21 @@ export default function SummaryBanner() {
                     >
                         Created by
                         <span className='course-creators'>
-                            <Typography
-                                component='a'
-                                fontSize={14}
-                                ml={0.5}
-                                sx={{
-                                    textDecoration: 'underline'
-                                }}
-                                color='#cec0fc'>
-                                Academind by Maximillian Schwarmüller
-                            </Typography>,
-                            <Typography
+                            {values.instructors?.map(instructor => (
+                                <>
+                                    <Typography
+                                        component='a'
+                                        fontSize={14}
+                                        ml={0.5}
+                                        sx={{
+                                            textDecoration: 'underline'
+                                        }}
+                                        color='#cec0fc'>
+                                        {instructor.name}
+                                    </Typography>,
+                                </>
+                            ))}
+                            {/* <Typography
                                 component='a'
                                 fontSize={14}
                                 sx={{
@@ -127,7 +137,7 @@ export default function SummaryBanner() {
                                 }}
                                 color='#cec0fc'>
                                 Maximillian Schwarmüller
-                            </Typography>
+                            </Typography> */}
                         </span>
                     </Typography>
                 </Stack>
@@ -205,12 +215,12 @@ export default function SummaryBanner() {
                         color='#fff'
                         fontFamily='UdemySansBold'
                     >
-                        React - The Complete Guide (incl Hooks, React Router, Redux)
+                        {values.title}
                     </Typography>
                     <Typography
                         fontSize={18}
                     >
-                        Dive in and learn React.js from scratch! Learn Reactjs, Hooks, Redux, React Routing, Animations, Next.js and way more!
+                        {values.shortDescription}
                     </Typography>
                     <Stack
                         direction='row'
@@ -242,7 +252,7 @@ export default function SummaryBanner() {
                                 fontFamily='UdemySansBold'
                                 fontSize={14}
                             >
-                                4.6
+                                {values.rating}
                             </Typography>
                             <Rating
                                 value={4.5}
@@ -271,12 +281,12 @@ export default function SummaryBanner() {
                             }}
                             color='#cec0fc'
                         >
-                            (173,987 ratings)
+                            ({values.totalRatings} ratings)
                         </Typography>
                         <Typography
                             fontSize={14}
                         >
-                            686,194 students
+                            {values.instructors?.at(0)?.students.toLocaleString()} students
                         </Typography>
                     </Stack>
                     <Stack
@@ -292,25 +302,29 @@ export default function SummaryBanner() {
                         >
                             Created by
                             <span className='course-creators'>
-                                <Typography
-                                    component='a'
-                                    fontSize={14}
-                                    ml={0.5}
-                                    sx={{
-                                        textDecoration: 'underline'
-                                    }}
-                                    color='#cec0fc'>
-                                    Academind by Maximillian Schwarmüller
-                                </Typography>,
-                                <Typography
-                                    component='a'
-                                    fontSize={14}
-                                    sx={{
-                                        textDecoration: 'underline'
-                                    }}
-                                    color='#cec0fc'>
-                                    Maximillian Schwarmüller
-                                </Typography>
+                                {values.instructors?.map(instructor => (
+                                    <>
+                                        <Typography
+                                            component='a'
+                                            fontSize={14}
+                                            ml={0.5}
+                                            sx={{
+                                                textDecoration: 'underline'
+                                            }}
+                                            color='#cec0fc'>
+                                            {instructor.name}
+                                        </Typography>,
+                                    </>
+                                ))}
+                                {/* <Typography
+                                component='a'
+                                fontSize={14}
+                                sx={{
+                                    textDecoration: 'underline'
+                                }}
+                                color='#cec0fc'>
+                                Maximillian Schwarmüller
+                            </Typography> */}
                             </span>
                         </Typography>
                     </Stack>
@@ -384,20 +398,20 @@ export default function SummaryBanner() {
                             fontFamily='UdemySansBold'
                             variant='h4'
                         >
-                            ₹449
+                            ₹{values.discountedPrice?.toLocaleString()}
                         </Typography>
-                        <Typography
+                        {values.discountedPrice !== values.price && <Typography
                             color="#6a6f73"
                             fontSize={16}
                             sx={{
                                 textDecoration: 'line-through'
                             }}
                         >
-                            ₹3,499
-                        </Typography>
-                        <Typography>
-                            87% off
-                        </Typography>
+                            ₹{values.price?.toLocaleString()}
+                        </Typography>}
+                        {values.discountedPrice !== values.price && <Typography>
+                            {discountPercentage}% off
+                        </Typography>}
                     </Stack>
                     <Stack
                         spacing={1}

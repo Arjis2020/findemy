@@ -11,21 +11,24 @@ import React from 'react';
 import VideoPreview from './VideoPreview';
 
 type SummaryCardProps = {
-    showVideo?: boolean
+    showVideo?: boolean,
+    values: Partial<Course>
 }
 
-export default function SummaryCard({ showVideo = true }: SummaryCardProps) {
+export default function SummaryCard({ showVideo = true, values }: SummaryCardProps) {
+    const discountPercentage = Math.floor(((values.price! - values.discountedPrice!) / values.price!) * 100)
+
     const features = [
         {
-            title: '49 hours on-demand video',
+            title: `${values.totalVideoHours} hours on-demand video`,
             icon: <OndemandVideoIcon />
         },
         {
-            title: '51 articles',
+            title: `${values.totalArticles?.toLocaleString()} articles`,
             icon: <InsertDriveFileOutlinedIcon />
         },
         {
-            title: '92 downloadable resources',
+            title: `${values.totalDownloadableResources} downloadable resources`,
             icon: <SystemUpdateAltOutlinedIcon />
         },
         {
@@ -90,9 +93,9 @@ export default function SummaryCard({ showVideo = true }: SummaryCardProps) {
                                 fontFamily='UdemySansBold'
                                 variant='h4'
                             >
-                                ₹449
+                                ₹{values.discountedPrice}
                             </Typography>
-                            <Typography
+                           {values.discountedPrice !== values.price && <Typography
                                 color="#6a6f73"
                                 fontSize={16}
                                 sx={{
@@ -100,9 +103,9 @@ export default function SummaryCard({ showVideo = true }: SummaryCardProps) {
                                 }}
                             >
                                 ₹3,499
-                            </Typography>
+                            </Typography>}
                             <Typography>
-                                87% off
+                                {discountPercentage}% off
                             </Typography>
                         </Stack>
                         <Stack

@@ -8,3 +8,8 @@ export const LoginActions = {
     TRIGGER_SIGNUP: 'TRIGGER_SIGNUP',
     LOGOUT: 'LOGOUT',
 }
+
+export const CourseActions = {
+    TRIGGER_GET_ALL: 'TRIGGER_GET_ALL',
+    GET_ALL: 'GET_ALL'
+}

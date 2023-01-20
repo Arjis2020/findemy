@@ -90,7 +90,7 @@ export default function Router() {
           element={<SearchResults />}
         />
         <Route
-          path='/course'
+          path='/course/:slug'
           element={<CourseDetails />}
         />
         <Route

@@ -2,7 +2,11 @@ import { Star } from '@mui/icons-material'
 import { AppBar, Box, Button, Slide, Stack, Theme, Toolbar, Typography, useMediaQuery, useScrollTrigger } from '@mui/material'
 import { memo, ReactElement } from 'react'
 
-export default memo(function Summary() {
+type SummaryProps = {
+    values: Partial<Course>
+}
+
+export default memo(function Summary({ values }: SummaryProps) {
     const laptop = useMediaQuery((theme: Theme) => theme.breakpoints.down('desktop'))
     const mobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
@@ -82,7 +86,7 @@ export default memo(function Summary() {
                                 fontFamily='UdemySansBold'
                                 fontSize={16}
                             >
-                                React - The complete guide (incl Hooks, React Router, Redux)
+                                {values.title}
                             </Typography>
                             <Stack
                                 direction='row'
@@ -114,7 +118,7 @@ export default memo(function Summary() {
                                         fontFamily='UdemySansBold'
                                         fontSize={14}
                                     >
-                                        4.6
+                                        {values.rating}
                                     </Typography>
                                     <Star
                                         sx={{
@@ -131,12 +135,12 @@ export default memo(function Summary() {
                                     }}
                                     color='#cec0fc'
                                 >
-                                    (173,987 ratings)
+                                    ({values.totalRatings?.toLocaleString()} ratings)
                                 </Typography>
                                 <Typography
                                     fontSize={14}
                                 >
-                                    686,194 students
+                                    {values.instructors?.at(0)?.students.toLocaleString()} students
                                 </Typography>
                             </Stack>
                         </Stack>
@@ -152,9 +156,9 @@ export default memo(function Summary() {
                                     fontFamily='UdemySansBold'
                                     fontSize={18}
                                 >
-                                    ₹449
+                                    ₹{values.discountedPrice}
                                 </Typography>
-                                <Typography
+                                {values.discountedPrice !== values.price && <Typography
                                     color="#6a6f73"
                                     fontSize={14}
                                     sx={{
@@ -162,7 +166,7 @@ export default memo(function Summary() {
                                     }}
                                 >
                                     ₹3,499
-                                </Typography>
+                                </Typography>}
                             </Stack>
                             <Button
                                 variant='contained'
@@ -186,9 +190,9 @@ export default memo(function Summary() {
                             </Button>
                         </Stack>}
                     </Stack>
-                    :
-                    <BuyButton />    
-                }
+                        :
+                        <BuyButton />
+                    }
                 </Toolbar>
             </AppBar>
         </RevealOnScroll>
