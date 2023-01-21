@@ -1,13 +1,13 @@
 import { AppBar, Button, Divider, Stack, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
-import { OrderMeta, Orders } from '../Cart'
+// import { OrderMeta, Orders } from '../Cart'
 
 type SummaryProps = {
-    orderMeta: Partial<OrderMeta>
+    orderMeta: CartOrderMeta
 }
 
 export default function Summary({ orderMeta }: SummaryProps) {
-    const { totalRealPrice, totalPrice, discount } = orderMeta
+    const { totalDiscountedPrice, totalPrice, discount } = orderMeta
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
@@ -45,7 +45,7 @@ export default function Summary({ orderMeta }: SummaryProps) {
                             <Typography
                                 fontSize={14}
                             >
-                                ₹{totalRealPrice?.toLocaleString()}
+                                ₹{totalDiscountedPrice?.toLocaleString()}
                             </Typography>
                         </Stack>
                         <Stack
@@ -79,7 +79,7 @@ export default function Summary({ orderMeta }: SummaryProps) {
                         <Typography
                             fontFamily='UdemySansBold'
                         >
-                            ₹{totalPrice}
+                            ₹{totalPrice.toLocaleString()}
                         </Typography>
                     </Stack>
                 </Stack>

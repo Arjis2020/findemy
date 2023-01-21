@@ -1,16 +1,23 @@
 import { Box, Container, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
-import { OrderMeta, Orders } from '../Cart'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux/reducers'
+import { CartAction } from '../../redux/reducers/cart.reducer'
+// import { OrderMeta, Orders } from '../Cart'
 import BillingDetails from './BillingDetails'
 import OrderDetails from './OrderDetails'
 import PaymentDetails from './PaymentDetails'
 import Summary from './Summary'
 
-type CheckoutProps = {
-    orders: Array<Orders>,
-    orderMeta: Partial<OrderMeta>
-}
+// type CheckoutProps = {
+//     orders: Array<Orders>,
+//     orderMeta: Partial<OrderMeta>
+// }
 
-export default function Checkout({ orders, orderMeta }: CheckoutProps) {
+export default function Checkout() {
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+
+    const orderMeta : CartOrderMeta = cart.cartOrders
+
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
     const DesktopView = () => (
@@ -33,7 +40,7 @@ export default function Checkout({ orders, orderMeta }: CheckoutProps) {
                 <BillingDetails />
                 <PaymentDetails />
                 <OrderDetails
-                    orders={orders}
+                    orders={cart.cartOrders.orders}
                 />
             </Stack>
             <Box
@@ -72,7 +79,7 @@ export default function Checkout({ orders, orderMeta }: CheckoutProps) {
                 <BillingDetails />
                 <PaymentDetails />
                 <OrderDetails
-                    orders={orders}
+                    orders={cart.cartOrders.orders}
                 />
                 <Summary
                     orderMeta={orderMeta}

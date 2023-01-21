@@ -12,7 +12,7 @@ export default function Cart() {
 
   useEffect(() => {
     setShouldAnimate(true)
-  }, [cart.items])
+  }, [cart.itemsConsolidated])
 
   // const [items, setItems] = useState(0)
 
@@ -49,7 +49,7 @@ export default function Cart() {
             fontSize={14}
             fontFamily='UdemySansBold'
           >
-            {cart.items.length}
+            {cart.itemsConsolidated.length}
             {/* {items} */}
           </Typography>
         </div>

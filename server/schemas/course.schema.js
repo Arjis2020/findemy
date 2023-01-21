@@ -6,7 +6,10 @@ const CoursesSchema = new Schema({
     title: String,
     shortDescription: String,
     detailedDescription: String,
-    instructors: [Schema.Types.ObjectId],
+    instructors: {
+        type: [Schema.Types.ObjectId],
+        ref: 'instructors'
+    },
     rating: Number,
     totalRatings: Number,
     totalHours: Number,
@@ -21,7 +24,10 @@ const CoursesSchema = new Schema({
     totalArticles: Number,
     totalVideoHours: Number,
     totalDownloadableResources: Number,
-    categories: [Schema.Types.ObjectId],
+    categories: {
+        type: [Schema.Types.ObjectId],
+        ref: 'categories'
+    },
     slug: String
 }, {
     timestamps: true

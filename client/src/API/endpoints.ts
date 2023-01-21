@@ -10,3 +10,6 @@ const ROUTE_COURSES = '/courses'
 export const URL_ALL_COURSES = ROUTE_COURSES + '/all'
 export const URL_COURSE_BY_SLUG = ROUTE_COURSES + '/'
 export const URL_ADD_TO_CART = ROUTE_COURSES + '/addToCart'
+
+const ROUTE_CART = '/cart'
+export const URL_CART_COURSES = ROUTE_CART + '/'

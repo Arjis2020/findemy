@@ -45,6 +45,17 @@ interface Instructor extends Common {
 }
 
 interface Cart extends Common {
-    course_id: string,
+    course_id: string;
     user_id: string
+}
+
+interface CartOrders extends CartOrderMeta {
+    orders: Array<Course>;
+}
+
+interface CartOrderMeta {
+    totalDiscountedPrice: number;
+    totalPrice: number;
+    discountPercentage: number;
+    discount: number
 }

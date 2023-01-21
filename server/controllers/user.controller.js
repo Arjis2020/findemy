@@ -32,7 +32,7 @@ const authorize = async (req, res) => {
         cart
     }
 
-    console.log(response)
+    // console.log(response)
 
     res.send(response)
 }

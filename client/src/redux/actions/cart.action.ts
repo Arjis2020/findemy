@@ -25,3 +25,16 @@ export const setCartAll = (data: Array<Cart>) => {
         data
     }
 }
+
+export const triggerGetCartCourses = () => {
+    return {
+        type: CartActions.TRIGGER_GET_CART_COURSES
+    }
+}
+
+export const setCartCourses = (data: CartOrders) => {
+    return {
+        type: CartActions.SET_CART_COURSES,
+        data
+    }
+}

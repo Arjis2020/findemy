@@ -1,11 +1,19 @@
 import { CartActions, LoginActions } from "../constants"
 
 export type CartAction = {
-    items: Array<Cart>
+    itemsConsolidated: Array<Cart>,
+    cartOrders: CartOrders
 }
 
 const initialState: CartAction = {
-    items: []
+    itemsConsolidated: [],
+    cartOrders: {
+        orders: [],
+        totalPrice: 0,
+        totalDiscountedPrice: 0,
+        discount: 0,
+        discountPercentage: 0
+    }
 }
 
 export const cartReducer = (state = initialState, action: any) => {
@@ -13,12 +21,17 @@ export const cartReducer = (state = initialState, action: any) => {
         case CartActions.SET_CART:
             return {
                 ...state,
-                items: [...state.items, action.data]
+                itemsConsolidated: [...state.itemsConsolidated, action.data]
             }
-            case CartActions.SET_CART_ALL:
-                return {
-                    ...state,
-                    items: action.data
+        case CartActions.SET_CART_ALL:
+            return {
+                ...state,
+                itemsConsolidated: action.data
+            }
+        case CartActions.SET_CART_COURSES:
+            return {
+                ...state,
+                cartOrders: action.data
             }
         case LoginActions.LOGOUT:
             return initialState

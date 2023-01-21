@@ -15,9 +15,20 @@ app.use(cors({
 }))
 app.use(cookieParser());
 app.use(express.json())
+
+// load all models to avoid errors
+require('./models/user.model')
+require('./models/instructor.model')
+require('./models/category.model')
+require('./models/course.model')
+require('./models/cart.model')
+require('./models/purchase.model')
+
 const courses = require('./routes/courses')
 const users = require('./routes/users')
 const purchases = require('./routes/purchases')
+const cart = require('./routes/cart');
+const Courses = require('./models/course.model');
 
 try {
     // connect db
@@ -26,6 +37,7 @@ try {
     app.use('/courses', courses)
     app.use('/users', users)
     app.use('/purchases', purchases)
+    app.use('/cart', cart)
 
     app.listen(PORT, () => {
         console.log(`Server started on port ${PORT}`)

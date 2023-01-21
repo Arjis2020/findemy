@@ -1,13 +1,12 @@
 import { Stack, Typography } from '@mui/material'
 import React from 'react'
-import { Orders } from '../Cart'
 
 type OrdersProps = {
-    orders: Array<Orders>
+    orders: Array<Course>
 }
 
 export default function OrderDetails({ orders }: OrdersProps) {
-    const OrderSummary = ({ thumbnail, title, price, realPrice }: Partial<Orders>) => {
+    const OrderSummary = ({ imageUrl, title, price, discountedPrice }: Partial<Course>) => {
         return (
             <Stack
                 direction='row'
@@ -20,7 +19,7 @@ export default function OrderDetails({ orders }: OrdersProps) {
                     alignItems='start'
                 >
                     <img
-                        src={thumbnail}
+                        src={imageUrl}
                         style={{
                             width: 45,
                             height: 45,
@@ -39,17 +38,17 @@ export default function OrderDetails({ orders }: OrdersProps) {
                     alignItems='end'
                 >
                     <Typography>
-                        ₹{price}
+                        ₹{discountedPrice}
                     </Typography>
-                    <Typography
+                    {discountedPrice !== price && <Typography
                         color='#3e4143'
                         fontSize={14}
                         sx={{
                             textDecoration: 'line-through'
                         }}
                     >
-                        ₹{realPrice}
-                    </Typography>
+                        ₹{price}
+                    </Typography>}
                 </Stack>
             </Stack>
         )
@@ -73,9 +72,9 @@ export default function OrderDetails({ orders }: OrdersProps) {
                     return (
                         <OrderSummary
                             title={order.title}
-                            thumbnail={order.thumbnail}
+                            imageUrl={order.imageUrl}
                             price={order.price}
-                            realPrice={order.realPrice}
+                            discountedPrice={order.discountedPrice}
                         />
                     )
                 })}

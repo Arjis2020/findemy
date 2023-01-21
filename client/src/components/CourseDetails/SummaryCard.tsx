@@ -12,6 +12,7 @@ import VideoPreview from './VideoPreview';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 import { CartAction } from '../../redux/reducers/cart.reducer';
+import { useNavigate } from 'react-router-dom';
 
 type SummaryCardProps = {
     showVideo?: boolean,
@@ -23,7 +24,7 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
     const discountPercentage = Math.floor(((values.price - values.discountedPrice) / values.price) * 100)
 
     const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
-    const doesCourseExistInCart = cart.items.findIndex((item) => item.course_id === values._id) !== -1
+    const doesCourseExistInCart = cart.itemsConsolidated.findIndex((item) => item.course_id === values._id) !== -1
 
     const features = [
         {
@@ -59,6 +60,8 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
             icon: <ClosedCaptionOffRoundedIcon />
         }
     ]
+
+    const navigate = useNavigate()
 
     return (
         <Card
@@ -132,7 +135,7 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
                                 fullWidth
                                 disableElevation
                                 disableRipple
-                                onClick={onAddToCartClicked}
+                                onClick={doesCourseExistInCart ? () => navigate('/cart') : onAddToCartClicked}
                             >
                                 {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
                             </Button>

@@ -107,7 +107,7 @@ const MenuContents = () => {
                                 fontSize={14}
                                 fontFamily='UdemySansBold'
                             >
-                                {cart.items.length}
+                                {cart.itemsConsolidated.length}
                             </Typography>
                         </Box>
                     </Stack>
