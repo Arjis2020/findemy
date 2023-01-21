@@ -100,7 +100,6 @@ export default function Carousel() {
                             >
                                 <Link
                                     to={`/course${data.slug}`}
-                                    // to={`/course${data.slug}?cid=${data._id}`}
                                     className='link-unstyled-full'
                                 >
                                     <CardActionArea
@@ -137,15 +136,21 @@ export default function Carousel() {
                                                 >
                                                     {data.title}
                                                 </Typography>
-                                                <Typography
-                                                    variant='caption'
-                                                    color="#6a6f73"
-                                                    textOverflow='ellipsis'
-                                                    noWrap
-                                                    maxWidth='15rem'
-                                                >
-                                                    {data.instructors[0].name}
-                                                </Typography>
+                                                <span>
+                                                    {data.instructors.map((instructor, i) => (
+                                                        <>
+                                                            <Typography
+                                                                variant='caption'
+                                                                color="#6a6f73"
+                                                                textOverflow='ellipsis'
+                                                                noWrap
+                                                                maxWidth='15rem'
+                                                            >
+                                                                {instructor.name}
+                                                            </Typography>{data.instructors.length > 1 && i < data.instructors.length - 1 && ', '}
+                                                        </>
+                                                    ))}
+                                                </span>
                                             </Stack>
                                             <Stack
                                                 alignItems='start'
@@ -234,7 +239,7 @@ export default function Carousel() {
                 })}
             </GridCarousel>
             :
-            <Loader 
+            <Loader
                 sx={{
                     height: 'auto'
                 }}

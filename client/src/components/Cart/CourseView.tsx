@@ -11,6 +11,11 @@ export default function CourseView({ item }: CourseViewProps) {
     const downDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.down('desktop'))
     const downTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
+    const levels = (() => {
+        if(item.levels.length === 3) return 'All'
+        else return item.levels.join(', ')
+    })()
+
     return (
         <Link
             to={`/course${item.slug}`}
@@ -194,7 +199,7 @@ export default function CourseView({ item }: CourseViewProps) {
                             <Typography
                                 variant='caption'
                             >
-                                {item.levels} levels
+                                {levels} levels
                             </Typography>
                         </Stack>
                         {downDesktop && <Stack

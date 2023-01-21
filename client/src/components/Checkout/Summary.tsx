@@ -45,7 +45,7 @@ export default function Summary({ orderMeta }: SummaryProps) {
                             <Typography
                                 fontSize={14}
                             >
-                                ₹{totalDiscountedPrice?.toLocaleString()}
+                                ₹{totalPrice?.toLocaleString()}
                             </Typography>
                         </Stack>
                         <Stack
@@ -79,7 +79,7 @@ export default function Summary({ orderMeta }: SummaryProps) {
                         <Typography
                             fontFamily='UdemySansBold'
                         >
-                            ₹{totalPrice.toLocaleString()}
+                            ₹{totalDiscountedPrice.toLocaleString()}
                         </Typography>
                     </Stack>
                 </Stack>

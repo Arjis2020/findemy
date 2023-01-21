@@ -11,7 +11,7 @@ export default function CheckoutView() {
 
     const cartOrders = useSelector<RootState>((state) => state.cartReducer) as CartAction
 
-    const { totalPrice, totalDiscountedPrice, discountPercentage }: CartOrderMeta = cartOrders.cartOrders
+    const { totalPrice, totalDiscountedPrice, discountPercentage }: CartOrderMeta = cartOrders.cartOrders!
 
     return (
         <Stack

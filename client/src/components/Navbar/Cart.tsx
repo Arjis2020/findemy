@@ -1,32 +1,22 @@
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Box, Button, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Typography } from '@mui/material';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/reducers';
+import { LoginStateAction } from '../../redux/reducers/auth.reducer';
 import { CartAction } from '../../redux/reducers/cart.reducer';
 
-export default function Cart() {
+export default memo(function Cart() {
   const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
-  const [shouldAnimate, setShouldAnimate] = useState<boolean>(false)
+  const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
 
-  useEffect(() => {
-    setShouldAnimate(true)
-  }, [cart.itemsConsolidated])
-
-  // const [items, setItems] = useState(0)
-
-  // useEffect(() => {
-  //   setShouldAnimate(true)
-  // }, [items])
+  const navigate = useNavigate()
 
   return (
     <Link
-      to='/cart'
+      to={user.data?._id ? '/cart' : '/login'}
     >
-    {/* <Button
-      onClick={() => setItems(items + 1)}
-    > */}
       <Box
         sx={{
           position: 'relative',
@@ -40,21 +30,18 @@ export default function Cart() {
             color: '#000'
           }}
         />
-        <div
-          // key={cart.items.length}
-          onAnimationEnd={() => setShouldAnimate(false)}
-          className={`cart-badge ${shouldAnimate ? 'cart-badge-animate' : ''}`}
+        {cart.itemsConsolidated.length > 0 && <div
+          key='cart-badge'
+          className='cart-badge cart-badge-animate'
         >
           <Typography
             fontSize={14}
             fontFamily='UdemySansBold'
           >
             {cart.itemsConsolidated.length}
-            {/* {items} */}
           </Typography>
-        </div>
+        </div>}
       </Box>
     </Link>
-    // </Button>
   )
-}
+})

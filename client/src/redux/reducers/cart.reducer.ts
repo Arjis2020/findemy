@@ -2,18 +2,12 @@ import { CartActions, LoginActions } from "../constants"
 
 export type CartAction = {
     itemsConsolidated: Array<Cart>,
-    cartOrders: CartOrders
+    cartOrders?: CartOrders
 }
 
 const initialState: CartAction = {
     itemsConsolidated: [],
-    cartOrders: {
-        orders: [],
-        totalPrice: 0,
-        totalDiscountedPrice: 0,
-        discount: 0,
-        discountPercentage: 0
-    }
+    cartOrders: undefined
 }
 
 export const cartReducer = (state = initialState, action: any) => {
