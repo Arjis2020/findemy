@@ -6,9 +6,10 @@ module.exports = (model, data) => {
         const document = new model({
             ...data
         })
-        document.save((err) => {
+        document.save()
+        .then(doc => resolve(doc))
+        .catch((err) => {
             if (err) reject(err)
-            resolve()
         })
     })
 }

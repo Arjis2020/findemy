@@ -29,7 +29,7 @@ interface User extends Common {
     name: string,
     email: string,
     password: string,
-    cart: Array<Course>
+    cart: Array<Cart>
 }
 
 interface Instructor extends Common {
@@ -44,4 +44,7 @@ interface Instructor extends Common {
     imageURL: string
 }
 
-type Cart = Array<Course>
+interface Cart extends Common {
+    course_id: string,
+    user_id: string
+}

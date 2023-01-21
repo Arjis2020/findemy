@@ -99,7 +99,8 @@ export default function Carousel() {
                                 elevation={0}
                             >
                                 <Link
-                                    to={`/course${data.slug}?cid=${data._id}`}
+                                    to={`/course${data.slug}`}
+                                    // to={`/course${data.slug}?cid=${data._id}`}
                                     className='link-unstyled-full'
                                 >
                                     <CardActionArea

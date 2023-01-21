@@ -42,8 +42,8 @@ const getAllCourses = async (req, res) => {
     res.send(courses)
 }
 
-const getCourseById = async (req, res) => {
-    const id = req.query.id
+const getCourseBySlug = async (req, res) => {
+    const slug = "/" + req.params.slug
 
     // do id matching logic
     const result = await Courses.aggregate([{
@@ -66,7 +66,8 @@ const getCourseById = async (req, res) => {
         }
     },
     ]).match({
-        _id: mongoose.Types.ObjectId(id)
+        // _id: mongoose.Types.ObjectId(id)
+        slug
     })
 
     res.send(result[0])
@@ -101,21 +102,29 @@ const addOne = async (req, res) => {
 }
 
 const addToCart = async (req, res) => {
-    const { user_id, course_id } = req.body
-
+    const { course_id } = req.body
+    const user_id = req.decoded._id
+    
     try {
         const cid = await Courses.findById(course_id, { _id: 1 })
         if (cid._id) {
-            await insert(Cart, {
+            const cart_id = await Cart.findOne({
                 user_id,
                 course_id
             })
-            const updatedCart = await Cart.find({
-                $where: {
-                    user_id: user_id
-                }
-            })
-            res.send(updatedCart)
+            if (!cart_id) {
+                const doc = await insert(Cart, {
+                    user_id,
+                    course_id
+                })
+                res.send(doc)
+            }
+            else {
+                res.status(409).send({
+                    status: 'failed',
+                    reason: 'Course already added to cart'
+                })
+            }
         }
         else {
             res.status(404).send({
@@ -133,4 +142,4 @@ const addToCart = async (req, res) => {
     }
 }
 
-module.exports = { getAllCourses, getCourseById, search, addOne, addToCart }
+module.exports = { getAllCourses, getCourseBySlug, search, addOne, addToCart }

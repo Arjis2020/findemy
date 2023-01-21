@@ -19,7 +19,7 @@ export const setCart = (data: Cart) => {
     }
 }
 
-export const setCartAll = (data: Course) => {
+export const setCartAll = (data: Array<Cart>) => {
     return {
         type: CartActions.SET_CART_ALL,
         data

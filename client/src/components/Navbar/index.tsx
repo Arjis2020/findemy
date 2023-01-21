@@ -5,7 +5,7 @@ import Login from './Login'
 import Search from './Search'
 import Signup from './Signup'
 import MenuIcon from '@mui/icons-material/Menu';
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { ArrowForwardIosSharp } from '@mui/icons-material'
 import LanguageIcon from '@mui/icons-material/Language';
 import SearchIcon from '@mui/icons-material/Search';
@@ -14,9 +14,12 @@ import { APP_NAME } from '../../utils/constants'
 import UserAvatar from './UserAvatar'
 import Notification from './Notification'
 import MyLearning from './MyLearning'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LoginStateAction } from '../../redux/reducers/auth.reducer'
 import { RootState } from '../../redux/reducers'
+import { resetAuthErrors } from '../../redux/actions/auth.action'
+import { addPath } from '../../redux/actions/history.action'
+import './index.css'
 
 export default function Header() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
@@ -26,7 +29,14 @@ export default function Header() {
     const location = useLocation()
     const navigate = useNavigate()
 
-    // const { logout } = useAuth()
+    const dispatch = useDispatch()
+
+    // Resets all auth errors when the pathname changes
+    // Adds the current path to the redux state
+    useEffect(() => {
+        dispatch(addPath(location.pathname))
+        dispatch(resetAuthErrors())
+    }, [location.pathname])
 
     const whitelistedAppbarRelativeRoutes = [
         '/course'

@@ -28,6 +28,11 @@ export const authReducer = (state = initialState, action: any) => {
                     signup: action.err
                 }
             }
+        case LoginActions.RESET_ERRORS:
+            return {
+                ...state,
+                err: {}
+            }
         case LoginActions.LOGOUT:
             return initialState
     }

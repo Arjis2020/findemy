@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL_ADD_TO_CART, URL_ALL_COURSES, URL_COURSE_BY_ID } from "../endpoints";
+import { URL_ADD_TO_CART, URL_ALL_COURSES, URL_COURSE_BY_SLUG } from "../endpoints";
 
 export const getAllCourses = async (): Promise<Array<Course>> => {
     try {
@@ -12,13 +12,9 @@ export const getAllCourses = async (): Promise<Array<Course>> => {
     }
 }
 
-export const getCourseDetails = async (cid: string): Promise<Course> => {
+export const getCourseDetails = async (slug: string): Promise<Course> => {
     try {
-        const { data } = await axios.get<Course>(URL_COURSE_BY_ID, {
-            params: {
-                id: cid
-            }
-        })
+        const { data } = await axios.get<Course>(URL_COURSE_BY_SLUG + slug)
         return data
     }
     catch (err) {

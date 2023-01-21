@@ -6,7 +6,7 @@ import { CartActions } from "../constants";
 
 function* callAddToCart(action?: TriggerAddToCartAction) {
     try {
-        const data: Array<Course> = yield call(addToCart, action?.course_id!)
+        const data: Cart = yield call(addToCart, action?.course_id!)
         yield put(
             setCart(data)
         )

@@ -72,3 +72,13 @@ export const logoutUser = () => {
         type: LoginActions.LOGOUT
     }
 }
+
+/**
+ * @description Resets all authentication errors on the client side. Use with caution!
+ * @returns 
+ */
+export const resetAuthErrors = () => {
+    return {
+        type: LoginActions.RESET_ERRORS
+    }
+}

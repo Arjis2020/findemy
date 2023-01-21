@@ -7,7 +7,8 @@ export const LoginActions = {
     TRIGGER_LOGOUT: 'TRIGGER_LOGOUT',
     TRIGGER_SIGNUP: 'TRIGGER_SIGNUP',
     LOGOUT: 'LOGOUT',
-    SIGNUP_ERROR: 'SIGNUP_ERROR'
+    SIGNUP_ERROR: 'SIGNUP_ERROR',
+    RESET_ERRORS: 'RESET_ERRORS'
 }
 
 export const CourseActions = {
@@ -20,4 +21,8 @@ export const CartActions = {
     GET_CART: 'GET_CART',
     SET_CART: 'SET_CART',
     SET_CART_ALL: 'SET_CART_ALL'
+}
+
+export const HistoryActions = {
+    ADD_PATH: 'ADD_PATH'
 }

@@ -11,6 +11,7 @@ import SearchResults from './components/SearchResults'
 import Signup from './components/Signup'
 import { RootState } from './redux/reducers'
 import { LoginStateAction } from './redux/reducers/auth.reducer'
+import { HistoryState } from './redux/reducers/history.reducers'
 
 export default function Router() {
   const orders: Array<Orders> = [
@@ -55,6 +56,7 @@ export default function Router() {
   }
 
   const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
+  const { paths: [previousPath, currentPath] } = useSelector<RootState>((state) => state.historyReducer) as HistoryState
 
   return (
     <BrowserRouter>
@@ -68,7 +70,7 @@ export default function Router() {
           path='/login'
           element={user.data?._id ?
             <Navigate
-              to='../'
+              to={previousPath}
             />
             :
             <Login />
@@ -79,7 +81,7 @@ export default function Router() {
           element={
             user.data?._id ?
               <Navigate
-                to='../'
+                to={previousPath}
               />
               :
               <Signup />

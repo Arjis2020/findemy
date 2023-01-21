@@ -1,16 +1,12 @@
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 import React, { useEffect } from 'react'
-import { Avatar, Button, Divider, Stack, Typography } from '@mui/material'
+import { Avatar, Box, Button, Divider, Stack, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/reducers'
 import { LoginAction, triggerLogout } from '../../redux/actions/auth.action'
 import { Link, useNavigate } from 'react-router-dom'
-
-
-type MenuContentsProps = {
-    onLogout: () => void
-}
+import { CartAction } from '../../redux/reducers/cart.reducer'
 
 const MenuContents = () => {
     const user = useSelector<RootState>((state) => state.authReducer) as LoginAction
@@ -24,6 +20,8 @@ const MenuContents = () => {
         dispatch(triggerLogout())
         navigate('/')
     }
+
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
 
     return (
         <Stack
@@ -82,11 +80,37 @@ const MenuContents = () => {
                     to='/cart'
                     className='link-unstyled'
                 >
-                    <Typography
-                        fontSize={14}
+                    <Stack
+                        direction='row'
+                        justifyContent='space-between'
+                        alignItems='center'
                     >
-                        My cart
-                    </Typography>
+                        <Typography
+                            fontSize={14}
+                        >
+                            My cart
+                        </Typography>
+                        <Box
+                            sx={{
+                                borderRadius: '50%',
+                                background: '#a435f0',
+                                p: 0.2,
+                                height: 23,
+                                width: 23,
+                                color: '#fff',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <Typography
+                                fontSize={14}
+                                fontFamily='UdemySansBold'
+                            >
+                                {cart.items.length}
+                            </Typography>
+                        </Box>
+                    </Stack>
                 </Link>
                 <Link
                     to='/help'
@@ -145,7 +169,7 @@ const UserMenu = ({ children }: any) => {
                             horizontal: 'center',
                         }}
                     >
-                        <MenuContents/>
+                        <MenuContents />
                     </HoverPopover>
                 </div>
             )}

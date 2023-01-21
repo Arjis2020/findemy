@@ -1,10 +1,10 @@
 import { Box, Fade, Stack, Theme, useMediaQuery, useScrollTrigger } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getCourseDetails } from '../../API/handlers/course.handler'
 import { LoginAction } from '../../redux/actions/auth.action'
-import { setCartAll, triggerAddToCart } from '../../redux/actions/cart.action'
+import { triggerAddToCart } from '../../redux/actions/cart.action'
 import { RootState } from '../../redux/reducers'
 import Loader from '../Loader'
 import Description from './Description'
@@ -19,10 +19,11 @@ import WhatYouWillLearn from './WhatYouWillLearn'
 export default function CourseDetails() {
   const [courseDetails, setCourseDetails] = useState<Course>()
 
-  const [searchParams] = useSearchParams()
+  const { slug } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    getCourseDetails(searchParams.get('cid') || "")
+    getCourseDetails(slug!)
       .then(data => setCourseDetails(data))
   }, [])
 
@@ -67,7 +68,12 @@ export default function CourseDetails() {
   const dispatch = useDispatch()
 
   const onAddToCartClicked = () => {
-    dispatch(triggerAddToCart(courseDetails?._id!))
+    if (user.data?._id) {
+      dispatch(triggerAddToCart(courseDetails?._id!))
+    }
+    else {
+      navigate('/login')
+    }
   }
 
   return (

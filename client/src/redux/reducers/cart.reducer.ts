@@ -1,27 +1,27 @@
 import { CartActions, LoginActions } from "../constants"
 
 export type CartAction = {
-    items: Array<Course>
+    items: Array<Cart>
 }
 
-const intialState: CartAction = {
+const initialState: CartAction = {
     items: []
 }
 
-export const cartReducer = (state = intialState, action: any) => {
+export const cartReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case CartActions.SET_CART:
             return {
                 ...state,
-                items: action.data
-            }
-        case CartActions.SET_CART_ALL:
-            return {
-                ...state,
                 items: [...state.items, action.data]
             }
+            case CartActions.SET_CART_ALL:
+                return {
+                    ...state,
+                    items: action.data
+            }
         case LoginActions.LOGOUT:
-            return intialState
+            return initialState
     }
 
     return state

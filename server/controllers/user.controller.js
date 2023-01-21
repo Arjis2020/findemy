@@ -12,14 +12,20 @@ const authorize = async (req, res) => {
     delete decoded.iat
     delete decoded.exp
 
-    const cart = (await Cart.find(
+    // const cart = (await Cart.find(
+    //     {
+    //         user_id: decoded._id
+    //     },
+    //     {
+    //         course_id: 1
+    //     }
+    // ).populate(['course_id'])).map(item => ({ ...item.course_id.toJSON() }))
+
+    const cart = await Cart.find(
         {
             user_id: decoded._id
-        },
-        {
-            course_id: 1
         }
-    ).populate(['course_id'])).map(item => ({ ...item.course_id.toJSON() }))
+    )
 
     const response = {
         ...decoded,
