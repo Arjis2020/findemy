@@ -7,6 +7,7 @@ import { RootState } from '../../../redux/reducers'
 import { CourseAction, triggerCoursesRetrieval } from '../../../redux/actions/course.action'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import Loader from '../../Loader'
 
 export default function Carousel() {
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.up('tablet'))
@@ -23,212 +24,219 @@ export default function Carousel() {
     const datasetLength = desktop ? 5 : tablet ? 3 : 1
 
     return (
-        <GridCarousel
-            gap={15}
-            cols={datasetLength}
-            rows={1}
-            mobileBreakpoint={0}
-            containerStyle={{
-                marginInline: '45px',
-                borderRadius: 0
-            }}
-            arrowRight={
-                <IconButton
-                    sx={{
-                        position: 'absolute',
-                        top: 'calc(50% - 100px)',
-                        left: 'initial',
-                        right: 0,
-                        background: theme => theme.palette.common.black,
-                        height: '3rem',
-                        width: '3rem',
-                        border: '1px solid #6a6f73',
-                        "&:hover": {
-                            background: "#000"
-                        },
-                        zIndex: 10
-                    }}
-                >
-                    <ArrowForwardIosSharp
+        courses.data ?
+            <GridCarousel
+                gap={15}
+                cols={datasetLength}
+                rows={1}
+                mobileBreakpoint={0}
+                containerStyle={{
+                    marginInline: '45px',
+                    borderRadius: 0
+                }}
+                arrowRight={
+                    <IconButton
                         sx={{
-                            color: '#fff'
+                            position: 'absolute',
+                            top: 'calc(50% - 100px)',
+                            left: 'initial',
+                            right: 0,
+                            background: theme => theme.palette.common.black,
+                            height: '3rem',
+                            width: '3rem',
+                            border: '1px solid #6a6f73',
+                            "&:hover": {
+                                background: "#000"
+                            },
+                            zIndex: 10
                         }}
-                        fontSize='small'
-                    />
-                </IconButton>
-            }
-            arrowLeft={
-                <IconButton
-                    sx={{
-                        zIndex: 10,
-                        position: 'absolute',
-                        top: 'calc(50% - 100px)',
-                        right: 'initial',
-                        left: 0,
-                        background: theme => theme.palette.common.black,
-                        height: '3rem',
-                        width: '3rem',
-                        border: '1px solid #6a6f73',
-                        "&:hover": {
-                            background: "#000"
-                        }
-                    }}
-                >
-                    <ArrowBackIosSharp
-                        sx={{
-                            color: '#fff'
-                        }}
-                        fontSize='small'
-                    />
-                </IconButton>
-            }
-        >
-            {courses.data?.map((data: Course) => {
-                return (
-                    <GridCarousel.Item>
-                        <Card
+                    >
+                        <ArrowForwardIosSharp
                             sx={{
-                                minWidth: '15rem',
-                                maxWidth: '37.5rem',
-                                background: 'none',
-                                borderRadius: 0,
-                                height: '100%',
+                                color: '#fff'
                             }}
-                            elevation={0}
-                        >
-                            <Link
-                                to={`/course${data.slug}?cid=${data._id}`}
-                                className='link-unstyled-full'
+                            fontSize='small'
+                        />
+                    </IconButton>
+                }
+                arrowLeft={
+                    <IconButton
+                        sx={{
+                            zIndex: 10,
+                            position: 'absolute',
+                            top: 'calc(50% - 100px)',
+                            right: 'initial',
+                            left: 0,
+                            background: theme => theme.palette.common.black,
+                            height: '3rem',
+                            width: '3rem',
+                            border: '1px solid #6a6f73',
+                            "&:hover": {
+                                background: "#000"
+                            }
+                        }}
+                    >
+                        <ArrowBackIosSharp
+                            sx={{
+                                color: '#fff'
+                            }}
+                            fontSize='small'
+                        />
+                    </IconButton>
+                }
+            >
+                {courses.data?.map((data: Course) => {
+                    return (
+                        <GridCarousel.Item>
+                            <Card
+                                sx={{
+                                    minWidth: '15rem',
+                                    maxWidth: '37.5rem',
+                                    background: 'none',
+                                    borderRadius: 0,
+                                    height: '100%',
+                                }}
+                                elevation={0}
                             >
-                                <CardActionArea
-                                    sx={{
-                                        height: '100%',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        ".MuiCardActionArea-focusHighlight": {
-                                            background: 'none'
-                                        }
-                                    }}
-                                    disableRipple
+                                <Link
+                                    to={`/course${data.slug}?cid=${data._id}`}
+                                    className='link-unstyled-full'
                                 >
-                                    <img
-                                        src={data.imageUrl}
-                                        style={{
-                                            width: '100%'
-                                        }}
-                                        alt='course-img'
-                                    />
-                                    <Stack
-                                        flex={1}
+                                    <CardActionArea
                                         sx={{
-                                            width: '100%',
+                                            height: '100%',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            ".MuiCardActionArea-focusHighlight": {
+                                                background: 'none'
+                                            }
                                         }}
-                                        alignItems='start'
-                                        justifyContent='space-between'
+                                        disableRipple
                                     >
+                                        <img
+                                            src={data.imageUrl}
+                                            style={{
+                                                width: '100%'
+                                            }}
+                                            alt='course-img'
+                                        />
                                         <Stack
+                                            flex={1}
+                                            sx={{
+                                                width: '100%',
+                                            }}
                                             alignItems='start'
-                                        >
-                                            <Typography
-                                                fontFamily='UdemySansBold'
-                                            >
-                                                {data.title}
-                                            </Typography>
-                                            <Typography
-                                                variant='caption'
-                                                color="#6a6f73"
-                                                textOverflow='ellipsis'
-                                                noWrap
-                                                maxWidth='15rem'
-                                            >
-                                                {data.instructors[0].name}
-                                            </Typography>
-                                        </Stack>
-                                        <Stack
-                                            alignItems='start'
+                                            justifyContent='space-between'
                                         >
                                             <Stack
-                                                direction='row'
-                                                alignItems='center'
-                                                spacing={0.5}
+                                                alignItems='start'
                                             >
                                                 <Typography
                                                     fontFamily='UdemySansBold'
-                                                    color='#b4690e'
-                                                    fontSize={15}
                                                 >
-                                                    {data.rating}
+                                                    {data.title}
                                                 </Typography>
-                                                <Rating
-                                                    value={data.rating}
-                                                    readOnly
-                                                    precision={0.5}
-                                                    size='small'
-                                                    sx={{
-                                                        color: '#e59819',
-                                                        fontSize: 15
-                                                    }}
-                                                    emptyIcon={
-                                                        <StarBorder
-                                                            fontSize='inherit'
-                                                            sx={{
-                                                                color: '#e59819'
-                                                            }}
-                                                        />
-                                                    }
-                                                />
                                                 <Typography
+                                                    variant='caption'
                                                     color="#6a6f73"
-                                                    fontSize='12px'
+                                                    textOverflow='ellipsis'
+                                                    noWrap
+                                                    maxWidth='15rem'
                                                 >
-                                                    ({data.totalRatings.toLocaleString()})
+                                                    {data.instructors[0].name}
                                                 </Typography>
                                             </Stack>
                                             <Stack
-                                                direction='row'
-                                                spacing={1}
-                                                alignItems='center'
+                                                alignItems='start'
                                             >
-                                                <Typography
-                                                    fontFamily='UdemySansBold'
+                                                <Stack
+                                                    direction='row'
+                                                    alignItems='center'
+                                                    spacing={0.5}
                                                 >
-                                                    ₹{data.discountedPrice}
-                                                </Typography>
-                                                {data.discountedPrice !== data.price &&
+                                                    <Typography
+                                                        fontFamily='UdemySansBold'
+                                                        color='#b4690e'
+                                                        fontSize={15}
+                                                    >
+                                                        {data.rating}
+                                                    </Typography>
+                                                    <Rating
+                                                        value={data.rating}
+                                                        readOnly
+                                                        precision={0.5}
+                                                        size='small'
+                                                        sx={{
+                                                            color: '#e59819',
+                                                            fontSize: 15
+                                                        }}
+                                                        emptyIcon={
+                                                            <StarBorder
+                                                                fontSize='inherit'
+                                                                sx={{
+                                                                    color: '#e59819'
+                                                                }}
+                                                            />
+                                                        }
+                                                    />
                                                     <Typography
                                                         color="#6a6f73"
-                                                        fontSize={14}
-                                                        sx={{
-                                                            textDecoration: 'line-through'
-                                                        }}
+                                                        fontSize='12px'
                                                     >
-                                                        ₹{data.price}
+                                                        ({data.totalRatings.toLocaleString()})
                                                     </Typography>
-                                                }
-                                            </Stack>
-                                            <Box
-                                                sx={{
-                                                    background: "#eceb98",
-                                                    px: 1,
-                                                    py: 0.3,
-                                                    mt: 1
-                                                }}
-                                            >
-                                                <Typography
-                                                    fontFamily='UdemySansBold'
-                                                    fontSize={12}
+                                                </Stack>
+                                                <Stack
+                                                    direction='row'
+                                                    spacing={1}
+                                                    alignItems='center'
                                                 >
-                                                    Bestseller
-                                                </Typography>
-                                            </Box>
+                                                    <Typography
+                                                        fontFamily='UdemySansBold'
+                                                    >
+                                                        ₹{data.discountedPrice}
+                                                    </Typography>
+                                                    {data.discountedPrice !== data.price &&
+                                                        <Typography
+                                                            color="#6a6f73"
+                                                            fontSize={14}
+                                                            sx={{
+                                                                textDecoration: 'line-through'
+                                                            }}
+                                                        >
+                                                            ₹{data.price}
+                                                        </Typography>
+                                                    }
+                                                </Stack>
+                                                <Box
+                                                    sx={{
+                                                        background: "#eceb98",
+                                                        px: 1,
+                                                        py: 0.3,
+                                                        mt: 1
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        fontFamily='UdemySansBold'
+                                                        fontSize={12}
+                                                    >
+                                                        Bestseller
+                                                    </Typography>
+                                                </Box>
+                                            </Stack>
                                         </Stack>
-                                    </Stack>
-                                </CardActionArea>
-                            </Link>
-                        </Card>
-                    </GridCarousel.Item>
-                )
-            })}
-        </GridCarousel>
+                                    </CardActionArea>
+                                </Link>
+                            </Card>
+                        </GridCarousel.Item>
+                    )
+                })}
+            </GridCarousel>
+            :
+            <Loader 
+                sx={{
+                    height: 'auto'
+                }}
+            />
     )
 }

@@ -7,14 +7,14 @@ import './index.css'
 import VideoPreview from './VideoPreview';
 
 type SummaryBannerProps = {
-    values: Partial<Course>
+    values: Course
 }
 
 export default function SummaryBanner({ values }: SummaryBannerProps) {
     const laptop = useMediaQuery((theme: Theme) => theme.breakpoints.down('desktop'))
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
-    const discountPercentage = Math.floor(((values.price! - values.discountedPrice!) / values.price!) * 100)
+    const discountPercentage = Math.floor(((values.price - values.discountedPrice) / values.price) * 100)
 
     const DesktopView = () => {
         return (
@@ -94,12 +94,12 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                         }}
                         color='#cec0fc'
                     >
-                        ({values.totalRatings?.toLocaleString()} ratings)
+                        ({values.totalRatings.toLocaleString()} ratings)
                     </Typography>
                     <Typography
                         fontSize={14}
                     >
-                        {values.instructors?.at(0)?.students.toLocaleString()} students
+                        {values.instructors[0].students.toLocaleString()} students
                     </Typography>
                 </Stack>
                 <Stack
@@ -115,7 +115,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                     >
                         Created by
                         <span className='course-creators'>
-                            {values.instructors?.map(instructor => (
+                            {values.instructors.map((instructor, i) => (
                                 <>
                                     <Typography
                                         component='a'
@@ -126,7 +126,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                                         }}
                                         color='#cec0fc'>
                                         {instructor.name}
-                                    </Typography>,
+                                    </Typography>{values.instructors.length > 1 && i < values.instructors.length - 1 && ','}
                                 </>
                             ))}
                             {/* <Typography
@@ -209,7 +209,9 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                 <Stack
                     spacing={1.5}
                 >
-                    <VideoPreview />
+                    <VideoPreview 
+                        image={values.imageUrl}
+                    />
                     <Typography
                         variant='h4'
                         color='#fff'
@@ -286,7 +288,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                         <Typography
                             fontSize={14}
                         >
-                            {values.instructors?.at(0)?.students.toLocaleString()} students
+                            {values.instructors[0].students.toLocaleString()} students
                         </Typography>
                     </Stack>
                     <Stack
@@ -302,7 +304,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                         >
                             Created by
                             <span className='course-creators'>
-                                {values.instructors?.map(instructor => (
+                                {values.instructors.map((instructor, i) => (
                                     <>
                                         <Typography
                                             component='a'
@@ -313,7 +315,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                                             }}
                                             color='#cec0fc'>
                                             {instructor.name}
-                                        </Typography>,
+                                        </Typography>{values.instructors.length > 1 && i < values.instructors.length - 1 && ','}
                                     </>
                                 ))}
                                 {/* <Typography
@@ -398,7 +400,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                             fontFamily='UdemySansBold'
                             variant='h4'
                         >
-                            ₹{values.discountedPrice?.toLocaleString()}
+                            ₹{values.discountedPrice.toLocaleString()}
                         </Typography>
                         {values.discountedPrice !== values.price && <Typography
                             color="#6a6f73"
@@ -407,7 +409,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                                 textDecoration: 'line-through'
                             }}
                         >
-                            ₹{values.price?.toLocaleString()}
+                            ₹{values.price.toLocaleString()}
                         </Typography>}
                         {values.discountedPrice !== values.price && <Typography>
                             {discountPercentage}% off

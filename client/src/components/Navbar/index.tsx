@@ -26,6 +26,8 @@ export default function Header() {
     const location = useLocation()
     const navigate = useNavigate()
 
+    // const { logout } = useAuth()
+
     const whitelistedAppbarRelativeRoutes = [
         '/course'
     ]

@@ -1,10 +1,10 @@
 import { CourseActions } from "../constants"
 
-const intialState = {
-    courses: []
+const initialState = {
+    data: []
 }
 
-export const courseReducer = (state = intialState, action: any) => {
+export const courseReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case CourseActions.GET_ALL:
             return {

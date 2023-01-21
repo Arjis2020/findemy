@@ -9,14 +9,22 @@ import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import ClosedCaptionOffRoundedIcon from '@mui/icons-material/ClosedCaptionOffRounded';
 import React from 'react';
 import VideoPreview from './VideoPreview';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/reducers';
+import { CartAction } from '../../redux/reducers/cart.reducer';
 
 type SummaryCardProps = {
     showVideo?: boolean,
-    values: Partial<Course>
+    values: Course,
+    onAddToCartClicked: () => void
 }
 
-export default function SummaryCard({ showVideo = true, values }: SummaryCardProps) {
-    const discountPercentage = Math.floor(((values.price! - values.discountedPrice!) / values.price!) * 100)
+export default function SummaryCard({ showVideo = true, values, onAddToCartClicked }: SummaryCardProps) {
+    const discountPercentage = Math.floor(((values.price - values.discountedPrice) / values.price) * 100)
+
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+    console.log(cart)
+    const doesCourseExistInCart = cart.items.findIndex((item) => item._id === values._id) !== -1
 
     const features = [
         {
@@ -24,7 +32,7 @@ export default function SummaryCard({ showVideo = true, values }: SummaryCardPro
             icon: <OndemandVideoIcon />
         },
         {
-            title: `${values.totalArticles?.toLocaleString()} articles`,
+            title: `${values.totalArticles.toLocaleString()} articles`,
             icon: <InsertDriveFileOutlinedIcon />
         },
         {
@@ -64,11 +72,12 @@ export default function SummaryCard({ showVideo = true, values }: SummaryCardPro
             <Stack
                 spacing={1}
             >
-                {showVideo && <VideoPreview 
+                {showVideo && <VideoPreview
                     sx={{
                         mt: 0,
                         border: '1px solid #fff'
                     }}
+                    image={values.imageUrl}
                 />}
                 <Stack
                     sx={{
@@ -95,14 +104,14 @@ export default function SummaryCard({ showVideo = true, values }: SummaryCardPro
                             >
                                 ₹{values.discountedPrice}
                             </Typography>
-                           {values.discountedPrice !== values.price && <Typography
+                            {values.discountedPrice !== values.price && <Typography
                                 color="#6a6f73"
                                 fontSize={16}
                                 sx={{
                                     textDecoration: 'line-through'
                                 }}
                             >
-                                ₹3,499
+                                ₹{values.price}
                             </Typography>}
                             <Typography>
                                 {discountPercentage}% off
@@ -124,8 +133,9 @@ export default function SummaryCard({ showVideo = true, values }: SummaryCardPro
                                 fullWidth
                                 disableElevation
                                 disableRipple
+                                onClick={onAddToCartClicked}
                             >
-                                Add to cart
+                                {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
                             </Button>
                             <Button
                                 variant='outlined'

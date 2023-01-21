@@ -2,10 +2,11 @@ import { Box, Button, Stack, SxProps, Theme, Typography } from '@mui/material'
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 
 type VideoPreviewProps = {
-    sx?: SxProps<Theme>
+    sx?: SxProps<Theme>,
+    image: string
 }
 
-export default function VideoPreview({ sx }: VideoPreviewProps) {
+export default function VideoPreview({ sx, image }: VideoPreviewProps) {
     const gradient = 'linear-gradient(180deg,rgba(28,29,31,0) 0%,rgba(28,29,31,0.9) 100%)'
 
     return (
@@ -30,7 +31,7 @@ export default function VideoPreview({ sx }: VideoPreviewProps) {
                 }}
             >
                 <img
-                    src='https://img-c.udemycdn.com/course/750x422/1362070_b9a1_2.jpg'
+                    src={image}
                     style={{
                         width: '100%',
                     }}

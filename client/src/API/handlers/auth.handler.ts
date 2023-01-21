@@ -1,6 +1,5 @@
 import axios from "axios";
 import { URL_AUTHORIZE, URL_LOGIN, URL_LOGOUT, URL_SIGNUP } from "../endpoints";
-import { User } from "../responseTypes/auth.type";
 
 export const handleLogin = async (email: string, password: string): Promise<User> => {
     try {
@@ -58,7 +57,7 @@ export const handleSignup = async (name: string, email: string, password: string
     }
 }
 
-export const handleLogout = async () => {
+export const handleLogout = async () : Promise<void> => {
     try {
         await axios.post(URL_LOGOUT)
     }

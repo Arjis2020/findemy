@@ -1,11 +1,16 @@
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Avatar, Button, Divider, Stack, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/reducers'
 import { LoginAction, triggerLogout } from '../../redux/actions/auth.action'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
+
+type MenuContentsProps = {
+    onLogout: () => void
+}
 
 const MenuContents = () => {
     const user = useSelector<RootState>((state) => state.authReducer) as LoginAction
@@ -13,8 +18,12 @@ const MenuContents = () => {
     const initials = splittedName?.at(0)?.charAt(0)?.concat(splittedName?.at(1)?.charAt(0) || "")
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const logout = () => dispatch(triggerLogout())
+    const logout = () => {
+        dispatch(triggerLogout())
+        navigate('/')
+    }
 
     return (
         <Stack
@@ -96,7 +105,7 @@ const MenuContents = () => {
                         fontSize={14}
                         className='link-unstyled'
                         sx={{
-                            "&:hover" : {
+                            "&:hover": {
                                 cursor: 'pointer'
                             }
                         }}
@@ -136,7 +145,7 @@ const UserMenu = ({ children }: any) => {
                             horizontal: 'center',
                         }}
                     >
-                        <MenuContents />
+                        <MenuContents/>
                     </HoverPopover>
                 </div>
             )}

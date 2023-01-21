@@ -41,11 +41,10 @@ function App() {
 
   // const { authorize } = useAuth()
   const dispatch = useDispatch()
-  // const [cookie, , removeCookie] = useCookies([COOKIE_TOKEN])
-  const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
 
   useEffect(() => {
     dispatch(triggerUserAuthorize())
+    // authorize()
   }, [])
 
   // useEffect(() => {

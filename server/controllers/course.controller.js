@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const insert = require('../databaseUtils/insert')
+const Cart = require('../models/cart.model')
 const Courses = require('../models/course.model')
 
 const getAllCourses = async (req, res) => {
@@ -10,13 +11,7 @@ const getAllCourses = async (req, res) => {
             localField: 'instructors',
             foreignField: '_id',
             as: 'instructors',
-            pipeline: [
-                {
-                    $project: {
-                        name: 1
-                    }
-                }
-            ]
+            pipeline: [{ $project: { name: 1 } }]
         },
     },
     {
@@ -43,13 +38,13 @@ const getAllCourses = async (req, res) => {
         }
     }
     ])
-    // console.log(courses)
+
     res.send(courses)
 }
 
 const getCourseById = async (req, res) => {
     const id = req.query.id
-    
+
     // do id matching logic
     const result = await Courses.aggregate([{
         $lookup: {
@@ -73,6 +68,7 @@ const getCourseById = async (req, res) => {
     ]).match({
         _id: mongoose.Types.ObjectId(id)
     })
+
     res.send(result[0])
 }
 
@@ -104,4 +100,37 @@ const addOne = async (req, res) => {
     }
 }
 
-module.exports = { getAllCourses, getCourseById, search, addOne }
+const addToCart = async (req, res) => {
+    const { user_id, course_id } = req.body
+
+    try {
+        const cid = await Courses.findById(course_id, { _id: 1 })
+        if (cid._id) {
+            await insert(Cart, {
+                user_id,
+                course_id
+            })
+            const updatedCart = await Cart.find({
+                $where: {
+                    user_id: user_id
+                }
+            })
+            res.send(updatedCart)
+        }
+        else {
+            res.status(404).send({
+                status: 'failed',
+                reason: 'Invalid course id'
+            })
+        }
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send({
+            status: 'failed',
+            reason: "Course could not be added to cart"
+        })
+    }
+}
+
+module.exports = { getAllCourses, getCourseById, search, addOne, addToCart }

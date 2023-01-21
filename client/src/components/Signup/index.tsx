@@ -6,8 +6,10 @@ import Details from './Details'
 
 export default function Signup() {
     const dispatch = useDispatch()
+    // const { signup } = useAuth()
 
     const onSignup = (values: FieldValues) => {
+        // signup(values as { name: string, email: string, password: string })
         dispatch(triggerSignup(values as TriggerSignupAction))
     }
 

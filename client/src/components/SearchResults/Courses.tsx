@@ -275,7 +275,7 @@ export default function Courses() {
                                 textDecoration: 'line-through'
                             }}
                         >
-                            ₹3,499
+                            ₹{}
                         </Typography>
                     </Stack>
                     <Box

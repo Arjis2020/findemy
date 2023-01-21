@@ -4,8 +4,17 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const CartSchema = new Schema({
-    user_id: Schema.Types.ObjectId,
-    course_id: Schema.Types.ObjectId
+    user_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    },
+    course_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'courses'
+    }
+}, {
+    timestamps: true,
+    collection: 'cart'
 })
 
 module.exports = CartSchema

@@ -7,9 +7,17 @@ export const LoginActions = {
     TRIGGER_LOGOUT: 'TRIGGER_LOGOUT',
     TRIGGER_SIGNUP: 'TRIGGER_SIGNUP',
     LOGOUT: 'LOGOUT',
+    SIGNUP_ERROR: 'SIGNUP_ERROR'
 }
 
 export const CourseActions = {
     TRIGGER_GET_ALL: 'TRIGGER_GET_ALL',
     GET_ALL: 'GET_ALL'
+}
+
+export const CartActions = {
+    TRIGGER_ADD_TO_CART: 'TRIGGER_ADD_TO_CART',
+    GET_CART: 'GET_CART',
+    SET_CART: 'SET_CART',
+    SET_CART_ALL: 'SET_CART_ALL'
 }

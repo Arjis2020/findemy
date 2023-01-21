@@ -18,7 +18,7 @@ export default function EmailPassword({ onLogin }: EmailPasswordProps) {
     const [btnDisabled, setBtnDisabled] = useState<boolean>(false)
 
     const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
-    const error = user.err
+    const error = user.err?.login
 
     useEffect(() => {
         if (error) {

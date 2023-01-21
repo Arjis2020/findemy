@@ -3,7 +3,7 @@ import { AppBar, Box, Button, Slide, Stack, Theme, Toolbar, Typography, useMedia
 import { memo, ReactElement } from 'react'
 
 type SummaryProps = {
-    values: Partial<Course>
+    values: Course
 }
 
 export default memo(function Summary({ values }: SummaryProps) {
@@ -135,12 +135,12 @@ export default memo(function Summary({ values }: SummaryProps) {
                                     }}
                                     color='#cec0fc'
                                 >
-                                    ({values.totalRatings?.toLocaleString()} ratings)
+                                    ({values.totalRatings.toLocaleString()} ratings)
                                 </Typography>
                                 <Typography
                                     fontSize={14}
                                 >
-                                    {values.instructors?.at(0)?.students.toLocaleString()} students
+                                    {values.instructors[0].students.toLocaleString()} students
                                 </Typography>
                             </Stack>
                         </Stack>
@@ -156,7 +156,7 @@ export default memo(function Summary({ values }: SummaryProps) {
                                     fontFamily='UdemySansBold'
                                     fontSize={18}
                                 >
-                                    ₹{values.discountedPrice}
+                                    ₹{values.discountedPrice?.toLocaleString()}
                                 </Typography>
                                 {values.discountedPrice !== values.price && <Typography
                                     color="#6a6f73"
@@ -165,7 +165,7 @@ export default memo(function Summary({ values }: SummaryProps) {
                                         textDecoration: 'line-through'
                                     }}
                                 >
-                                    ₹3,499
+                                    ₹{values.price.toLocaleString()}
                                 </Typography>}
                             </Stack>
                             <Button

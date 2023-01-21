@@ -22,11 +22,9 @@ const CoursesSchema = new Schema({
     totalVideoHours: Number,
     totalDownloadableResources: Number,
     categories: [Schema.Types.ObjectId],
-    slug: String,
-    created_at: {
-        type: Date,
-        default: Date.now
-    },
+    slug: String
+}, {
+    timestamps: true
 })
 
 module.exports = CoursesSchema

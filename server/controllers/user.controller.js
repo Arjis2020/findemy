@@ -3,6 +3,7 @@ const Users = require('../models/user.model')
 const insert = require('../databaseUtils/insert')
 const jwt = require('jsonwebtoken')
 const { COOKIE_TOKEN } = require('../constants')
+const Cart = require('../models/cart.model')
 
 require('dotenv').config()
 
@@ -11,7 +12,23 @@ const authorize = async (req, res) => {
     delete decoded.iat
     delete decoded.exp
 
-    res.send(decoded)
+    const cart = (await Cart.find(
+        {
+            user_id: decoded._id
+        },
+        {
+            course_id: 1
+        }
+    ).populate(['course_id'])).map(item => ({ ...item.course_id.toJSON() }))
+
+    const response = {
+        ...decoded,
+        cart
+    }
+
+    console.log(response)
+
+    res.send(response)
 }
 
 const login = async (req, res) => {
@@ -21,30 +38,43 @@ const login = async (req, res) => {
         email
     })
 
-    if (user && user.id) {
+    if (user && user._id) {
         // user was found
         // check the password
         const isValidPassword = bcrypt.compareSync(password, user.password)
         if (isValidPassword) {
+            // get the cart data
+            const cart = (await Cart.find(
+                {
+                    user_id: user._id
+                },
+                {
+                    course_id: 1
+                }
+            ).populate(['course_id'])).map(item => ({ ...item.course_id.toJSON() }))
+
             // log him in
-            const response = {
-                id: user.id,
+            const jwtSignaturePayload = {
+                _id: user._id,
                 email: user.email,
-                name: user.name,
-                created_at: user.created_at
+                name: user.name
             }
 
             // generate a JWT token
-            const authToken = jwt.sign(response, process.env.JWT_SECRET, {
+            const authToken = jwt.sign(jwtSignaturePayload, process.env.JWT_SECRET, {
                 expiresIn: process.env.JWT_EXPIRES_IN
             })
 
-            res
-            .cookie(COOKIE_TOKEN, authToken, {
+            const response = {
+                ...jwtSignaturePayload,
+                cart
+            }
+
+            res.cookie(COOKIE_TOKEN, authToken, {
                 maxAge: +process.env.JWT_EXPIRES_IN,
                 httpOnly: true
             })
-            .send(response)
+                .send(response)
         }
         else {
             res.status(401).send("Incorrect password")
@@ -67,12 +97,21 @@ const signup = async (req, res) => {
     const hashedPass = await bcrypt.hash(password, 10)
 
     try {
-        await insert(Users, {
-            email,
-            name,
-            password: hashedPass
-        })
-        return login(req, res)
+        const user = await Users.findOne({ email })
+        if (!user) {
+            await insert(Users, {
+                email,
+                name,
+                password: hashedPass
+            })
+            return login(req, res)
+        }
+        else {
+            res.status(409).send({
+                status: 'failed',
+                reason: 'User already exists'
+            })
+        }
         // res.send({
         //     status: "Success"
         // })

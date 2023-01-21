@@ -17,12 +17,15 @@ export default function Description({ description }: DescriptionProps) {
             >
                 Description
             </Typography>
-            <Typography
-                maxWidth={'95%'}
-                fontSize={14}
-            >
-                {description}
-            </Typography>
+            {description.split('\n').map(paragraph => (
+                <Typography
+                    maxWidth={'95%'}
+                    fontSize={14}
+                    paragraph
+                >
+                    {paragraph}
+                </Typography>
+            ))}
         </Stack>
     )
 }

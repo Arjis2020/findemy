@@ -1,9 +1,9 @@
-import { LoginError, User } from "../../API/responseTypes/auth.type"
+import { AuthError } from "../../API/responseTypes/auth.type"
 import { LoginActions } from "../constants"
 
 export type LoginAction = {
     data?: User,
-    err?: LoginError
+    err?: AuthError,
 }
 
 export type TriggerLoginAction = {
@@ -15,10 +15,6 @@ export type TriggerSignupAction = {
     name: string,
     email: string,
     password: string
-}
-
-export type TriggerAuthorizeAction = {
-    bearerToken: string
 }
 
 export const triggerLogin = ({ email, password }: TriggerLoginAction) => {
@@ -57,9 +53,16 @@ export const userData = (data: User) => {
     }
 }
 
-export const userDataError = (err: LoginError) => {
+export const loginError = (err: AuthError) => {
     return {
         type: LoginActions.LOGIN_ERROR,
+        err
+    }
+}
+
+export const signupError = (err : AuthError) => {
+    return {
+        type: LoginActions.SIGNUP_ERROR,
         err
     }
 }

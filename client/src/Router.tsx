@@ -66,7 +66,7 @@ export default function Router() {
         />
         <Route
           path='/login'
-          element={user.data?.id ?
+          element={user.data?._id ?
             <Navigate
               to='../'
             />
@@ -77,7 +77,7 @@ export default function Router() {
         <Route
           path='/signup'
           element={
-            user.data?.id ?
+            user.data?._id ?
               <Navigate
                 to='../'
               />

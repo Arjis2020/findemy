@@ -1,10 +1,14 @@
 import { Box, Button, Divider, IconButton, Stack, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FieldValues, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import PasswordStrength from './PasswordStrength';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/reducers';
+import { LoginAction } from '../../redux/actions/auth.action';
+import { Report } from '@mui/icons-material';
 
 type SignupDetailsProps = {
     onSignup: (values: FieldValues) => void
@@ -14,10 +18,20 @@ export default function Details({ onSignup }: SignupDetailsProps) {
     const { handleSubmit, formState: { errors }, register } = useForm()
     const [btnDisabled, setBtnDisabled] = useState<boolean>(false)
 
+    const user = useSelector<RootState>((state) => state.authReducer) as LoginAction
+
     const onSubmit = (values: FieldValues, e: any) => {
         setBtnDisabled(true)
         onSignup(values)
     }
+
+    const error = user.err?.signup
+
+    useEffect(() => {
+        if (error) {
+            setBtnDisabled(false)
+        }
+    }, [error])
 
     const [visibility, setVisibility] = useState(false)
     const [password, setPassword] = useState("")
@@ -33,6 +47,25 @@ export default function Details({ onSignup }: SignupDetailsProps) {
             <Stack
                 spacing={1}
             >
+                {error &&
+                    <Stack
+                        sx={{
+                            background: '#fcaea0'
+                        }}
+                        spacing={2}
+                        p={2}
+                        direction='row'
+                    >
+                        <Report
+                            fontSize='large'
+                        />
+                        <Typography
+                            fontFamily='UdemySansBold'
+                        >
+                            There was a problem signing up. An account was found with the same email.
+                        </Typography>
+                    </Stack>
+                }
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                 >
@@ -191,6 +224,7 @@ export default function Details({ onSignup }: SignupDetailsProps) {
                         >
                             <Button
                                 type='submit'
+                                variant='contained'
                                 sx={{
                                     fontFamily: 'UdemySansBold',
                                     textTransform: 'none',

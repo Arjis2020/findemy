@@ -1,7 +1,12 @@
 import { Box, Fade, Stack, Theme, useMediaQuery, useScrollTrigger } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router-dom'
 import { getCourseDetails } from '../../API/handlers/course.handler'
+import { LoginAction } from '../../redux/actions/auth.action'
+import { setCartAll, triggerAddToCart } from '../../redux/actions/cart.action'
+import { RootState } from '../../redux/reducers'
+import Loader from '../Loader'
 import Description from './Description'
 import Instructor from './Instructor'
 import Requirements from './Requirements'
@@ -13,13 +18,6 @@ import WhatYouWillLearn from './WhatYouWillLearn'
 
 export default function CourseDetails() {
   const [courseDetails, setCourseDetails] = useState<Course>()
-
-  // const learningPoints = [
-  //   'Build powerful, fast, user-friendly and reactive web apps',
-  //   'Provide amazing user experiences by leveraging the power of JavaScript with ease',
-  //   'Apply for high-paid jobs or work as a freelancer in one the most-demanded sectors you can find in web dev right now',
-  //   'Learn all about React Hooks and React Components'
-  // ]
 
   const [searchParams] = useSearchParams()
 
@@ -37,6 +35,8 @@ export default function CourseDetails() {
 
   const stackRef = useRef<Element>()
   const cardRef = useRef<Element>()
+
+  const user = useSelector<RootState>((state) => state.authReducer) as LoginAction
 
   const [afterScrollTrigger, setAfterScrollTrigger] = useState(false)
 
@@ -62,97 +62,109 @@ export default function CourseDetails() {
       passive: true
     })
     return () => window.removeEventListener('scroll', handleScroll)
-  })
+  }, [])
+
+  const dispatch = useDispatch()
+
+  const onAddToCartClicked = () => {
+    dispatch(triggerAddToCart(courseDetails?._id!))
+  }
 
   return (
-    <Stack
-      sx={{
-        position: 'relative'
-      }}
-      alignItems={laptop ? 'center' : 'stretch'}
-      ref={stackRef}
-    >
-      <Summary
-        values={courseDetails || {}}
-      />
-      <SummaryBanner
-        values={courseDetails || {}}
-      />
-      {!laptop && <Box>
-        {!trigger && <Box
-          sx={{
-            position: 'absolute',
-            top: '2.5rem',
-            left: cardProperties.left,
-            width: cardProperties.width
-          }}
-        >
-          <SummaryCard
-            values={courseDetails || {}}
-          />
-        </Box>}
-        <Fade
-          appear={false}
-          in={trigger && !afterScrollTrigger}
-        >
-          <Box
-            sx={{
-              position: 'fixed',
-              top: '1rem',
-              bottom: 'none',
-              left: cardProperties.left,
-              width: cardProperties.width,
-              zIndex: '99999',
-            }}
-            ref={cardRef}
-          >
-            <SummaryCard
-              showVideo={false}
-              values={courseDetails || {}}
-            />
-          </Box>
-        </Fade>
-        <Fade
-          in={afterScrollTrigger}
-          appear={false}
-        >
-          <Box
+    courseDetails ?
+      <Stack
+        sx={{
+          position: 'relative'
+        }}
+        alignItems={laptop ? 'center' : 'stretch'}
+        ref={stackRef}
+      >
+        <Summary
+          values={courseDetails}
+        />
+        <SummaryBanner
+          values={courseDetails}
+        />
+        {!laptop && <Box>
+          {!trigger && <Box
             sx={{
               position: 'absolute',
-              top: 'auto',
-              bottom: '2.3rem',
+              top: '2.5rem',
               left: cardProperties.left,
-              width: cardProperties.width,
-              zIndex: '-1',
+              width: cardProperties.width
             }}
           >
             <SummaryCard
-              showVideo={false}
-              values={courseDetails || {}}
+              values={courseDetails}
+              onAddToCartClicked={onAddToCartClicked}
             />
-          </Box>
-        </Fade>
-      </Box>}
-      <Stack
-        pl={!laptop ? 15 : !mobile ? 7.5 : 2}
-        pr={!laptop ? 8 : !mobile ? 7.5 : 2}
-        maxWidth={!laptop ? '66%' : !mobile ? '74%' : '100%'}
-        alignItems={laptop ? 'center' : 'stretch'}
-      >
-        <WhatYouWillLearn
-          points={courseDetails?.learnings || []}
-        />
-        <TopCompanies />
-        <Requirements
-          requirements={courseDetails?.requirements || []}
-        />
-        <Description
-          description={courseDetails?.detailedDescription || ""}
-        />
-        <Instructor
-          instructors={courseDetails?.instructors || []}
-        />
+          </Box>}
+          <Fade
+            appear={false}
+            in={trigger && !afterScrollTrigger}
+          >
+            <Box
+              sx={{
+                position: 'fixed',
+                top: '1rem',
+                bottom: 'none',
+                left: cardProperties.left,
+                width: cardProperties.width,
+                zIndex: '99999',
+              }}
+              ref={cardRef}
+            >
+              <SummaryCard
+                showVideo={false}
+                values={courseDetails}
+                onAddToCartClicked={onAddToCartClicked}
+              />
+            </Box>
+          </Fade>
+          <Fade
+            in={afterScrollTrigger}
+            appear={false}
+          >
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 'auto',
+                bottom: '2.3rem',
+                left: cardProperties.left,
+                width: cardProperties.width,
+                zIndex: '-1',
+              }}
+            >
+              <SummaryCard
+                showVideo={false}
+                values={courseDetails}
+                onAddToCartClicked={onAddToCartClicked}
+              />
+            </Box>
+          </Fade>
+        </Box>}
+        <Stack
+          pl={!laptop ? 15 : !mobile ? 7.5 : 2}
+          pr={!laptop ? 8 : !mobile ? 7.5 : 2}
+          maxWidth={!laptop ? '66%' : !mobile ? '74%' : '100%'}
+          alignItems={laptop ? 'center' : 'stretch'}
+        >
+          <WhatYouWillLearn
+            points={courseDetails.learnings}
+          />
+          <TopCompanies />
+          <Requirements
+            requirements={courseDetails.requirements}
+          />
+          <Description
+            description={courseDetails.detailedDescription}
+          />
+          <Instructor
+            instructors={courseDetails.instructors}
+          />
+        </Stack>
       </Stack>
-    </Stack>
+      :
+      <Loader />
   )
 }

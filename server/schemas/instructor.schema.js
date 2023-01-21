@@ -13,6 +13,8 @@ const InstructorSchema = new Schema({
     students: Number,
     courses: Number,
     imageURL: String
+}, {
+    timestamps: true
 })
 
 module.exports = InstructorSchema

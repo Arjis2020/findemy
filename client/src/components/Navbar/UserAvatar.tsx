@@ -1,8 +1,11 @@
 import { Avatar } from '@mui/material'
-import { User } from '../../API/responseTypes/auth.type'
 import UserMenu from './UserMenu';
 
-export default function UserAvatar({ name }: Partial<User>) {
+type UserAvatarProps = {
+    name: string,
+}
+
+export default function UserAvatar({ name }: UserAvatarProps) {
     const [firstname, lastname] = name?.split(' ')!
     const initials = (firstname.charAt(0) + lastname.charAt(0)).toUpperCase()
 
