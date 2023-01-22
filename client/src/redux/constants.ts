@@ -18,6 +18,7 @@ export const CourseActions = {
 
 export const CartActions = {
     TRIGGER_ADD_TO_CART: 'TRIGGER_ADD_TO_CART',
+    TRIGGER_REMOVE_FROM_CART: 'TRIGGER_REMOVE_FROM_CART',
     GET_CART: 'GET_CART',
     SET_CART: 'SET_CART',
     SET_CART_ALL: 'SET_CART_ALL',

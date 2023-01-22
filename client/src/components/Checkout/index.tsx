@@ -16,7 +16,7 @@ import Summary from './Summary'
 export default function Checkout() {
     const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
 
-    const orderMeta : CartOrderMeta = cart.cartOrders!
+    const orderMeta : CartOrderMeta = cart
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
@@ -40,7 +40,7 @@ export default function Checkout() {
                 <BillingDetails />
                 <PaymentDetails />
                 <OrderDetails
-                    orders={cart.cartOrders!.orders}
+                    orders={cart.orders}
                 />
             </Stack>
             <Box
@@ -79,7 +79,7 @@ export default function Checkout() {
                 <BillingDetails />
                 <PaymentDetails />
                 <OrderDetails
-                    orders={cart.cartOrders!.orders}
+                    orders={cart.orders}
                 />
                 <Summary
                     orderMeta={orderMeta}

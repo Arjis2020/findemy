@@ -11,8 +11,6 @@ export default memo(function Cart() {
   const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
   const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
 
-  const navigate = useNavigate()
-
   return (
     <Link
       to={user.data?._id ? '/cart' : '/login'}
@@ -30,15 +28,15 @@ export default memo(function Cart() {
             color: '#000'
           }}
         />
-        {cart.itemsConsolidated.length > 0 && <div
-          key='cart-badge'
+        {cart.orders.length > 0 && <div
+          key={cart.orders.length}
           className='cart-badge cart-badge-animate'
         >
           <Typography
             fontSize={14}
             fontFamily='UdemySansBold'
           >
-            {cart.itemsConsolidated.length}
+            {cart.orders.length}
           </Typography>
         </div>}
       </Box>

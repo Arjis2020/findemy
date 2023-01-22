@@ -29,7 +29,7 @@ interface User extends Common {
     name: string,
     email: string,
     password: string,
-    cart: Array<Cart>
+    cart: CartOrders
 }
 
 interface Instructor extends Common {

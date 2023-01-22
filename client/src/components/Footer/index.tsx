@@ -16,7 +16,8 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
         '/login',
         '/signup',
         '/search',
-        '/course'
+        '/course',
+        '/cart'
     ]
 
     const blackListedRoutes = [

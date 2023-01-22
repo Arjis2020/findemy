@@ -1,9 +1,17 @@
 import { StarBorder } from "@mui/icons-material";
 import { Box, Rating, Stack, Theme, Typography, useMediaQuery } from "@mui/material";
 
-export default function Courses() {
+type SearchResultCourseProps = {
+    course: Course
+}
 
+export default function Courses({ course }: SearchResultCourseProps) {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+
+    const levels = (() => {
+        if (course.levels.length === 3) return 'All'
+        else return course.levels.join(', ')
+    })()
 
     const DesktopView = () => (
         <Stack
@@ -17,7 +25,7 @@ export default function Courses() {
                 alignItems='start'
             >
                 <img
-                    src="https://img-b.udemycdn.com/course/480x270/1362070_b9a1_2.jpg"
+                    src={course.imageUrl}
                     width={260}
                     height={145}
                     style={{
@@ -33,22 +41,35 @@ export default function Courses() {
                         fontSize={16}
                         fontFamily='UdemySansBold'
                     >
-                        React - The Complete Guide (incl Hooks, React Router, Redux)
+                        {course.title}
                     </Typography>
                     <Typography
                         variant='body2'
+                        sx={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitLineClamp: "2",
+                            WebkitBoxOrient: "vertical",
+                        }}
                     >
-                        Dive in and learn React.js from scratch! Learn reactjs, Hooks, Redux, React Routing, Animations, Next.js and more!
+                        {course.shortDescription}
                     </Typography>
-                    <Typography
-                        variant='caption'
-                        color="#6a6f73"
-                        textOverflow='ellipsis'
-                        noWrap
-                        maxWidth='70%'
-                    >
-                        Academind by Maxmillan Schwarzmüller, Maxmillan Schwarzmüller
-                    </Typography>
+                    <span>
+                        {course.instructors.map((instructor, i) => (
+                            <>
+                                <Typography
+                                    variant='caption'
+                                    color="#6a6f73"
+                                    textOverflow='ellipsis'
+                                    noWrap
+                                    maxWidth='70%'
+                                >
+                                    {instructor.name}
+                                </Typography>{course.instructors.length > 1 && i < course.instructors.length - 1 && ', '}
+                            </>
+                        ))}
+                    </span>
                     <Stack
                         direction='row'
                         alignItems='center'
@@ -59,7 +80,7 @@ export default function Courses() {
                             color='#b4690e'
                             fontSize={15}
                         >
-                            {/* {data.rating} */}4.5
+                            {course.rating}
                         </Typography>
                         <Rating
                             value={4.5}
@@ -83,7 +104,7 @@ export default function Courses() {
                             color="#6a6f73"
                             fontSize='12px'
                         >
-                            {/* ({data.total_reviews.toLocaleString()}) */}(173,315)
+                            ({course.totalRatings.toLocaleString()})
                         </Typography>
                     </Stack>
                     <Stack
@@ -94,7 +115,7 @@ export default function Courses() {
                         <Typography
                             variant='caption'
                         >
-                            49.5 total hours
+                            {course.totalHours} total hours
                         </Typography>
                         <p>
                             &bull;
@@ -102,7 +123,7 @@ export default function Courses() {
                         <Typography
                             variant='caption'
                         >
-                            49 lectures
+                            {course.totalArticles} lectures
                         </Typography>
                         <p>
                             &bull;
@@ -110,7 +131,7 @@ export default function Courses() {
                         <Typography
                             variant='caption'
                         >
-                            All levels
+                            {levels} levels
                         </Typography>
                     </Stack>
                     <Box
@@ -138,17 +159,17 @@ export default function Courses() {
                 <Typography
                     fontFamily='UdemySansBold'
                 >
-                    ₹449
+                    ₹{course.discountedPrice.toLocaleString()}
                 </Typography>
-                <Typography
+                {course.discountedPrice !== course.price && <Typography
                     color="#6a6f73"
                     fontSize={14}
                     sx={{
                         textDecoration: 'line-through'
                     }}
                 >
-                    ₹3,499
-                </Typography>
+                    ₹{course.price.toLocaleString()}
+                </Typography>}
             </Stack>
         </Stack>
     )
@@ -166,7 +187,7 @@ export default function Courses() {
                 width='100%'
             >
                 <img
-                    src="https://img-b.udemycdn.com/course/480x270/1362070_b9a1_2.jpg"
+                    src={course.imageUrl}
                     width={60}
                     height={60}
                     style={{
@@ -181,17 +202,23 @@ export default function Courses() {
                         fontSize={16}
                         fontFamily='UdemySansBold'
                     >
-                        React - The Complete Guide (incl Hooks, React Router, Redux)
+                        {course.title}
                     </Typography>
-                    <Typography
-                        variant='caption'
-                        color="#6a6f73"
-                        textOverflow='ellipsis'
-                        noWrap
-                        maxWidth='80%'
-                    >
-                        Academind by Maxmillan Schwarzmüller, Maxmillan Schwarzmüller
-                    </Typography>
+                    <span>
+                        {course.instructors.map((instructor, i) => (
+                            <>
+                                <Typography
+                                    variant='caption'
+                                    color="#6a6f73"
+                                    textOverflow='ellipsis'
+                                    noWrap
+                                    maxWidth='80%'
+                                >
+                                    {instructor.name}
+                                </Typography>{course.instructors.length > 1 && i < course.instructors.length - 1 && ', '}
+                            </>
+                        ))}
+                    </span>
                     <Stack
                         direction='row'
                         alignItems='center'
@@ -202,7 +229,7 @@ export default function Courses() {
                             color='#b4690e'
                             fontSize={15}
                         >
-                            {/* {data.rating} */}4.5
+                            {course.rating}
                         </Typography>
                         <Rating
                             value={4.5}
@@ -226,7 +253,7 @@ export default function Courses() {
                             color="#6a6f73"
                             fontSize='12px'
                         >
-                            {/* ({data.total_reviews.toLocaleString()}) */}(173,315)
+                            {course.totalRatings}
                         </Typography>
                     </Stack>
                     <Stack
@@ -237,7 +264,7 @@ export default function Courses() {
                         <Typography
                             variant='caption'
                         >
-                            49.5 total hours
+                            {course.totalHours} total hours
                         </Typography>
                         <p>
                             &bull;
@@ -245,7 +272,7 @@ export default function Courses() {
                         <Typography
                             variant='caption'
                         >
-                            49 lectures
+                            {course.totalArticles} lectures
                         </Typography>
                         <p>
                             &bull;
@@ -253,7 +280,7 @@ export default function Courses() {
                         <Typography
                             variant='caption'
                         >
-                            All levels
+                            {levels} levels
                         </Typography>
                     </Stack>
                     <Stack
@@ -266,17 +293,17 @@ export default function Courses() {
                         <Typography
                             fontFamily='UdemySansBold'
                         >
-                            ₹449
+                            ₹{course.discountedPrice.toLocaleString()}
                         </Typography>
-                        <Typography
+                        {course.discountedPrice !== course.price && <Typography
                             color="#6a6f73"
                             fontSize={14}
                             sx={{
                                 textDecoration: 'line-through'
                             }}
                         >
-                            ₹{}
-                        </Typography>
+                            ₹{course.price.toLocaleString()}
+                        </Typography>}
                     </Stack>
                     <Box
                         sx={{

@@ -2,6 +2,8 @@ import { StarBorder } from '@mui/icons-material'
 import { Box, Button, Rating, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { triggerRemoveFromCart } from '../../redux/actions/cart.action';
 
 type CourseViewProps = {
     item: Course
@@ -12,25 +14,34 @@ export default function CourseView({ item }: CourseViewProps) {
     const downTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
     const levels = (() => {
-        if(item.levels.length === 3) return 'All'
+        if (item.levels.length === 3) return 'All'
         else return item.levels.join(', ')
     })()
 
+    const dispatch = useDispatch()
+
+    const handleRemoveClicked = () => {
+        dispatch(triggerRemoveFromCart(item._id))
+    }
+
     return (
-        <Link
-            to={`/course${item.slug}`}
-            className='link-unstyled-full'
+        <Stack
+            direction='row'
+            justifyContent='space-between'
+            alignItems='start'
+            py={3.5}
+            width='100%'
+            flex={1}
         >
-            <Stack
-                direction='row'
-                justifyContent='space-between'
-                alignItems='start'
-                py={3.5}
+            <Link
+                to={`/course${item.slug}`}
+                className='link-unstyled-full'
             >
                 <Stack
                     spacing={2}
                     direction='row'
                     alignItems='start'
+                    width='100%'
                 >
                     <img
                         src={item.imageUrl}
@@ -40,7 +51,9 @@ export default function CourseView({ item }: CourseViewProps) {
                             objectFit: 'cover'
                         }}
                     />
-                    <Stack>
+                    <Stack
+                        width='100%'
+                    >
                         <Stack
                             spacing={0.5}
                         >
@@ -65,6 +78,7 @@ export default function CourseView({ item }: CourseViewProps) {
                             spacing={0.5}
                             direction='row'
                             alignItems='center'
+                            width='100%'
                         >
                             <Typography
                                 color='#b4690e'
@@ -179,9 +193,13 @@ export default function CourseView({ item }: CourseViewProps) {
                             spacing={0.5}
                             alignItems='center'
                             mt={0.8}
+                            flex={1}
+                            // width='100%'
+                            // flexWrap='wrap'
                         >
                             <Typography
                                 variant='caption'
+                                // whiteSpace='nowrap'
                             >
                                 {item.totalHours} total hours
                             </Typography>
@@ -190,6 +208,7 @@ export default function CourseView({ item }: CourseViewProps) {
                             </p>
                             <Typography
                                 variant='caption'
+                                // whiteSpace='nowrap'
                             >
                                 {item.lectures} lectures
                             </Typography>
@@ -198,6 +217,7 @@ export default function CourseView({ item }: CourseViewProps) {
                             </p>
                             <Typography
                                 variant='caption'
+                                // whiteSpace='nowrap'
                             >
                                 {levels} levels
                             </Typography>
@@ -222,6 +242,7 @@ export default function CourseView({ item }: CourseViewProps) {
                                 }}
                                 disableRipple
                                 disableElevation
+                                onClick={handleRemoveClicked}
                             >
                                 <Typography
                                     component='a'
@@ -239,80 +260,81 @@ export default function CourseView({ item }: CourseViewProps) {
                         </Stack>}
                     </Stack>
                 </Stack>
-                <Stack
-                    direction='row'
-                    alignItems='start'
-                    spacing={6}
+            </Link>
+            <Stack
+                direction='row'
+                alignItems='start'
+                spacing={6}
+            >
+                {!downDesktop && <Stack
+                    spacing={1}
+                    alignItems='end'
                 >
-                    {!downDesktop && <Stack
-                        spacing={1}
-                        alignItems='end'
+                    <Button
+                        variant='text'
+                        sx={{
+                            background: 'none',
+                            "&:hover": {
+                                background: 'none'
+                            },
+                            p: 0,
+                            minWidth: 0,
+                            textTransform: 'none',
+                            fontSize: 14
+                        }}
+                        disableRipple
+                        disableElevation
+                        onClick={handleRemoveClicked}
                     >
-                        <Button
-                            variant='text'
-                            sx={{
-                                background: 'none',
-                                "&:hover": {
-                                    background: 'none'
-                                },
-                                p: 0,
-                                minWidth: 0,
-                                textTransform: 'none',
-                                fontSize: 14
-                            }}
-                            disableRipple
-                            disableElevation
-                        >
-                            <Typography
-                                component='a'
-                                fontSize='inherit'
-                            >
-                                Remove
-                            </Typography>
-                        </Button>
                         <Typography
                             component='a'
-                            fontSize={14}
+                            fontSize='inherit'
                         >
-                            Save for Later
+                            Remove
                         </Typography>
-                    </Stack>}
-                    <Stack
-                        alignItems='end'
+                    </Button>
+                    <Typography
+                        component='a'
+                        fontSize={14}
                     >
-                        <Stack
-                            direction='row'
-                            alignItems='center'
-                            spacing={0.5}
-                        >
-                            <Typography
-                                fontFamily='UdemySansBold'
-                                sx={{
-                                    color: '#a435f0'
-                                }}
-                            >
-                                ₹{item.discountedPrice.toLocaleString()}
-                            </Typography>
-                            <LocalOfferIcon
-                                sx={{
-                                    color: '#a435f0',
-                                    fontSize: 16
-                                }}
-                            />
-                        </Stack>
-                        {item.discountedPrice !== item.price && <Typography
-                            color="#6a6f73"
-                            fontSize={14}
+                        Save for Later
+                    </Typography>
+                </Stack>}
+                <Stack
+                    alignItems='end'
+                >
+                    <Stack
+                        direction='row'
+                        alignItems='center'
+                        spacing={0.5}
+                    >
+                        <Typography
+                            fontFamily='UdemySansBold'
                             sx={{
-                                textDecoration: 'line-through',
-                                mr: '35%'
+                                color: '#a435f0'
                             }}
                         >
-                            ₹{item.price.toLocaleString()}
-                        </Typography>}
+                            ₹{item.discountedPrice.toLocaleString()}
+                        </Typography>
+                        <LocalOfferIcon
+                            sx={{
+                                color: '#a435f0',
+                                fontSize: 16
+                            }}
+                        />
                     </Stack>
+                    {item.discountedPrice !== item.price && <Typography
+                        color="#6a6f73"
+                        fontSize={14}
+                        sx={{
+                            textDecoration: 'line-through',
+                            mr: '35%'
+                        }}
+                    >
+                        ₹{item.price.toLocaleString()}
+                    </Typography>}
                 </Stack>
             </Stack>
-        </Link>
+        </Stack>
     )
 }

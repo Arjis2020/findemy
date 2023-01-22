@@ -1,7 +1,10 @@
 import { CartActions } from "../constants"
 
 export type TriggerAddToCartAction = {
-    user_id: string,
+    course_id: string
+}
+
+export type TriggerRemoveFromCartAction = {
     course_id: string
 }
 
@@ -12,29 +15,36 @@ export const triggerAddToCart = (course_id: string) => {
     }
 }
 
-export const setCart = (data: Cart) => {
+export const setCart = (data: CartOrders) => {
     return {
         type: CartActions.SET_CART,
         data
     }
 }
 
-export const setCartAll = (data: Array<Cart>) => {
+const setCartAll = (data: Array<Cart>) => {
     return {
         type: CartActions.SET_CART_ALL,
         data
     }
 }
 
-export const triggerGetCartCourses = () => {
+export const triggerGetCart = () => {
     return {
         type: CartActions.TRIGGER_GET_CART_COURSES
     }
 }
 
-export const setCartCourses = (data: CartOrders) => {
+const setCartCourses = (data: CartOrders) => {
     return {
         type: CartActions.SET_CART_COURSES,
         data
+    }
+}
+
+export const triggerRemoveFromCart = (course_id: string) => {
+    return {
+        type: CartActions.TRIGGER_REMOVE_FROM_CART,
+        course_id
     }
 }

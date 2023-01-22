@@ -28,7 +28,6 @@ const courses = require('./routes/courses')
 const users = require('./routes/users')
 const purchases = require('./routes/purchases')
 const cart = require('./routes/cart');
-const Courses = require('./models/course.model');
 
 try {
     // connect db

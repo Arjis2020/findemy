@@ -24,7 +24,7 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
     const discountPercentage = Math.floor(((values.price - values.discountedPrice) / values.price) * 100)
 
     const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
-    const doesCourseExistInCart = cart.itemsConsolidated.findIndex((item) => item.course_id === values._id) !== -1
+    const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
 
     const features = [
         {

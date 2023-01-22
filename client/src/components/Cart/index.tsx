@@ -1,7 +1,8 @@
-import { Container, Divider, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
+import { Button, Container, Divider, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { triggerGetCartCourses } from '../../redux/actions/cart.action'
+import { Link } from 'react-router-dom'
+import { triggerGetCart } from '../../redux/actions/cart.action'
 import { RootState } from '../../redux/reducers'
 import { CartAction } from '../../redux/reducers/cart.reducer'
 import Loader from '../Loader'
@@ -15,13 +16,13 @@ export default function Cart() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(triggerGetCartCourses())
+        dispatch(triggerGetCart())
     }, [])
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
     return (
-        cart.cartOrders ?
+        cart.orders ?
             <Container
                 maxWidth='xl'
                 sx={{
@@ -38,53 +39,109 @@ export default function Cart() {
                     >
                         Shopping Cart
                     </Typography>
-                    {!matches ?
-                        <Stack
-                            direction='row'
-                            spacing={10}
-                        >
+                    {
+                        cart.orders.length > 0 ?
+                            !matches ?
+                                <Stack
+                                    direction='row'
+                                    spacing={10}
+                                >
+                                    <Stack
+                                        divider={<Divider />}
+                                        flex='1'
+                                    >
+                                        <Typography
+                                            fontSize={14}
+                                            fontFamily='UdemySansBold'
+                                        >
+                                            {cart.orders.length} Courses in Cart
+                                        </Typography>
+                                        {cart.orders.map(course => (
+                                            <CourseView
+                                                item={course}
+                                            />
+                                        ))}
+                                    </Stack>
+                                    <CheckoutView />
+                                </Stack>
+                                :
+                                <Stack
+                                    spacing={4}
+                                >
+                                    <CheckoutView />
+                                    <Stack
+                                        divider={<Divider />}
+                                    >
+                                        <Typography
+                                            fontSize={14}
+                                            fontFamily='UdemySansBold'
+                                        >
+                                            {cart.orders.length} Courses in Cart
+                                        </Typography>
+                                        <Stack
+                                            divider={<Divider />}
+                                        >
+                                            {cart.orders.map(course => (
+                                                <CourseView
+                                                    item={course}
+                                                />
+                                            ))}
+                                        </Stack>
+                                    </Stack>
+                                </Stack>
+                            :
                             <Stack
-                                divider={<Divider />}
-                                flex='1'
+                                flex={1}
+                                spacing={1}
                             >
                                 <Typography
                                     fontSize={14}
                                     fontFamily='UdemySansBold'
                                 >
-                                    {cart.cartOrders.orders.length} Courses in Cart
+                                    {cart.orders.length} Courses in Cart
                                 </Typography>
-                                {cart.cartOrders.orders.map(course => (
-                                    <CourseView
-                                        item={course}
-                                    />
-                                ))}
-                            </Stack>
-                            <CheckoutView />
-                        </Stack>
-                        :
-                        <Stack
-                            spacing={4}
-                        >
-                            <CheckoutView />
-                            <Stack
-                                divider={<Divider />}
-                                flex='1'
-                            >
-                                <Typography
-                                    fontSize={14}
-                                    fontFamily='UdemySansBold'
+                                <Stack
+                                    sx={{
+                                        boxShadow: '0 0 2px #d1d7dc',
+                                        py: 5,
+                                        mb: 5
+                                    }}
+                                    alignItems='center'
+                                    spacing={3}
                                 >
-                                    {cart.cartOrders.orders.length} Courses in Cart
-                                </Typography>
-                                {cart.cartOrders.orders.map(course => (
-                                    <CourseView
-                                        item={course}
+                                    <img
+                                        src='https://s.udemycdn.com/browse_components/flyout/empty-shopping-cart-v2-2x.jpg'
+                                        width='240px'
                                     />
-                                ))}
+                                    <Typography
+                                        textAlign='center'
+                                    >
+                                        Your cart is empty. Keep shopping to find a course!
+                                    </Typography>
+                                    <Link
+                                        to='/'
+                                        className='link-unstyled-full'
+                                    >
+                                        <Button
+                                            variant='contained'
+                                            disableElevation
+                                            disableRipple
+                                            sx={{
+                                                py: 1,
+                                                px: 1.5,
+                                                fontFamily: 'UdemySansBold',
+                                                fontSize: 16,
+                                                textTransform: 'none',
+                                                borderRadius: 0
+                                            }}
+                                        >
+                                            Keep shopping
+                                        </Button>
+                                    </Link>
+                                </Stack>
                             </Stack>
-                        </Stack>
                     }
-                    <Stack
+                    {cart.orders.length > 0 && <Stack
                         spacing={2}
                     >
                         <Typography
@@ -94,7 +151,7 @@ export default function Cart() {
                             You might also like
                         </Typography>
                         <YouMayAlsoLike />
-                    </Stack>
+                    </Stack>}
                 </Stack>
             </Container>
             :

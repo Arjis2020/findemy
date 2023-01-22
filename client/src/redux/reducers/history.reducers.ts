@@ -12,9 +12,15 @@ export const historyReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case HistoryActions.ADD_PATH:
             let currentPaths = [...state.paths, action.path]
+            currentPaths = currentPaths.slice(-2)
+            const [previousPath, currentPath] = currentPaths
+            if(previousPath === currentPath) {
+                currentPaths.unshift('/')
+                currentPaths.pop()
+            }
             return {
                 ...state,
-                paths: currentPaths.slice(-2)
+                paths: currentPaths
             }
     }
     return state

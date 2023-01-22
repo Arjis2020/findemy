@@ -9,9 +9,9 @@ export default function CheckoutView() {
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
-    const cartOrders = useSelector<RootState>((state) => state.cartReducer) as CartAction
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
 
-    const { totalPrice, totalDiscountedPrice, discountPercentage }: CartOrderMeta = cartOrders.cartOrders!
+    const { totalPrice, totalDiscountedPrice, discountPercentage }: CartOrderMeta = cart
 
     return (
         <Stack

@@ -39,19 +39,11 @@ function App() {
     }
   })
 
-  // const { authorize } = useAuth()
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(triggerUserAuthorize())
-    // authorize()
   }, [])
-
-  // useEffect(() => {
-  //   if (user.authorize.err) {
-  //     removeCookie(COOKIE_TOKEN)
-  //   }
-  // }, [user])
 
   return (
     <ThemeProvider

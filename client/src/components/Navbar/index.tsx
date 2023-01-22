@@ -20,6 +20,7 @@ import { RootState } from '../../redux/reducers'
 import { resetAuthErrors } from '../../redux/actions/auth.action'
 import { addPath } from '../../redux/actions/history.action'
 import './index.css'
+import { FieldValues } from 'react-hook-form'
 
 export default function Header() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
@@ -55,6 +56,10 @@ export default function Header() {
         }
 
         setOpen(!open);
+    }
+
+    const onSearch = (values: FieldValues) => {
+        navigate(`/search?q=${values.search}`)
     }
 
     const PopularItems = ({
@@ -111,7 +116,9 @@ export default function Header() {
                         {APP_NAME}
                     </Link>
                 </Typography>
-                <Search />
+                <Search
+                    onSearch={onSearch}
+                />
             </Stack>
             {!user.data ?
                 <Stack

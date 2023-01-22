@@ -1,7 +1,7 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects'
 import { handleAuthorization, handleLogin, handleLogout, handleSignup } from '../../API/handlers/auth.handler'
 import { logoutUser, TriggerLoginAction, TriggerSignupAction, userData, loginError, signupError } from '../actions/auth.action'
-import { setCart, setCartAll } from '../actions/cart.action'
+import { setCart } from '../actions/cart.action'
 import { LoginActions } from '../constants'
 
 function* login(action?: TriggerLoginAction) {
@@ -11,7 +11,7 @@ function* login(action?: TriggerLoginAction) {
             userData(data)
         )
         yield put(
-            setCartAll(data.cart)
+            setCart(data.cart)
         )
     }
     catch (err: any) {
@@ -29,7 +29,7 @@ function* authorize() {
             userData(data)
         )
         yield put(
-            setCartAll(data.cart)
+            setCart(data.cart)
         )
     }
     catch (err: any) {

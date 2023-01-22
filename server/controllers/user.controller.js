@@ -4,6 +4,7 @@ const insert = require('../databaseUtils/insert')
 const jwt = require('jsonwebtoken')
 const { COOKIE_TOKEN } = require('../constants')
 const Cart = require('../models/cart.model')
+const ValidationError = require('../errors/ValidationError')
 
 require('dotenv').config()
 
@@ -21,11 +22,35 @@ const authorize = async (req, res) => {
     //     }
     // ).populate(['course_id'])).map(item => ({ ...item.course_id.toJSON() }))
 
-    const cart = await Cart.find(
+    // const cart = (await Cart.find(
+    //     {
+    //         user_id: decoded._id
+    //     }
+    // ).populate('course_id')).map(i => ({ ...i.course_id.toJSON() }))
+    const user_id = decoded._id
+    const orders = (await Cart.find(
         {
-            user_id: decoded._id
+            user_id
+        },
+    ).populate({
+        path: 'course_id',
+        populate: {
+            path: 'instructors'
         }
-    )
+    })).map(item => ({ ...item.course_id.toJSON() }))
+
+    const totalDiscountedPrice = orders.reduce((sum, i) => sum + i.discountedPrice, 0)
+    const totalPrice = orders.reduce((sum, i) => sum + i.price, 0)
+    const discountPercentage = Math.floor(((totalPrice - totalDiscountedPrice) / totalPrice) * 100)
+    const discount = totalPrice - totalDiscountedPrice
+
+    const cart = {
+        orders,
+        totalPrice,
+        totalDiscountedPrice,
+        discountPercentage,
+        discount
+    }
 
     const response = {
         ...decoded,
@@ -50,14 +75,29 @@ const login = async (req, res) => {
         const isValidPassword = bcrypt.compareSync(password, user.password)
         if (isValidPassword) {
             // get the cart data
-            const cart = (await Cart.find(
+            const orders = (await Cart.find(
                 {
                     user_id: user._id
                 },
-                {
-                    course_id: 1
+            ).populate({
+                path: 'course_id',
+                populate: {
+                    path: 'instructors'
                 }
-            ).populate(['course_id'])).map(item => ({ ...item.course_id.toJSON() }))
+            })).map(item => ({ ...item.course_id.toJSON() }))
+
+            const totalDiscountedPrice = orders.reduce((sum, i) => sum + i.discountedPrice, 0)
+            const totalPrice = orders.reduce((sum, i) => sum + i.price, 0)
+            const discountPercentage = Math.floor(((totalPrice - totalDiscountedPrice) / totalPrice) * 100)
+            const discount = totalPrice - totalDiscountedPrice
+
+            const cart = {
+                orders,
+                totalPrice,
+                totalDiscountedPrice,
+                discountPercentage,
+                discount
+            }
 
             // log him in
             const jwtSignaturePayload = {
@@ -103,30 +143,26 @@ const signup = async (req, res) => {
     const hashedPass = await bcrypt.hash(password, 10)
 
     try {
-        const user = await Users.findOne({ email })
-        if (!user) {
-            await insert(Users, {
-                email,
-                name,
-                password: hashedPass
-            })
-            return login(req, res)
-        }
-        else {
+        await insert(Users, {
+            email,
+            name,
+            password: hashedPass
+        })
+        return login(req, res)
+    }
+    catch (err) {
+        if (err instanceof ValidationError) {
             res.status(409).send({
                 status: 'failed',
                 reason: 'User already exists'
             })
         }
-        // res.send({
-        //     status: "Success"
-        // })
-    }
-    catch (err) {
-        res.status(500).send({
-            status: "Failed",
-            reason: err.toString()
-        })
+        else {
+            res.status(500).send({
+                status: "Failed",
+                reason: err.toString()
+            })
+        }
     }
 }
 

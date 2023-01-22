@@ -1,13 +1,23 @@
 import { CartActions, LoginActions } from "../constants"
 
-export type CartAction = {
-    itemsConsolidated: Array<Cart>,
-    cartOrders?: CartOrders
-}
+// export type CartAction = {
+//     // itemsConsolidated: Array<Cart>,
+//     cartOrders?: CartOrders
+// }
+
+export type CartAction = CartOrders
+
+// const initialState: CartAction = {
+//     // itemsConsolidated: [],
+//     cartOrders: undefined
+// }
 
 const initialState: CartAction = {
-    itemsConsolidated: [],
-    cartOrders: undefined
+    orders: [],
+    totalDiscountedPrice: 0,
+    totalPrice: 0,
+    discount: 0,
+    discountPercentage: 0
 }
 
 export const cartReducer = (state = initialState, action: any) => {
@@ -15,18 +25,19 @@ export const cartReducer = (state = initialState, action: any) => {
         case CartActions.SET_CART:
             return {
                 ...state,
-                itemsConsolidated: [...state.itemsConsolidated, action.data]
+                // itemsConsolidated: [...state.itemsConsolidated, action.data]
+                ...action.data
             }
-        case CartActions.SET_CART_ALL:
-            return {
-                ...state,
-                itemsConsolidated: action.data
-            }
-        case CartActions.SET_CART_COURSES:
-            return {
-                ...state,
-                cartOrders: action.data
-            }
+        // case CartActions.SET_CART_ALL:
+        //     return {
+        //         ...state,
+        //         // itemsConsolidated: action.data
+        //     }
+        // case CartActions.SET_CART_COURSES:
+        //     return {
+        //         ...state,
+        //         cartOrders: action.data
+        //     }
         case LoginActions.LOGOUT:
             return initialState
     }
