@@ -59,3 +59,32 @@ interface CartOrderMeta {
     discountPercentage: number;
     discount: number
 }
+
+type LevelStats = {
+    all: number,
+    beginner: number,
+    intermediate: number,
+    expert: number
+}
+
+type PriceStats = {
+    free: number;
+    paid: number
+}
+
+type RatingStats = {
+    "gte3": number,
+    "gte3.5": number,
+    "gte4": number,
+    "gte4.5": number
+}
+
+interface SearchResultMeta {
+    levelStats: LevelStats;
+    ratingStats: RatingStats;
+    priceStats: PriceStats;
+}
+
+interface SearchResult extends SearchResultMeta{
+    results: Array<Course>;
+}

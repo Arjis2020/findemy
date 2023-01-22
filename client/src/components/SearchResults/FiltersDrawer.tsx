@@ -5,10 +5,11 @@ import { StarBorder } from '@mui/icons-material';
 
 type FiltersDrawerProps = {
     drawerState: boolean,
-    toggleDrawerState: () => void
+    toggleDrawerState: () => void,
+    meta: SearchResultMeta
 }
 
-export default function FiltersDrawer({ drawerState, toggleDrawerState }: FiltersDrawerProps) {
+export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: FiltersDrawerProps) {
     type AccordionComponentProps = {
         title: string,
         children: ReactNode
@@ -169,19 +170,19 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState }: Filter
                     <RadioGroup>
                         <RatingGenerator
                             rating={4.5}
-                            count={3092}
+                            count={meta.ratingStats['gte4.5']}
                         />
                         <RatingGenerator
                             rating={4.0}
-                            count={4892}
+                            count={meta.ratingStats.gte4}
                         />
                         <RatingGenerator
                             rating={3.5}
-                            count={1982}
+                            count={meta.ratingStats['gte3.5']}
                         />
                         <RatingGenerator
                             rating={3.0}
-                            count={5734}
+                            count={meta.ratingStats.gte3}
                         />
                     </RadioGroup>
                 </AccordionComponent>
@@ -193,19 +194,19 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState }: Filter
                     >
                         <CheckBoxLabelGenerator
                             label='All Levels'
-                            count={1092}
+                            count={meta.levelStats.all}
                         />
                         <CheckBoxLabelGenerator
                             label='Beginner'
-                            count={1432}
+                            count={meta.levelStats.beginner}
                         />
                         <CheckBoxLabelGenerator
                             label='Intermediate'
-                            count={574}
+                            count={meta.levelStats.intermediate}
                         />
                         <CheckBoxLabelGenerator
                             label='Expert'
-                            count={471}
+                            count={meta.levelStats.expert}
                         />
                     </Stack>
                 </AccordionComponent>
@@ -217,11 +218,11 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState }: Filter
                     >
                         <CheckBoxLabelGenerator
                             label='Paid'
-                            count={7350}
+                            count={meta.priceStats.paid}
                         />
                         <CheckBoxLabelGenerator
                             label='Free'
-                            count={942}
+                            count={meta.priceStats.free}
                         />
                     </Stack>
                 </AccordionComponent>

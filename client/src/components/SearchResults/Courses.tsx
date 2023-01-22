@@ -9,8 +9,8 @@ export default function Courses({ course }: SearchResultCourseProps) {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
     const levels = (() => {
-        if (course.levels.length === 3) return 'All'
-        else return course.levels.join(', ')
+        if (course.levels.length === 3) return 'All levels'
+        else return course.levels[0]
     })()
 
     const DesktopView = () => (
@@ -83,7 +83,7 @@ export default function Courses({ course }: SearchResultCourseProps) {
                             {course.rating}
                         </Typography>
                         <Rating
-                            value={4.5}
+                            value={course.rating}
                             readOnly
                             precision={0.5}
                             size='small'
@@ -131,7 +131,7 @@ export default function Courses({ course }: SearchResultCourseProps) {
                         <Typography
                             variant='caption'
                         >
-                            {levels} levels
+                            {levels}
                         </Typography>
                     </Stack>
                     <Box
@@ -232,7 +232,7 @@ export default function Courses({ course }: SearchResultCourseProps) {
                             {course.rating}
                         </Typography>
                         <Rating
-                            value={4.5}
+                            value={course.rating}
                             readOnly
                             precision={0.5}
                             size='small'
@@ -280,7 +280,7 @@ export default function Courses({ course }: SearchResultCourseProps) {
                         <Typography
                             variant='caption'
                         >
-                            {levels} levels
+                            {levels}
                         </Typography>
                     </Stack>
                     <Stack

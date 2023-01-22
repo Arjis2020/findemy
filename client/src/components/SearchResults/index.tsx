@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 import { HistoryState } from '../../redux/reducers/history.reducers';
 import Loader from '../Loader';
+import { Link } from 'react-router-dom';
 
 export default function SearchResults() {
     const sortByOptions = [
@@ -37,10 +38,11 @@ export default function SearchResults() {
 
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
-    const [searchResults, setSearchResults] = useState<Array<Course>>()
+    const [searchResults, setSearchResults] = useState<SearchResult>()
     const { paths: [previousPath] } = useSelector<RootState>((state) => state.historyReducer) as HistoryState
 
     const query = searchParams.get('q')
+    const meta: SearchResultMeta | undefined = searchResults
 
     useEffect(() => {
         setSearchResults(undefined)
@@ -60,7 +62,7 @@ export default function SearchResults() {
     }, [query])
 
     return (
-        searchResults ?
+        searchResults?.results ?
             <Container
                 maxWidth='xl'
             >
@@ -81,7 +83,7 @@ export default function SearchResults() {
                             }
                         }}
                     >
-                        {searchResults.length.toLocaleString()} result{searchResults.length > 1 ? 's' : ''} for "{query}"
+                        {searchResults.results.length.toLocaleString()} result{searchResults.results.length > 1 ? 's' : ''} for "{query}"
                     </Typography>
                     <Stack
                         direction='row'
@@ -209,7 +211,7 @@ export default function SearchResults() {
                                 whiteSpace: 'nowrap'
                             }}
                         >
-                            {searchResults.length.toLocaleString()} result{searchResults.length > 1 ? 's' : ''}
+                            {searchResults.results.length.toLocaleString()} result{searchResults.results.length > 1 ? 's' : ''}
                         </Typography>}
                     </Stack>
                     <Stack
@@ -222,6 +224,7 @@ export default function SearchResults() {
                         }}
                     >
                         <FiltersDrawer
+                            meta={meta!}
                             drawerState={filtersExpanded}
                             toggleDrawerState={() => setFiltersExpanded(!filtersExpanded)}
                         />
@@ -232,10 +235,15 @@ export default function SearchResults() {
                                 width: '100%'
                             }}
                         >
-                            {searchResults.map(course => (
-                                <Courses 
-                                    course={course}
-                                />
+                            {searchResults.results.map(course => (
+                                <Link
+                                    to={`/course${course.slug}`}
+                                    className='link-unstyled-full'
+                                >
+                                    <Courses
+                                        course={course}
+                                    />
+                                </Link>
                             ))}
                         </Stack>
                     </Stack>

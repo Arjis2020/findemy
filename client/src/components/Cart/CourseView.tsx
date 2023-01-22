@@ -14,8 +14,8 @@ export default function CourseView({ item }: CourseViewProps) {
     const downTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
     const levels = (() => {
-        if (item.levels.length === 3) return 'All'
-        else return item.levels.join(', ')
+        if (item.levels.length === 3) return 'All levels'
+        else return
     })()
 
     const dispatch = useDispatch()
@@ -212,14 +212,14 @@ export default function CourseView({ item }: CourseViewProps) {
                             >
                                 {item.lectures} lectures
                             </Typography>
-                            <p>
+                            {levels && <p>
                                 &bull;
-                            </p>
+                            </p>}
                             <Typography
                                 variant='caption'
                                 // whiteSpace='nowrap'
                             >
-                                {levels} levels
+                                {levels}
                             </Typography>
                         </Stack>
                         {downDesktop && <Stack
