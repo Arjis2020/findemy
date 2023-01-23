@@ -1,8 +1,9 @@
 import { Star, Reviews, People, PlayCircle } from '@mui/icons-material'
 import { Avatar, Stack, Typography } from '@mui/material'
+import InstructorModel from '../../models/instructor.model'
 
 type IntructorProps = {
-    instructors: Array<Instructor>
+    instructors: Array<InstructorModel>
 }
 
 export default function Instructor({ instructors }: IntructorProps) {

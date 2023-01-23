@@ -1,9 +1,10 @@
 import axios from "axios";
+import UserModel from "../../models/user.model";
 import { URL_AUTHORIZE, URL_LOGIN, URL_LOGOUT, URL_SIGNUP } from "../endpoints";
 
-export const handleLogin = async (email: string, password: string): Promise<User> => {
+export const handleLogin = async (email: string, password: string): Promise<UserModel> => {
     try {
-        const { data } = await axios.post<User>(URL_LOGIN, {
+        const { data } = await axios.post<UserModel>(URL_LOGIN, {
             email,
             password
         })
@@ -20,9 +21,9 @@ export const handleLogin = async (email: string, password: string): Promise<User
     }
 }
 
-export const handleAuthorization = async (): Promise<User> => {
+export const handleAuthorization = async (): Promise<UserModel> => {
     try {
-        const { data } = await axios.post<User>(URL_AUTHORIZE)
+        const { data } = await axios.post<UserModel>(URL_AUTHORIZE)
         return data
     }
     catch (err: any) {
@@ -36,9 +37,9 @@ export const handleAuthorization = async (): Promise<User> => {
     }
 }
 
-export const handleSignup = async (name: string, email: string, password: string): Promise<User> => {
+export const handleSignup = async (name: string, email: string, password: string): Promise<UserModel> => {
     try {
-        const { data } = await axios.post<User>(URL_SIGNUP, {
+        const { data } = await axios.post<UserModel>(URL_SIGNUP, {
             name,
             email,
             password

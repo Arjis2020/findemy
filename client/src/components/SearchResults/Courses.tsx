@@ -1,8 +1,9 @@
 import { StarBorder } from "@mui/icons-material";
 import { Box, Rating, Stack, Theme, Typography, useMediaQuery } from "@mui/material";
+import CourseModel from "../../models/course.model";
 
 type SearchResultCourseProps = {
-    course: Course
+    course: CourseModel
 }
 
 export default function Courses({ course }: SearchResultCourseProps) {

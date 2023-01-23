@@ -4,9 +4,10 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { triggerRemoveFromCart } from '../../redux/actions/cart.action';
+import CourseModel from '../../models/course.model';
 
 type CourseViewProps = {
-    item: Course
+    item: CourseModel
 }
 
 export default function CourseView({ item }: CourseViewProps) {

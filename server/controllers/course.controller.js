@@ -29,6 +29,11 @@ const getCourseBySlug = async (req, res) => {
 
 const search = async (req, res) => {
     const search = req.query.q
+    const page = req.query.page
+
+    const RESULTS_PER_PAGE = 10
+    const SKIP = (page - 1) * RESULTS_PER_PAGE
+
     //apply indexed text search
     const results = await Courses.find({
         $text: {
@@ -41,9 +46,28 @@ const search = async (req, res) => {
         .sort({ score: { $meta: 'textScore' } })
         .populate('instructors')
         .populate('categories')
-        .limit(10)
+        .limit(RESULTS_PER_PAGE)
+        .skip(SKIP)
 
-    const ratingStats = results.reduce((stats, i) => {
+    const totalSize = await Courses.find({
+        $text: {
+            $search: search
+        },
+        $score: {
+            $meta: 'textScore'
+        },
+    }).count()
+
+    const fullResult = await Courses.find({
+        $text: {
+            $search: search
+        },
+        $score: {
+            $meta: 'textScore'
+        },
+    })
+
+    const ratingStats = fullResult.reduce((stats, i) => {
         if (i.rating >= 3) {
             stats.gte3++
         }
@@ -65,7 +89,7 @@ const search = async (req, res) => {
         "gte4.5": 0
     })
 
-    const priceStats = results.reduce((stats, i) => {
+    const priceStats = fullResult.reduce((stats, i) => {
         if (i.price === 0) {
             stats.free++
         }
@@ -78,7 +102,7 @@ const search = async (req, res) => {
         paid: 0
     })
 
-    const levelStats = results.reduce((stats, i) => {
+    const levelStats = fullResult.reduce((stats, i) => {
         if (i.levels.length === 3) stats.all++
         if (i.levels.includes('Beginner')) stats.beginner++
         if (i.levels.includes('Intermediate')) stats.intermediate++
@@ -94,6 +118,7 @@ const search = async (req, res) => {
 
     const response = {
         results,
+        totalSize,
         levelStats,
         ratingStats,
         priceStats

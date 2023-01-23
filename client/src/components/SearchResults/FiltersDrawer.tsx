@@ -2,11 +2,12 @@ import { Accordion, AccordionDetails, AccordionSummary, AppBar, Box, Button, Che
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ReactNode, useState } from 'react';
 import { StarBorder } from '@mui/icons-material';
+import SearchResultMetaModel from '../../models/searchResult.meta.model';
 
 type FiltersDrawerProps = {
     drawerState: boolean,
     toggleDrawerState: () => void,
-    meta: SearchResultMeta
+    meta: SearchResultMetaModel
 }
 
 export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: FiltersDrawerProps) {

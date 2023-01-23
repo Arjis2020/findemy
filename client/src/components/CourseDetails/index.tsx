@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getCourseDetails } from '../../API/handlers/course.handler'
+import CourseModel from '../../models/course.model'
 import { LoginAction } from '../../redux/actions/auth.action'
 import { triggerAddToCart } from '../../redux/actions/cart.action'
 import { RootState } from '../../redux/reducers'
@@ -17,7 +18,7 @@ import TopCompanies from './TopCompanies'
 import WhatYouWillLearn from './WhatYouWillLearn'
 
 export default function CourseDetails() {
-  const [courseDetails, setCourseDetails] = useState<Course>()
+  const [courseDetails, setCourseDetails] = useState<CourseModel>()
 
   const { slug } = useParams()
   const navigate = useNavigate()

@@ -59,7 +59,7 @@ export default function Header() {
     }
 
     const onSearch = (values: FieldValues) => {
-        navigate(`/search?q=${values.search}`)
+        navigate(`/search?q=${values.search}&page=1`)
     }
 
     const PopularItems = ({

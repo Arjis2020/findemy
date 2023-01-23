@@ -5,9 +5,10 @@ import LanguageIcon from '@mui/icons-material/Language';
 import SubtitlesIcon from '@mui/icons-material/Subtitles';
 import './index.css'
 import VideoPreview from './VideoPreview';
+import CourseModel from '../../models/course.model';
 
 type SummaryBannerProps = {
-    values: Course
+    values: CourseModel
 }
 
 export default function SummaryBanner({ values }: SummaryBannerProps) {

@@ -1,5 +1,6 @@
 import { Box, Container, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import { useSelector } from 'react-redux'
+import CartOrderMetaModel from '../../models/cart.meta.model'
 import { RootState } from '../../redux/reducers'
 import { CartAction } from '../../redux/reducers/cart.reducer'
 // import { OrderMeta, Orders } from '../Cart'
@@ -16,7 +17,7 @@ import Summary from './Summary'
 export default function Checkout() {
     const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
 
-    const orderMeta : CartOrderMeta = cart
+    const orderMeta : CartOrderMetaModel = cart
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 

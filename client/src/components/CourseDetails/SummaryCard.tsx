@@ -13,10 +13,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 import { CartAction } from '../../redux/reducers/cart.reducer';
 import { useNavigate } from 'react-router-dom';
+import CourseModel from '../../models/course.model';
 
 type SummaryCardProps = {
     showVideo?: boolean,
-    values: Course,
+    values: CourseModel,
     onAddToCartClicked: () => void
 }
 

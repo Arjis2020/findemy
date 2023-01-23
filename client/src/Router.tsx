@@ -7,6 +7,7 @@ import Footer from './components/Footer'
 import Home from './components/Home'
 import Login from './components/Login'
 import Navbar from './components/Navbar'
+import ScrollToTop from './components/ScrollToTop'
 import SearchResults from './components/SearchResults'
 import Signup from './components/Signup'
 import { RootState } from './redux/reducers'
@@ -19,6 +20,7 @@ export default function Router() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Navbar />
       <Routes>
         <Route
@@ -61,8 +63,8 @@ export default function Router() {
         <Route
           path='/checkout'
           element={<Checkout
-            // orders={orders}
-            // orderMeta={orderMeta}
+          // orders={orders}
+          // orderMeta={orderMeta}
           />}
         />
       </Routes>

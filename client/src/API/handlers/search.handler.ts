@@ -1,11 +1,13 @@
 import axios from "axios"
+import SearchResultModel from "../../models/searchResult.model"
 import { URL_SEARCH_COURSE } from "../endpoints"
 
-export const searchCourses = async (query: string): Promise<SearchResult> => {
+export const searchCourses = async (query: string, page: number = 1): Promise<SearchResultModel> => {
     try {
-        const { data } = await axios.get<SearchResult>(URL_SEARCH_COURSE, {
+        const { data } = await axios.get<SearchResultModel>(URL_SEARCH_COURSE, {
             params: {
-                q: query
+                q: query,
+                page
             }
         })
 

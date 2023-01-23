@@ -11,6 +11,12 @@ import { RootState } from '../../redux/reducers';
 import { HistoryState } from '../../redux/reducers/history.reducers';
 import Loader from '../Loader';
 import { Link } from 'react-router-dom';
+import Pagination from '../Pagination';
+import { searchQueryParser } from '../../utils/searchQueryParser';
+import SearchResultModel from '../../models/searchResult.model';
+import SearchResultMetaModel from '../../models/searchResult.meta.model';
+
+const RESULTS_PER_PAGE = 10
 
 export default function SearchResults() {
     const sortByOptions = [
@@ -36,18 +42,22 @@ export default function SearchResults() {
 
     const [filtersExpanded, setFiltersExpanded] = useState(true)
 
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
     const navigate = useNavigate()
-    const [searchResults, setSearchResults] = useState<SearchResult>()
+    const [searchResults, setSearchResults] = useState<SearchResultModel>()
     const { paths: [previousPath] } = useSelector<RootState>((state) => state.historyReducer) as HistoryState
 
     const query = searchParams.get('q')
-    const meta: SearchResultMeta | undefined = searchResults
+    const page = Number(searchParams.get('page') || 1)
+
+    const meta: SearchResultMetaModel | undefined = searchResults
+
+    const pageCount: number = Math.ceil(meta?.totalSize! / RESULTS_PER_PAGE)
 
     useEffect(() => {
         setSearchResults(undefined)
         if (query) {
-            searchCourses(query)
+            searchCourses(query, Number(page))
                 .then(data => {
                     setSearchResults(data)
                 })
@@ -59,7 +69,13 @@ export default function SearchResults() {
         else {
             navigate('/')
         }
-    }, [query])
+    }, [query, page])
+
+    const handlePageChange = (e: React.ChangeEvent<unknown>, page: number) => {
+        setSearchParams((prevParams) => searchQueryParser(prevParams, {
+            page: String(page)
+        }))
+    }
 
     return (
         searchResults?.results ?
@@ -83,7 +99,7 @@ export default function SearchResults() {
                             }
                         }}
                     >
-                        {searchResults.results.length.toLocaleString()} result{searchResults.results.length > 1 ? 's' : ''} for "{query}"
+                        {meta?.totalSize.toLocaleString()} result{meta?.totalSize! > 1 ? 's' : ''} for "{query}"
                     </Typography>
                     <Stack
                         direction='row'
@@ -211,7 +227,7 @@ export default function SearchResults() {
                                 whiteSpace: 'nowrap'
                             }}
                         >
-                            {searchResults.results.length.toLocaleString()} result{searchResults.results.length > 1 ? 's' : ''}
+                            {meta?.totalSize.toLocaleString()} result{meta?.totalSize! > 1 ? 's' : ''}
                         </Typography>}
                     </Stack>
                     <Stack
@@ -229,22 +245,30 @@ export default function SearchResults() {
                             toggleDrawerState={() => setFiltersExpanded(!filtersExpanded)}
                         />
                         <Stack
-                            divider={<Divider />}
-                            spacing={2}
-                            sx={{
-                                width: '100%'
-                            }}
+                            spacing={10}
+                            alignItems='center'
+                            justifyContent='space-between'
                         >
-                            {searchResults.results.map(course => (
-                                <Link
-                                    to={`/course${course.slug}`}
-                                    className='link-unstyled-full'
-                                >
-                                    <Courses
-                                        course={course}
-                                    />
-                                </Link>
-                            ))}
+                            <Stack
+                                divider={<Divider />}
+                                spacing={2}
+                            >
+                                {searchResults.results.map(course => (
+                                    <Link
+                                        to={`/course${course.slug}`}
+                                        className='link-unstyled-full'
+                                    >
+                                        <Courses
+                                            course={course}
+                                        />
+                                    </Link>
+                                ))}
+                            </Stack>
+                            <Pagination
+                                count={pageCount}
+                                onChange={handlePageChange}
+                                page={page}
+                            />
                         </Stack>
                     </Stack>
                 </Stack>

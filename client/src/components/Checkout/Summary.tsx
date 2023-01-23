@@ -1,9 +1,10 @@
 import { AppBar, Button, Divider, Stack, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
+import CartOrderMetaModel from '../../models/cart.meta.model'
 // import { OrderMeta, Orders } from '../Cart'
 
 type SummaryProps = {
-    orderMeta: CartOrderMeta
+    orderMeta: CartOrderMetaModel
 }
 
 export default function Summary({ orderMeta }: SummaryProps) {

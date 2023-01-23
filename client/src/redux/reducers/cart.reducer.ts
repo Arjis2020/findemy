@@ -1,3 +1,4 @@
+import CartModel from "../../models/cart.model"
 import { CartActions, LoginActions } from "../constants"
 
 // export type CartAction = {
@@ -5,7 +6,7 @@ import { CartActions, LoginActions } from "../constants"
 //     cartOrders?: CartOrders
 // }
 
-export type CartAction = CartOrders
+export type CartAction = CartModel
 
 // const initialState: CartAction = {
 //     // itemsConsolidated: [],

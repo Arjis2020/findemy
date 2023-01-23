@@ -1,8 +1,9 @@
 import { AuthError } from "../../API/responseTypes/auth.type"
+import UserModel from "../../models/user.model"
 import { LoginActions } from "../constants"
 
 export type LoginAction = {
-    data?: User,
+    data?: UserModel,
     err?: AuthError,
 }
 
@@ -46,7 +47,7 @@ export const triggerLogout = () => {
     }
 }
 
-export const userData = (data: User) => {
+export const userData = (data: UserModel) => {
     return {
         type: LoginActions.LOGIN,
         data

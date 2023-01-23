@@ -8,6 +8,7 @@ import { CourseAction, triggerCoursesRetrieval } from '../../../redux/actions/co
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Loader from '../../Loader'
+import CourseModel from '../../../models/course.model'
 
 export default function Carousel() {
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.up('tablet'))
@@ -85,7 +86,7 @@ export default function Carousel() {
                     </IconButton>
                 }
             >
-                {courses.data?.map((data: Course) => {
+                {courses.data?.map((data: CourseModel) => {
                     return (
                         <GridCarousel.Item>
                             <Card

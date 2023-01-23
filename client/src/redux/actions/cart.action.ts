@@ -1,3 +1,4 @@
+import CartModel from "../../models/cart.model"
 import { CartActions } from "../constants"
 
 export type TriggerAddToCartAction = {
@@ -15,14 +16,14 @@ export const triggerAddToCart = (course_id: string) => {
     }
 }
 
-export const setCart = (data: CartOrders) => {
+export const setCart = (data: CartModel) => {
     return {
         type: CartActions.SET_CART,
         data
     }
 }
 
-const setCartAll = (data: Array<Cart>) => {
+const setCartAll = (data: Array<CartModel>) => {
     return {
         type: CartActions.SET_CART_ALL,
         data
@@ -35,7 +36,7 @@ export const triggerGetCart = () => {
     }
 }
 
-const setCartCourses = (data: CartOrders) => {
+const setCartCourses = (data: CartModel) => {
     return {
         type: CartActions.SET_CART_COURSES,
         data

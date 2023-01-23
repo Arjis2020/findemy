@@ -1,9 +1,10 @@
 import { Star } from '@mui/icons-material'
 import { AppBar, Box, Button, Slide, Stack, Theme, Toolbar, Typography, useMediaQuery, useScrollTrigger } from '@mui/material'
 import { memo, ReactElement } from 'react'
+import CourseModel from '../../models/course.model'
 
 type SummaryProps = {
-    values: Course
+    values: CourseModel
 }
 
 export default memo(function Summary({ values }: SummaryProps) {
