@@ -15,6 +15,7 @@ import Pagination from '../Pagination';
 import { searchQueryParser } from '../../utils/searchQueryParser';
 import SearchResultModel from '../../models/searchResult.model';
 import SearchResultMetaModel from '../../models/searchResult.meta.model';
+import StyledTooltip from '../GlobalStyles/StyledTooltip';
 
 const RESULTS_PER_PAGE = 10
 
@@ -53,6 +54,7 @@ export default function SearchResults() {
     const meta: SearchResultMetaModel | undefined = searchResults
 
     const pageCount: number = Math.ceil(meta?.totalSize! / RESULTS_PER_PAGE)
+
 
     useEffect(() => {
         setSearchResults(undefined)

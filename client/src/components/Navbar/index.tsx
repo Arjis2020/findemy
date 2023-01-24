@@ -30,14 +30,14 @@ export default function Header() {
     const location = useLocation()
     const navigate = useNavigate()
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-    // Resets all auth errors when the pathname changes
-    // Adds the current path to the redux state
-    useEffect(() => {
-        dispatch(addPath(location.pathname))
-        dispatch(resetAuthErrors())
-    }, [location.pathname])
+    // // Resets all auth errors when the pathname changes
+    // // Adds the current path to the redux state
+    // useEffect(() => {
+    //     dispatch(addPath(location.pathname + location.search))
+    //     dispatch(resetAuthErrors())
+    // }, [location.pathname, location.search])
 
     const whitelistedAppbarRelativeRoutes = [
         '/course'

@@ -1,9 +1,18 @@
-import { StarBorder } from "@mui/icons-material";
-import { Box, Rating, Stack, Theme, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Stack, Theme, Typography, useMediaQuery } from "@mui/material";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import CourseModel from "../../models/course.model";
+import { triggerAddToCart } from "../../redux/actions/cart.action";
+import { RootState } from "../../redux/reducers";
+import { LoginStateAction } from "../../redux/reducers/auth.reducer";
+import { CartAction } from "../../redux/reducers/cart.reducer";
+import StyledTooltip from "../GlobalStyles/StyledTooltip";
+import Ratings from "../Ratings";
+import SearchResultTooltip from "../Tooltips/SearchResultTooltip";
 
 type SearchResultCourseProps = {
-    course: CourseModel
+    course: CourseModel,
 }
 
 export default function Courses({ course }: SearchResultCourseProps) {
@@ -14,11 +23,26 @@ export default function Courses({ course }: SearchResultCourseProps) {
         else return course.levels[0]
     })()
 
+
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+    const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
+    const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === course._id) !== -1
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const onAddToCartClicked = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        if (!user.data?._id) navigate('/login')
+        if (doesCourseExistInCart) navigate('/cart')
+        else dispatch(triggerAddToCart(course._id))
+    }
+
     const DesktopView = () => (
         <Stack
             direction={'row'}
             justifyContent={'space-between'}
-            alignItems={'center'}
+            alignItems={'start'}
         >
             <Stack
                 direction='row'
@@ -30,6 +54,7 @@ export default function Courses({ course }: SearchResultCourseProps) {
                     width={260}
                     height={145}
                     style={{
+
                         objectFit: 'cover'
                     }}
                 />
@@ -83,23 +108,8 @@ export default function Courses({ course }: SearchResultCourseProps) {
                         >
                             {course.rating}
                         </Typography>
-                        <Rating
+                        <Ratings
                             value={course.rating}
-                            readOnly
-                            precision={0.5}
-                            size='small'
-                            sx={{
-                                color: '#e59819',
-                                fontSize: 15
-                            }}
-                            emptyIcon={
-                                <StarBorder
-                                    fontSize='inherit'
-                                    sx={{
-                                        color: '#e59819'
-                                    }}
-                                />
-                            }
                         />
                         <Typography
                             color="#6a6f73"
@@ -232,23 +242,8 @@ export default function Courses({ course }: SearchResultCourseProps) {
                         >
                             {course.rating}
                         </Typography>
-                        <Rating
+                        <Ratings
                             value={course.rating}
-                            readOnly
-                            precision={0.5}
-                            size='small'
-                            sx={{
-                                color: '#e59819',
-                                fontSize: 15
-                            }}
-                            emptyIcon={
-                                <StarBorder
-                                    fontSize='inherit'
-                                    sx={{
-                                        color: '#e59819'
-                                    }}
-                                />
-                            }
                         />
                         <Typography
                             color="#6a6f73"
@@ -331,7 +326,28 @@ export default function Courses({ course }: SearchResultCourseProps) {
             {matches ?
                 <MobileView />
                 :
-                <DesktopView />}
+                <StyledTooltip
+                    arrow
+                    title={
+                        <SearchResultTooltip
+                            learnings={course.learnings}
+                            doesCourseExistInCart={doesCourseExistInCart}
+                            onAddToCartClicked={onAddToCartClicked}
+                        />
+                    }
+                >
+                    <Box
+                        sx={{
+                            transition: '0.3s ease all',
+                            "&:hover": {
+                                opacity: 0.8
+                            }
+                        }}
+                    >
+                        <DesktopView />
+                    </Box>
+                </StyledTooltip>
+            }
         </Box>
     )
 }

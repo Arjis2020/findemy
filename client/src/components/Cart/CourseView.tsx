@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { triggerRemoveFromCart } from '../../redux/actions/cart.action';
 import CourseModel from '../../models/course.model';
+import Ratings from '../Ratings';
 
 type CourseViewProps = {
     item: CourseModel
@@ -88,23 +89,8 @@ export default function CourseView({ item }: CourseViewProps) {
                             >
                                 {item.rating}
                             </Typography>
-                            <Rating
+                            <Ratings
                                 value={item.rating}
-                                readOnly
-                                precision={0.5}
-                                size='small'
-                                sx={{
-                                    color: '#e59819',
-                                    fontSize: 15
-                                }}
-                                emptyIcon={
-                                    <StarBorder
-                                        fontSize='inherit'
-                                        sx={{
-                                            color: '#e59819'
-                                        }}
-                                    />
-                                }
                             />
                             <Typography
                                 color="#6a6f73"
@@ -163,23 +149,8 @@ export default function CourseView({ item }: CourseViewProps) {
                                 >
                                     {item.rating}
                                 </Typography>
-                                <Rating
+                                <Ratings 
                                     value={item.rating}
-                                    readOnly
-                                    precision={0.5}
-                                    size='small'
-                                    sx={{
-                                        color: '#e59819',
-                                        fontSize: 15
-                                    }}
-                                    emptyIcon={
-                                        <StarBorder
-                                            fontSize='inherit'
-                                            sx={{
-                                                color: '#e59819'
-                                            }}
-                                        />
-                                    }
                                 />
                             </Stack>}
                             {!downDesktop && <Typography
@@ -195,12 +166,12 @@ export default function CourseView({ item }: CourseViewProps) {
                             alignItems='center'
                             mt={0.8}
                             flex={1}
-                            // width='100%'
-                            // flexWrap='wrap'
+                        // width='100%'
+                        // flexWrap='wrap'
                         >
                             <Typography
                                 variant='caption'
-                                // whiteSpace='nowrap'
+                            // whiteSpace='nowrap'
                             >
                                 {item.totalHours} total hours
                             </Typography>
@@ -209,7 +180,7 @@ export default function CourseView({ item }: CourseViewProps) {
                             </p>
                             <Typography
                                 variant='caption'
-                                // whiteSpace='nowrap'
+                            // whiteSpace='nowrap'
                             >
                                 {item.lectures} lectures
                             </Typography>
@@ -218,7 +189,7 @@ export default function CourseView({ item }: CourseViewProps) {
                             </p>}
                             <Typography
                                 variant='caption'
-                                // whiteSpace='nowrap'
+                            // whiteSpace='nowrap'
                             >
                                 {levels}
                             </Typography>

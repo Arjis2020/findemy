@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Loader from '../../Loader'
 import CourseModel from '../../../models/course.model'
+import Ratings from '../../Ratings'
 
 export default function Carousel() {
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.up('tablet'))
@@ -25,7 +26,7 @@ export default function Carousel() {
     const datasetLength = desktop ? 5 : tablet ? 3 : 1
 
     return (
-        courses.data ?
+        courses.data.length ?
             <GridCarousel
                 gap={15}
                 cols={datasetLength}
@@ -168,23 +169,8 @@ export default function Carousel() {
                                                     >
                                                         {data.rating}
                                                     </Typography>
-                                                    <Rating
+                                                    <Ratings 
                                                         value={data.rating}
-                                                        readOnly
-                                                        precision={0.5}
-                                                        size='small'
-                                                        sx={{
-                                                            color: '#e59819',
-                                                            fontSize: 15
-                                                        }}
-                                                        emptyIcon={
-                                                            <StarBorder
-                                                                fontSize='inherit'
-                                                                sx={{
-                                                                    color: '#e59819'
-                                                                }}
-                                                            />
-                                                        }
                                                     />
                                                     <Typography
                                                         color="#6a6f73"

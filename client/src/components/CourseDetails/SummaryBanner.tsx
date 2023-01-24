@@ -6,6 +6,7 @@ import SubtitlesIcon from '@mui/icons-material/Subtitles';
 import './index.css'
 import VideoPreview from './VideoPreview';
 import CourseModel from '../../models/course.model';
+import Ratings from '../Ratings';
 
 type SummaryBannerProps = {
     values: CourseModel
@@ -68,23 +69,8 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                         >
                             {values.rating}
                         </Typography>
-                        <Rating
-                            value={4.5}
-                            readOnly
-                            precision={0.5}
-                            size='small'
-                            sx={{
-                                color: '#f3ca8c',
-                                fontSize: 15
-                            }}
-                            emptyIcon={
-                                <StarBorder
-                                    fontSize='inherit'
-                                    sx={{
-                                        color: '#f3ca8c'
-                                    }}
-                                />
-                            }
+                        <Ratings 
+                            value={values.rating}
                         />
                     </Stack>
                     <Typography
@@ -257,23 +243,8 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                             >
                                 {values.rating}
                             </Typography>
-                            <Rating
-                                value={4.5}
-                                readOnly
-                                precision={0.5}
-                                size='small'
-                                sx={{
-                                    color: '#f3ca8c',
-                                    fontSize: 15
-                                }}
-                                emptyIcon={
-                                    <StarBorder
-                                        fontSize='inherit'
-                                        sx={{
-                                            color: '#f3ca8c'
-                                        }}
-                                    />
-                                }
+                            <Ratings 
+                                value={values.rating}
                             />
                         </Stack>
                         <Typography

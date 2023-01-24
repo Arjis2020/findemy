@@ -3,6 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ReactNode, useState } from 'react';
 import { StarBorder } from '@mui/icons-material';
 import SearchResultMetaModel from '../../models/searchResult.meta.model';
+import Ratings from '../Ratings';
 
 type FiltersDrawerProps = {
     drawerState: boolean,
@@ -90,22 +91,8 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
                         direction='row'
                         alignItems='center'
                     >
-                        <Rating
-                            sx={{
-                                color: '#e59819',
-                                fontSize: 15
-                            }}
-                            readOnly
+                        <Ratings 
                             value={rating}
-                            precision={0.5}
-                            emptyIcon={
-                                <StarBorder
-                                    fontSize='inherit'
-                                    sx={{
-                                        color: '#e59819'
-                                    }}
-                                />
-                            }
                         />
                         <Typography
                             fontSize={14}

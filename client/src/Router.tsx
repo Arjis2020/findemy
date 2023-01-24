@@ -4,6 +4,7 @@ import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import CourseDetails from './components/CourseDetails'
 import Footer from './components/Footer'
+import History from './components/History'
 import Home from './components/Home'
 import Login from './components/Login'
 import Navbar from './components/Navbar'
@@ -21,6 +22,7 @@ export default function Router() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <History />
       <Navbar />
       <Routes>
         <Route

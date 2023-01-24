@@ -8,6 +8,7 @@ import { RootState } from '../../redux/reducers'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Loader from '../Loader'
+import Ratings from '../Ratings'
 
 export default function YouMayAlsoLike() {
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.up('tablet'))
@@ -164,23 +165,8 @@ export default function YouMayAlsoLike() {
                                                     >
                                                         {data.rating}
                                                     </Typography>
-                                                    <Rating
+                                                    <Ratings 
                                                         value={data.rating}
-                                                        readOnly
-                                                        precision={0.5}
-                                                        size='small'
-                                                        sx={{
-                                                            color: '#e59819',
-                                                            fontSize: 15
-                                                        }}
-                                                        emptyIcon={
-                                                            <StarBorder
-                                                                fontSize='inherit'
-                                                                sx={{
-                                                                    color: '#e59819'
-                                                                }}
-                                                            />
-                                                        }
                                                     />
                                                     <Typography
                                                         color="#6a6f73"
