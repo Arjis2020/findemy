@@ -24,7 +24,6 @@ export default function SearchResultTooltip({ learnings, doesCourseExistInCart, 
                 spacing={1}
             >
                 <ul
-                    // className='two-column-ul'
                     style={{
                         listStyle: 'none',
                         width: '100%',

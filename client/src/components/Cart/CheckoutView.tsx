@@ -40,9 +40,9 @@ export default function CheckoutView() {
             >
                 ₹{totalPrice?.toLocaleString()}
             </Typography>}
-            <Typography>
+            {discountPercentage > 0 && <Typography>
                 {discountPercentage}% off
-            </Typography>
+            </Typography>}
             <Link
                 to='/checkout'
                 style={{
@@ -66,7 +66,7 @@ export default function CheckoutView() {
                     Checkout
                 </Button>
             </Link>
-            <Stack
+            {discountPercentage > 0 && <Stack
                 spacing={2}
                 mt={2}
             >
@@ -102,7 +102,7 @@ export default function CheckoutView() {
                         </Typography>
                     </Stack>
                 </Stack>
-            </Stack>
+            </Stack>}
         </Stack>
     )
 }

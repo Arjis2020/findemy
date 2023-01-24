@@ -28,6 +28,7 @@ const courses = require('./routes/courses')
 const users = require('./routes/users')
 const purchases = require('./routes/purchases')
 const cart = require('./routes/cart');
+const video = require('./routes/video')
 
 try {
     // connect db
@@ -37,6 +38,7 @@ try {
     app.use('/users', users)
     app.use('/purchases', purchases)
     app.use('/cart', cart)
+    app.use('/video', video)
 
     app.listen(PORT, () => {
         console.log(`Server started on port ${PORT}`)

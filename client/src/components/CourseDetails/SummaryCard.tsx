@@ -80,7 +80,7 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
                         mt: 0,
                         border: '1px solid #fff'
                     }}
-                    image={values.imageUrl}
+                    course={values}
                 />}
                 <Stack
                     sx={{
@@ -116,9 +116,9 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
                             >
                                 ₹{values.price}
                             </Typography>}
-                            <Typography>
+                            {discountPercentage > 0 && <Typography>
                                 {discountPercentage}% off
-                            </Typography>
+                            </Typography>}
                         </Stack>
                         <Stack
                             spacing={1}

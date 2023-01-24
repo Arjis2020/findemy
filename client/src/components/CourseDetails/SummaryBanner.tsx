@@ -197,7 +197,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                     spacing={1.5}
                 >
                     <VideoPreview 
-                        image={values.imageUrl}
+                        course={values}
                     />
                     <Typography
                         variant='h4'
