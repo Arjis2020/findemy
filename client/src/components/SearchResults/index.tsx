@@ -192,7 +192,8 @@ export default function SearchResults() {
                                         fontFamily: 'UdemySansBold',
                                         textTransform: 'none',
                                         fontSize: 16,
-                                        background: 'none'
+                                        background: 'none',
+                                        whiteSpace: 'nowrap'
                                     }}
                                     onClick={() => setFiltersExpanded(!filtersExpanded)}
                                     startIcon={
