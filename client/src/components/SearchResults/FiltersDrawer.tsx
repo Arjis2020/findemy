@@ -1,17 +1,35 @@
 import { Accordion, AccordionDetails, AccordionSummary, AppBar, Box, Button, Checkbox, Divider, Drawer, Radio, RadioGroup, Rating, Stack, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { StarBorder } from '@mui/icons-material';
 import SearchResultMetaModel from '../../models/searchResult.meta.model';
 import Ratings from '../Ratings';
+import { RatingFilterModel } from '../../models/rating.filter.model';
+import { PricesFilterModel } from '../../models/prices.filter.model';
+import { LevelsFilterModel } from '../../models/levels.filter.model';
+
+export type RatingFilter = { [rating: string]: boolean }
+export type FilterEvents = {
+    onRadioChanged: (rating?: RatingFilterModel) => void,
+    onPriceFilterChanged: (price: Array<PricesFilterModel>) => void,
+    onLevelFilterChanged: (level: Array<LevelsFilterModel>) => void
+}
+
+export type FilterState = {
+    rating?: RatingFilterModel,
+    prices: Array<PricesFilterModel>,
+    levels: Array<LevelsFilterModel>
+}
 
 type FiltersDrawerProps = {
     drawerState: boolean,
     toggleDrawerState: () => void,
-    meta: SearchResultMetaModel
+    meta: SearchResultMetaModel,
+    filterEvents: FilterEvents,
+    currentFilterState: FilterState
 }
 
-export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: FiltersDrawerProps) {
+export default function FiltersDrawer({ drawerState, toggleDrawerState, meta, filterEvents, currentFilterState }: FiltersDrawerProps) {
     type AccordionComponentProps = {
         title: string,
         children: ReactNode
@@ -19,12 +37,16 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
 
     type RatingGeneratorProps = {
         rating: number,
-        count: number
+        count: number,
+        onChange: (e: React.ChangeEvent, checked: boolean) => void,
+        checked: boolean
     }
 
     type LevelGeneratorProps = {
         label: string,
-        count: number
+        count: number,
+        onChange: (e: React.ChangeEvent, checked: boolean) => void,
+        checked: boolean
     }
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
@@ -63,7 +85,7 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
         )
     }
 
-    const RatingGenerator = ({ rating, count }: RatingGeneratorProps) => {
+    const RatingGenerator = ({ rating, count, onChange, checked }: RatingGeneratorProps) => {
         return (
             <Stack
                 direction='row'
@@ -78,12 +100,13 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
                     <Radio
                         size='small'
                         color='default'
-                        checked={false}
+                        checked={checked}
                         sx={{
                             color: '#000',
                             pl: 0,
                             pr: 0.5
                         }}
+                        onChange={onChange}
                         disableRipple
                     />
                     <Stack
@@ -91,7 +114,7 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
                         direction='row'
                         alignItems='center'
                     >
-                        <Ratings 
+                        <Ratings
                             value={rating}
                         />
                         <Typography
@@ -111,7 +134,7 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
         )
     }
 
-    const CheckBoxLabelGenerator = ({ label, count }: LevelGeneratorProps) => {
+    const CheckBoxLabelGenerator = ({ label, count, onChange, checked }: LevelGeneratorProps) => {
         return (
             <Stack
                 direction='row'
@@ -124,13 +147,14 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
                     spacing={0.5}
                 >
                     <Checkbox
-                        defaultChecked={false}
                         color='default'
                         sx={{
                             color: '#000',
                             pl: 0,
                             pr: 0.5
                         }}
+                        checked={checked}
+                        onChange={onChange}
                         disableRipple
                     />
                     <Typography
@@ -150,6 +174,30 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
     }
 
     const AccordionContent = () => {
+        // const [currentFilterState.rating, setcurrentFilterState.rating] = useState<Rating>()
+        // const [currentFilterState.levels, setcurrentFilterState.levels] = useState<Array<Level>>([])
+        // const [currentFilterState.prices, setcurrentFilterState.prices] = useState<Array<Price>>([])
+        const { onRadioChanged, onPriceFilterChanged, onLevelFilterChanged } = filterEvents
+
+
+
+        const handleRatingChanged = (rating: RatingFilterModel) => {
+            // setcurrentFilterState.rating(rating)
+            onRadioChanged(rating)
+        }
+
+        const handleLevelChanged = (level: LevelsFilterModel, checked: boolean) => {
+            const newState = checked ? [...currentFilterState.levels, level] : currentFilterState.levels.filter(i => i !== level)
+            // setcurrentFilterState.levels(newState)
+            onLevelFilterChanged(newState)
+        }
+        
+        const handlePriceChanged = (price: PricesFilterModel, checked: boolean) => {
+            const newState = checked ? [...currentFilterState.prices, price] : currentFilterState.prices.filter(i => i !== price)
+            // setcurrentFilterState.prices(newState)
+            onPriceFilterChanged(newState)
+        }
+
         return (
             <Stack>
                 <AccordionComponent
@@ -159,18 +207,26 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
                         <RatingGenerator
                             rating={4.5}
                             count={meta.ratingStats['gte4.5']}
+                            onChange={(e, checked) => handleRatingChanged('4.5')}
+                            checked={currentFilterState.rating === '4.5'}
                         />
                         <RatingGenerator
                             rating={4.0}
                             count={meta.ratingStats.gte4}
+                            onChange={(e, checked) => handleRatingChanged('4')}
+                            checked={currentFilterState.rating === '4'}
                         />
                         <RatingGenerator
                             rating={3.5}
                             count={meta.ratingStats['gte3.5']}
+                            onChange={(e, checked) => handleRatingChanged('3.5')}
+                            checked={currentFilterState.rating === '3.5'}
                         />
                         <RatingGenerator
                             rating={3.0}
                             count={meta.ratingStats.gte3}
+                            onChange={(e, checked) => handleRatingChanged('3')}
+                            checked={currentFilterState.rating === '3'}
                         />
                     </RadioGroup>
                 </AccordionComponent>
@@ -183,18 +239,26 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
                         <CheckBoxLabelGenerator
                             label='All Levels'
                             count={meta.levelStats.all}
+                            onChange={(e, checked) => handleLevelChanged('all', checked)}
+                            checked={!!currentFilterState.levels?.includes('all')}
                         />
                         <CheckBoxLabelGenerator
                             label='Beginner'
                             count={meta.levelStats.beginner}
+                            onChange={(e, checked) => handleLevelChanged('beginner', checked)}
+                            checked={!!currentFilterState.levels?.includes('beginner')}
                         />
                         <CheckBoxLabelGenerator
                             label='Intermediate'
                             count={meta.levelStats.intermediate}
+                            onChange={(e, checked) => handleLevelChanged('intermediate', checked)}
+                            checked={!!currentFilterState.levels?.includes('intermediate')}
                         />
                         <CheckBoxLabelGenerator
                             label='Expert'
                             count={meta.levelStats.expert}
+                            onChange={(e, checked) => handleLevelChanged('expert', checked)}
+                            checked={!!currentFilterState.levels?.includes('expert')}
                         />
                     </Stack>
                 </AccordionComponent>
@@ -207,10 +271,14 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
                         <CheckBoxLabelGenerator
                             label='Paid'
                             count={meta.priceStats.paid}
+                            onChange={(e, checked) => handlePriceChanged('paid', checked)}
+                            checked={!!currentFilterState.prices?.includes('paid')}
                         />
                         <CheckBoxLabelGenerator
                             label='Free'
                             count={meta.priceStats.free}
+                            onChange={(e, checked) => handlePriceChanged('free', checked)}
+                            checked={!!currentFilterState.prices?.includes('free')}
                         />
                     </Stack>
                 </AccordionComponent>
@@ -250,7 +318,7 @@ export default function FiltersDrawer({ drawerState, toggleDrawerState, meta }: 
                                     whiteSpace: 'nowrap'
                                 }}
                             >
-                                8,294 results
+                                {meta?.totalSize.toLocaleString()} result{meta?.totalSize! > 1 ? 's' : ''}
                             </Typography>
                             <Button
                                 variant='text'

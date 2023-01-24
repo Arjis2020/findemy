@@ -1,7 +1,7 @@
 import { Box, Button, Container, Divider, FormControl, InputLabel, NativeSelect, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FiltersDrawer from './FiltersDrawer';
+import FiltersDrawer, { FilterEvents, FilterState } from './FiltersDrawer';
 import Courses from './Courses';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -15,7 +15,6 @@ import Pagination from '../Pagination';
 import { searchQueryParser } from '../../utils/searchQueryParser';
 import SearchResultModel from '../../models/searchResult.model';
 import SearchResultMetaModel from '../../models/searchResult.meta.model';
-import StyledTooltip from '../GlobalStyles/StyledTooltip';
 
 const RESULTS_PER_PAGE = 10
 
@@ -55,29 +54,87 @@ export default function SearchResults() {
 
     const pageCount: number = Math.ceil(meta?.totalSize! / RESULTS_PER_PAGE)
 
+    const [filters, setFilters] = useState<FilterState>({
+        rating: undefined,
+        prices: [],
+        levels: []
+    })
+
+    let appliedFilters = filters.prices.length + filters.levels.length + (filters.rating ? 1 : 0)
+
+    const getCourses = () => {
+        searchCourses(
+            query!,
+            Number(page),
+            filters
+        )
+            .then(data => {
+                setSearchResults(data)
+            })
+            .catch((err) => {
+                console.error(err)
+                navigate(previousPath)
+            })
+    }
 
     useEffect(() => {
         setSearchResults(undefined)
+        setFilters({
+            rating: undefined,
+            prices: [],
+            levels: []
+        })
         if (query) {
-            searchCourses(query, Number(page))
-                .then(data => {
-                    setSearchResults(data)
-                })
-                .catch((err) => {
-                    console.error(err)
-                    navigate(previousPath)
-                })
+            getCourses()
         }
         else {
             navigate('/')
         }
     }, [query, page])
 
+    useEffect(() => {
+        setSearchResults(undefined)
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+        if(query) {
+            getCourses()
+        }
+    }, [filters])
+
     const handlePageChange = (e: React.ChangeEvent<unknown>, page: number) => {
         setSearchParams((prevParams) => searchQueryParser(prevParams, {
             page: String(page)
         }))
     }
+
+    const filtersEvents: FilterEvents = {
+        onRadioChanged(rating) {
+            setFilters({
+                ...filters,
+                rating
+            })
+        },
+        onPriceFilterChanged(prices) {
+            setFilters({
+                ...filters,
+                prices
+            })
+        },
+        onLevelFilterChanged(levels) {
+            setFilters({
+                ...filters,
+                levels
+            })
+        },
+    }
+
+    const clearFilters = () => setFilters({
+        rating: undefined,
+        levels: [],
+        prices: []
+    })
 
     return (
         searchResults?.results ?
@@ -142,7 +199,7 @@ export default function SearchResults() {
                                         <FilterListIcon />
                                     }
                                 >
-                                    Filter
+                                    Filters {appliedFilters > 0 ? `(${appliedFilters})` : null}
                                 </Button>
                             </Box>
                             <Stack
@@ -218,6 +275,7 @@ export default function SearchResults() {
                                 }}
                                 disableRipple
                                 disableElevation
+                                onClick={clearFilters}
                             >
                                 Clear filters
                             </Button>}
@@ -245,15 +303,19 @@ export default function SearchResults() {
                             meta={meta!}
                             drawerState={filtersExpanded}
                             toggleDrawerState={() => setFiltersExpanded(!filtersExpanded)}
+                            filterEvents={filtersEvents}
+                            currentFilterState={filters}
                         />
                         <Stack
                             spacing={10}
                             alignItems='center'
                             justifyContent='space-between'
+                            width='100%'
                         >
                             <Stack
                                 divider={<Divider />}
                                 spacing={2}
+                                width='100%'
                             >
                                 {searchResults.results.map(course => (
                                     <Link

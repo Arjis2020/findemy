@@ -1,0 +1,1 @@
+export type LevelsFilterModel = 'all' | 'beginner' | 'intermediate' | 'expert'

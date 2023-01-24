@@ -31,8 +31,24 @@ const search = async (req, res) => {
     const search = req.query.q
     const page = req.query.page
 
+    const filters = {
+        rating: req.query.rating,
+        levels: req.query.levels.split(','),
+        prices: req.query.prices.split(',')
+    }
+
     const RESULTS_PER_PAGE = 10
     const SKIP = (page - 1) * RESULTS_PER_PAGE
+
+    let levels = filters.levels.includes('all') ? ['beginner', 'intermediate', 'expert'] : filters.levels
+    levels = levels.map(level => level.charAt(0).toUpperCase() + level.substring(1))
+    const price = filters.prices.includes('free') && filters.prices.includes('paid') ? {
+        $gte: 0
+    } : filters.prices.includes('free') ? 0 : filters.prices.includes('paid') ? {
+        $gt: 0
+    } : {
+        $gte: 0
+    }
 
     //apply indexed text search
     const results = await Courses.find({
@@ -42,6 +58,13 @@ const search = async (req, res) => {
         $score: {
             $meta: 'textScore'
         },
+        rating: {
+            $gte: filters.rating || 0
+        },
+        levels: {
+            $in: levels
+        },
+        price
     })
         .sort({ score: { $meta: 'textScore' } })
         .populate('instructors')
@@ -56,6 +79,13 @@ const search = async (req, res) => {
         $score: {
             $meta: 'textScore'
         },
+        rating: {
+            $gte: filters.rating || 0
+        },
+        levels: {
+            $in: levels
+        },
+        price
     }).count()
 
     const fullResult = await Courses.find({
@@ -65,6 +95,13 @@ const search = async (req, res) => {
         $score: {
             $meta: 'textScore'
         },
+        rating: {
+            $gte: filters.rating || 0
+        },
+        levels: {
+            $in: levels
+        },
+        price
     })
 
     const ratingStats = fullResult.reduce((stats, i) => {
