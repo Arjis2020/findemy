@@ -3,7 +3,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FiltersDrawer, { FilterEvents, FilterState } from './FiltersDrawer';
 import Courses from './Courses';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { searchCourses } from '../../API/handlers/search.handler';
 import { useSelector } from 'react-redux';
@@ -15,22 +15,28 @@ import Pagination from '../Pagination';
 import { searchQueryParser } from '../../utils/searchQueryParser';
 import SearchResultModel from '../../models/searchResult.model';
 import SearchResultMetaModel from '../../models/searchResult.meta.model';
+import { SortByModel } from '../../models/sortBy.filter.model';
 
 const RESULTS_PER_PAGE = 10
 
 export default function SearchResults() {
-    const sortByOptions = [
+    type SortByOptions = {
+        title: string,
+        value: SortByModel
+    }
+
+    const sortByOptions: SortByOptions[] = [
         {
             title: 'Most relevant',
-            value: 'most-relevant'
+            value: 'mostRelevant'
         },
         {
             title: 'Most reviewed',
-            value: 'most-reviewed'
+            value: 'mostReviewed'
         },
         {
             title: 'Highest rated',
-            value: 'highest-rated'
+            value: 'highestRated'
         },
         {
             title: 'Newest',
@@ -60,13 +66,16 @@ export default function SearchResults() {
         levels: []
     })
 
+    const [sortBy, setSortBy] = useState<SortByModel>("mostRelevant")
+
     let appliedFilters = filters.prices.length + filters.levels.length + (filters.rating ? 1 : 0)
 
     const getCourses = () => {
         searchCourses(
             query!,
             Number(page),
-            filters
+            filters,
+            sortBy
         )
             .then(data => {
                 setSearchResults(data)
@@ -84,24 +93,36 @@ export default function SearchResults() {
             prices: [],
             levels: []
         })
+        setSearchParams((prevParams) => searchQueryParser(prevParams, {
+            page: '1'
+        }))
         if (query) {
             getCourses()
         }
         else {
             navigate('/')
         }
-    }, [query, page])
+    }, [query])
 
     useEffect(() => {
         setSearchResults(undefined)
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        })
-        if(query) {
+        if (query) {
             getCourses()
         }
-    }, [filters])
+        else {
+            navigate('/')
+        }
+    }, [page])
+
+    useEffect(() => {
+        setSearchResults(undefined)
+        setSearchParams((prevParams) => searchQueryParser(prevParams, {
+            page: '1'
+        }))
+        if (query) {
+            getCourses()
+        }
+    }, [filters, sortBy])
 
     const handlePageChange = (e: React.ChangeEvent<unknown>, page: number) => {
         setSearchParams((prevParams) => searchQueryParser(prevParams, {
@@ -135,6 +156,10 @@ export default function SearchResults() {
         levels: [],
         prices: []
     })
+
+    const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSortBy(e.target.value as SortByModel)
+    }
 
     return (
         searchResults?.results ?
@@ -245,9 +270,9 @@ export default function SearchResults() {
                                                 }
                                             }
                                         }}
-                                    // value={age}
-                                    // label="Age"
-                                    // onChange={handleChange}
+                                        value={sortBy}
+                                        // label="Age"
+                                        onChange={handleSortChange}
                                     >
                                         {sortByOptions.map(item => {
                                             return (

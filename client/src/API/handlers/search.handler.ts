@@ -1,13 +1,14 @@
 import axios from "axios"
 import { FiltersModel } from "../../models/filters.model"
 import SearchResultModel from "../../models/searchResult.model"
+import { SortByModel } from "../../models/sortBy.filter.model"
 import { URL_SEARCH_COURSE } from "../endpoints"
 
-export const searchCourses = async (query: string, page: number = 1, filters?: FiltersModel): Promise<SearchResultModel> => {
+export const searchCourses = async (query: string, page: number = 1, filters?: FiltersModel, sortBy?: SortByModel): Promise<SearchResultModel> => {
     let urlEncodedFilters = {
         rating: filters?.rating,
-        prices: filters?.prices?.length? filters.prices.join(',') : 'free,paid',
-        levels: filters?.levels?.length? filters.levels.join(',') : 'all'
+        prices: filters?.prices?.length ? filters.prices.join(',') : 'free,paid',
+        levels: filters?.levels?.length ? filters.levels.join(',') : 'all'
     }
 
     try {
@@ -15,7 +16,8 @@ export const searchCourses = async (query: string, page: number = 1, filters?: F
             params: {
                 q: query,
                 page,
-                ...urlEncodedFilters
+                ...urlEncodedFilters,
+                sort: sortBy
             }
         })
 

@@ -1,0 +1,1 @@
+export type SortByModel = 'mostReviewed' | 'mostRelevant' | "highestRated" | "newest"

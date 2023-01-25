@@ -30,11 +30,40 @@ const getCourseBySlug = async (req, res) => {
 const search = async (req, res) => {
     const search = req.query.q
     const page = req.query.page
+    const sortBy = req.query.sort
+
+    let sort
+
+    switch (sortBy) {
+        case "mostRelevant":
+            sort = {
+                score: {
+                    $meta: 'textScore'
+                }
+            }
+            break;
+        case "mostReviewed":
+            sort = { totalRatings: -1 }
+            break
+        case "highestRated":
+            sort = { rating: -1 }
+            break
+        case "newest":
+            sort = { created_at: -1 }
+            break
+        default:
+            sort = {
+                score: {
+                    $meta: 'textScore'
+                }
+            }
+            break;
+    }
 
     const filters = {
         rating: req.query.rating,
-        levels: req.query.levels.split(','),
-        prices: req.query.prices.split(',')
+        levels: req.query.levels?.split(','),
+        prices: req.query.prices?.split(',')
     }
 
     const RESULTS_PER_PAGE = 10
@@ -66,7 +95,8 @@ const search = async (req, res) => {
         },
         price
     })
-        .sort({ score: { $meta: 'textScore' } })
+        // .sort({ score: { $meta: 'textScore' } })
+        .sort(sort)
         .populate('instructors')
         .populate('categories')
         .limit(RESULTS_PER_PAGE)
@@ -95,13 +125,13 @@ const search = async (req, res) => {
         $score: {
             $meta: 'textScore'
         },
-        rating: {
-            $gte: filters.rating || 0
-        },
-        levels: {
-            $in: levels
-        },
-        price
+        // rating: {
+        //     $gte: filters.rating || 0
+        // },
+        // levels: {
+        //     $in: levels
+        // },
+        // price
     })
 
     const ratingStats = fullResult.reduce((stats, i) => {
