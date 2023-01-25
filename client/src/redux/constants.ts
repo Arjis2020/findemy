@@ -29,3 +29,9 @@ export const CartActions = {
 export const HistoryActions = {
     ADD_PATH: 'ADD_PATH'
 }
+
+export const PaymentActions = {
+    PAYMENT_METHOD: 'PAYMENT_METHOD',
+    PAYMENT_DETAILS: 'PAYMENT_DETAILS',
+    RESET_PAYMENT: 'RESET_PAYMENT'
+}

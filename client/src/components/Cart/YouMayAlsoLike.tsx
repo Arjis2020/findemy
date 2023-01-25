@@ -1,5 +1,4 @@
 import { Box, Card, CardActionArea, IconButton, Rating, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
-import CarouselData from '../../carousel.data.json'
 import GridCarousel from 'react-grid-carousel'
 import { ArrowBackIosSharp, ArrowForwardIosSharp, StarBorder } from '@mui/icons-material'
 import { CourseAction, triggerCoursesRetrieval } from '../../redux/actions/course.action'

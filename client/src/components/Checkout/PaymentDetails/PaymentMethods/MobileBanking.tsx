@@ -1,7 +1,8 @@
 import { ExpandMore } from '@mui/icons-material'
 import { NativeSelect, Stack, Typography } from '@mui/material'
+import { PaymentMethodProps } from '../..'
 
-export default function MobileBanking() {
+export default function MobileBanking({register} : PaymentMethodProps) {
     const banks = [
         "Abhyudaya Co-op Bank Ltd",
         "Abu Dhabi Commercial Bank",

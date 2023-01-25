@@ -1,14 +1,21 @@
-import { ExpandMore } from '@mui/icons-material'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { PaymentMethodProps } from '..'
+import { SupportedPaymentMethods } from '../../../models/order.model'
+import { setPaymentMethod } from '../../../redux/actions/payment.action'
+import { RootState } from '../../../redux/reducers'
+import { PaymentState } from '../../../redux/reducers/payment.reducer'
 import CreditDebitCard from './PaymentMethods/CreditDebitCard'
 import MobileBanking from './PaymentMethods/MobileBanking'
 import NetBanking from './PaymentMethods/NetBanking'
 import Paytm from './PaymentMethods/Paytm'
 import UPI from './PaymentMethods/UPI'
 
-export default function Methods() {
-    const [activeAccordion, setActiveAccordion] = useState<number | undefined>()
+export default function Methods({ register, errors }: PaymentMethodProps) {
+    // const [activePaymentMethod, setActiveAccordion] = useState<number | undefined>()
+    const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
+    const activePaymentMethod = payment.method
 
     type AccordionGeneratorProps = PaymentMethodArgs
 
@@ -19,7 +26,7 @@ export default function Methods() {
     type PaymentMethods = Array<PaymentMethodArgs>
 
     type PaymentMethodArgs = {
-        id: number,
+        method: SupportedPaymentMethods,
         title: string,
         icons?: Array<React.ReactElement>,
         children?: React.ReactElement,
@@ -39,7 +46,8 @@ export default function Methods() {
 
     const paymentMethods: PaymentMethods = [
         {
-            id: 1,
+            // id: 1,
+            method: 'card',
             title: 'Credit/Debit Card',
             icons: [
                 <IconGenerator
@@ -64,10 +72,13 @@ export default function Methods() {
             defIcon: <IconGenerator
                 icon='https://www.udemy.com/staticx/udemy/images/v9/card-default.svg'
             />,
-            component: <CreditDebitCard />
+            component: <CreditDebitCard
+                errors={errors}
+                register={register}
+            />
         },
         {
-            id: 2,
+            method: 'upi',
             title: 'UPI',
             defIcon:
                 <IconGenerator
@@ -76,39 +87,47 @@ export default function Methods() {
             component: <UPI />
         },
         {
-            id: 3,
+            method: 'paytm',
             title: 'PayTM',
             defIcon: <IconGenerator
                 icon='https://www.udemy.com/staticx/udemy/images/v9/hpp-paytm.svg'
             />,
-            component: <Paytm />
+            component: <Paytm
+
+            />
         },
         {
-            id: 4,
+            method: 'netbanking',
             title: 'Net Banking',
             defIcon: <IconGenerator
                 icon='https://www.udemy.com/staticx/udemy/images/v9/common-onlinebanking-in.svg'
             />,
-            component: <NetBanking />
+            component: <NetBanking
+                errors={errors}
+                register={register}
+            />
         },
         {
-            id: 5,
+            method: 'mobile-wallet',
             title: 'Mobile Wallets',
             defIcon: <IconGenerator
                 icon='https://www.udemy.com/staticx/udemy/images/v9/common-wallet-in.svg'
             />,
-            component: <MobileBanking />
+            component: <MobileBanking
+                errors={errors}
+                register={register}
+            />
         }
     ]
 
-    const handleAccordionStateChange = (id: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    const dispatch = useDispatch()
+    const handleAccordionStateChange = (method: SupportedPaymentMethods) => (event: React.SyntheticEvent, isExpanded: boolean) => {
         if (isExpanded)
-            setActiveAccordion(id)
-        // else
-        //     setActiveAccordion(undefined)
+            // setActiveAccordion(id)
+            dispatch(setPaymentMethod(method))
     }
 
-    const AccordionGenerator = ({ id, title, icons, defIcon, children }: AccordionGeneratorProps) => {
+    const AccordionGenerator = ({ method, title, icons, defIcon, children }: AccordionGeneratorProps) => {
         return (
             <Accordion
                 elevation={0}
@@ -116,8 +135,8 @@ export default function Methods() {
                 sx={{
                     px: 0,
                 }}
-                expanded={activeAccordion === id}
-                onChange={handleAccordionStateChange(id)}
+                expanded={activePaymentMethod === method}
+                onChange={handleAccordionStateChange(method)}
             >
                 <AccordionSummary
                     expandIcon={null}
@@ -129,7 +148,7 @@ export default function Methods() {
                         "& .MuiAccordionSummary-content": {
                             m: 0
                         },
-                        borderBottom: id === activeAccordion ? '1px solid #D3D7DB' : 'none'
+                        borderBottom: method === activePaymentMethod ? '1px solid #D3D7DB' : 'none'
                     }}
                     disableRipple
                 >
@@ -151,7 +170,7 @@ export default function Methods() {
                                     color: '#000',
                                     p: 0
                                 }}
-                                checked={activeAccordion === id}
+                                checked={activePaymentMethod === method}
                                 size='small'
                                 disableRipple
                             />
@@ -214,11 +233,11 @@ export default function Methods() {
                             borderBottom: '1px solid #D3D7DB',
                         }
                     }}
-                    key={method.id}
+                    key={method.method}
                 >
                     <RadioGroup>
                         <AccordionGenerator
-                            id={method.id}
+                            method={method.method}
                             title={method.title}
                             icons={method.icons}
                             defIcon={method.defIcon}

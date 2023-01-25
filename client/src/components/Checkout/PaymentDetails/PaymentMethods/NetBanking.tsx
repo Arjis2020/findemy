@@ -1,8 +1,9 @@
 import { ExpandMore } from '@mui/icons-material'
 import { NativeSelect, Stack, Typography } from '@mui/material'
 import React from 'react'
+import { PaymentMethodProps } from '../..'
 
-export default function NetBanking() {
+export default function NetBanking({ register }: PaymentMethodProps) {
     const banks = [
         "Abhyudaya Co-op Bank Ltd",
         "Abu Dhabi Commercial Bank",

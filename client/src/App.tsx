@@ -7,7 +7,8 @@ import { LoginAction, triggerUserAuthorize } from './redux/actions/auth.action';
 import { RootState } from './redux/reducers';
 import { LoginStateAction } from './redux/reducers/auth.reducer';
 import Router from './Router';
-import { COOKIE_TOKEN } from './utils/constants';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 
 function App() {
   const theme = createTheme({
@@ -50,7 +51,11 @@ function App() {
       theme={theme}
     >
       <CssBaseline />
-      <Router />
+      <LocalizationProvider
+        dateAdapter={AdapterMoment}
+      >
+        <Router />
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }

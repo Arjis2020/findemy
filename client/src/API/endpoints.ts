@@ -15,3 +15,7 @@ const ROUTE_CART = '/cart'
 export const URL_ADD_TO_CART = ROUTE_CART + '/add'
 export const URL_CART_COURSES = ROUTE_CART + '/'
 export const URL_REMOVE_FROM_CART = ROUTE_CART + '/remove'
+
+const ROUTE_PAYMENT = '/payments'
+export const URL_CREATE_ORDER = ROUTE_PAYMENT + '/createOrder'
+export const URL_VERIFY_ORDER = ROUTE_PAYMENT + '/verifyOrder'

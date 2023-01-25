@@ -48,6 +48,7 @@ export default function CheckoutView() {
                 style={{
                     textDecoration: 'none'
                 }}
+                state={cart}
             >
                 <Button
                     variant='contained'

@@ -1,17 +1,23 @@
 import { AppBar, Button, Divider, Stack, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import CartOrderMetaModel from '../../models/cart.meta.model'
+import { RootState } from '../../redux/reducers'
+import { PaymentState } from '../../redux/reducers/payment.reducer'
 // import { OrderMeta, Orders } from '../Cart'
 
 type SummaryProps = {
-    orderMeta: CartOrderMetaModel
+    orderMeta: CartOrderMetaModel,
+    // onCheckout: () => void
 }
 
 export default function Summary({ orderMeta }: SummaryProps) {
     const { totalDiscountedPrice, totalPrice, discount } = orderMeta
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
-
+    const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
+    const paymentMethod = payment.method
+    
     return (
         <Stack
             spacing={2}
@@ -93,7 +99,7 @@ export default function Summary({ orderMeta }: SummaryProps) {
                     >
                         By completing your purchase you agree to these Terms of Service.
                     </Typography>
-                    <Button
+                    {paymentMethod !== 'upi' && <Button
                         variant='contained'
                         sx={{
                             borderRadius: 0,
@@ -105,9 +111,10 @@ export default function Summary({ orderMeta }: SummaryProps) {
                         disableElevation
                         disableRipple
                         fullWidth
+                        type='submit'
                     >
                         Proceed
-                    </Button>
+                    </Button>}
                     <Typography
                         variant='caption'
                     >

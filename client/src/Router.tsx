@@ -65,8 +65,6 @@ export default function Router() {
         <Route
           path='/checkout'
           element={<Checkout
-          // orders={orders}
-          // orderMeta={orderMeta}
           />}
         />
       </Routes>

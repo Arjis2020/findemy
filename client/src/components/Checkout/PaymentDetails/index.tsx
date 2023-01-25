@@ -1,9 +1,10 @@
 import { Lock } from '@mui/icons-material'
 import { Stack, Typography } from '@mui/material'
 import React from 'react'
+import { PaymentMethodProps } from '..'
 import Methods from './Methods'
 
-export default function PaymentDetails() {
+export default function PaymentDetails({ register, errors }: PaymentMethodProps) {
     return (
         <Stack
             spacing={2}
@@ -28,12 +29,15 @@ export default function PaymentDetails() {
                     >
                         Secured connection
                     </Typography>
-                    <Lock 
+                    <Lock
                         fontSize='small'
                     />
                 </Stack>
             </Stack>
-            <Methods />
+            <Methods
+                errors={errors}
+                register={register}
+            />
         </Stack>
     )
 }
