@@ -1,7 +1,11 @@
 import { Star } from '@mui/icons-material'
 import { AppBar, Box, Button, Slide, Stack, Theme, Toolbar, Typography, useMediaQuery, useScrollTrigger } from '@mui/material'
 import { memo, ReactElement } from 'react'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import CourseModel from '../../models/course.model'
+import { RootState } from '../../redux/reducers'
+import { CartAction } from '../../redux/reducers/cart.reducer'
 
 type SummaryProps = {
     values: CourseModel
@@ -37,28 +41,48 @@ export default memo(function Summary({ values }: SummaryProps) {
         )
     }
 
+    const courseAsCart = {
+        orders: [values],
+        totalPrice: values.price,
+        totalDiscountedPrice: values.discountedPrice,
+        discountPercentage: Math.floor((values.price - values.discountedPrice) / values.price),
+        discount: values.price - values.discountedPrice
+    }
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+
+    const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
+
     const BuyButton = () => (
-        <Button
-            variant='contained'
-            sx={{
-                background: theme => theme.palette.common.black,
-                fontFamily: 'UdemySansBold',
-                fontSize: 16,
-                borderRadius: 0,
-                color: '#fff',
-                textTransform: 'none',
-                py: 1.8,
-                px: 1.5,
-                "&:hover": {
-                    background: "#000"
-                }
+        <Link
+            to='/checkout'
+            state={courseAsCart}
+            className='link-unstyled-full'
+            style={{
+                width: '100%'
             }}
-            fullWidth
-            disableElevation
-            disableRipple
         >
-            Buy now
-        </Button>
+            <Button
+                variant='contained'
+                sx={{
+                    background: theme => theme.palette.common.black,
+                    fontFamily: 'UdemySansBold',
+                    fontSize: 16,
+                    borderRadius: 0,
+                    color: '#fff',
+                    textTransform: 'none',
+                    py: 1.8,
+                    px: 1.5,
+                    "&:hover": {
+                        background: "#000"
+                    }
+                }}
+                fullWidth
+                disableElevation
+                disableRipple
+            >
+                Buy now
+            </Button>
+        </Link>
     )
 
     return (
@@ -70,7 +94,7 @@ export default memo(function Summary({ values }: SummaryProps) {
                     zIndex: 2,
                     top: !laptop ? 0 : 'auto',
                     bottom: !laptop ? 'auto' : 0,
-                    py: !laptop ? 'auto' : 1.5
+                    py: !laptop ? 'auto' : 1.5,
                 }}
             >
                 <Toolbar>
@@ -169,30 +193,36 @@ export default memo(function Summary({ values }: SummaryProps) {
                                     ₹{values.price.toLocaleString()}
                                 </Typography>}
                             </Stack>
-                            <Button
-                                variant='contained'
-                                sx={{
-                                    background: '#fff',
-                                    fontFamily: 'UdemySansBold',
-                                    fontSize: 16,
-                                    borderRadius: 0,
-                                    color: '#000',
-                                    textTransform: 'none',
-                                    py: 1.8,
-                                    px: 1.5,
-                                    "&:hover": {
-                                        background: "#e0e0e0"
-                                    }
-                                }}
-                                disableElevation
-                                disableRipple
+                            {!doesCourseExistInCart && <Link
+                                to='/checkout'
+                                state={courseAsCart}
+                                className='link-unstyled-full'
                             >
-                                Buy now
-                            </Button>
+                                <Button
+                                    variant='contained'
+                                    sx={{
+                                        background: '#fff',
+                                        fontFamily: 'UdemySansBold',
+                                        fontSize: 16,
+                                        borderRadius: 0,
+                                        color: '#000',
+                                        textTransform: 'none',
+                                        py: 1.8,
+                                        px: 1.5,
+                                        "&:hover": {
+                                            background: "#e0e0e0"
+                                        }
+                                    }}
+                                    disableElevation
+                                    disableRipple
+                                >
+                                    Buy now
+                                </Button>
+                            </Link>}
                         </Stack>}
                     </Stack>
                         :
-                        <BuyButton />
+                        !doesCourseExistInCart && <BuyButton />
                     }
                 </Toolbar>
             </AppBar>

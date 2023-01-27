@@ -2,10 +2,11 @@ import { Box, CircularProgress, SxProps, Theme } from '@mui/material'
 import React from 'react'
 
 type LoaderProps = {
-    sx?: SxProps<Theme>
+    sx?: SxProps<Theme>,
+    size?: number
 }
 
-export default function Loader({ sx }: LoaderProps) {
+export default function Loader({ sx, size }: LoaderProps) {
     return (
         <Box
             sx={{
@@ -19,7 +20,7 @@ export default function Loader({ sx }: LoaderProps) {
         >
             <CircularProgress
                 thickness={6}
-                size={80}
+                size={size || 80}
                 sx={{
                     color: '#000'
                 }}

@@ -1,34 +1,30 @@
 const Purchases = require('../models/purchase.model')
 const insert = require('../databaseUtils/insert')
+const ValidationError = require('../errors/ValidationError')
 
 const purchase = async (req, res) => {
-    const { course_id, user_id } = req.body
+    const { courses } = req.body
+    const user_id = req.decoded._id
 
+    const injectedCourses = courses.map(course => ({
+        user_id,
+        course_id: course
+    }))
     try {
-        // check if user has already bought the course
-        const purchase = await Purchases.findOne({
-            course_id,
-            user_id
-        })
-        if (!purchase || !purchase.id) {
-            await insert(Purchases, {
-                course_id,
-                user_id
-            })
-            res.send("Success")
-        }
-        else {
-            res.status(500).send({
-                status: "Failed",
-                reason: "User has already bought the course"
-            })
-        }
+        await Purchases.insertMany(injectedCourses)
+        res.send("Success")
     }
     catch (err) {
-        res.status(500).send({
-            status: "Failed",
-            reason: err.toString()
-        })
+        if (err instanceof ValidationError)
+            res.status(409).send({
+                status: "Failed",
+                reason: err.toString()
+            })
+        else
+            res.status(500).send({
+                status: "Failed",
+                reason: err.toString()
+            })
     }
 }
 

@@ -19,6 +19,7 @@ export default function Router() {
   const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
   const { paths: [previousPath, currentPath] } = useSelector<RootState>((state) => state.historyReducer) as HistoryState
 
+  console.log(previousPath)
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -64,7 +65,19 @@ export default function Router() {
         />
         <Route
           path='/checkout'
-          element={<Checkout
+          element={user.data?._id ?
+            <Checkout
+            />
+            :
+            <Navigate
+              to='/login'
+            />
+          }
+        />
+        <Route
+          path='*'
+          element={<Navigate
+            to='/'
           />}
         />
       </Routes>

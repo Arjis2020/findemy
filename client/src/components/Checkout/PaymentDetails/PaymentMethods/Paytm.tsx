@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material'
-import React from 'react'
+import { PaymentMethodProps } from '../..'
+
 
 export default function Paytm() {
     return (
@@ -10,7 +11,7 @@ export default function Paytm() {
             }}
         >
             <Typography>
-                In order to complete your transaction, we will transfer you over to Adyen's secure servers.
+                In order to complete your transaction, we will transfer you over to Razorpay's secure servers.
             </Typography>
         </Box>
     )

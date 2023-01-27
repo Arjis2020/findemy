@@ -7,16 +7,25 @@ import './index.css'
 import VideoPreview from './VideoPreview';
 import CourseModel from '../../models/course.model';
 import Ratings from '../Ratings';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/reducers';
+import { CartAction } from '../../redux/reducers/cart.reducer';
 
 type SummaryBannerProps = {
-    values: CourseModel
+    values: CourseModel,
+    onAddToCartClicked: () => void
 }
 
-export default function SummaryBanner({ values }: SummaryBannerProps) {
+export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBannerProps) {
     const laptop = useMediaQuery((theme: Theme) => theme.breakpoints.down('desktop'))
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
     const discountPercentage = Math.floor(((values.price - values.discountedPrice) / values.price) * 100)
+    const navigate = useNavigate()
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+
+    const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
 
     const DesktopView = () => {
         return (
@@ -69,7 +78,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                         >
                             {values.rating}
                         </Typography>
-                        <Ratings 
+                        <Ratings
                             value={values.rating}
                         />
                     </Stack>
@@ -196,7 +205,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                 <Stack
                     spacing={1.5}
                 >
-                    <VideoPreview 
+                    <VideoPreview
                         course={values}
                     />
                     <Typography
@@ -243,7 +252,7 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                             >
                                 {values.rating}
                             </Typography>
-                            <Ratings 
+                            <Ratings
                                 value={values.rating}
                             />
                         </Stack>
@@ -400,11 +409,12 @@ export default function SummaryBanner({ values }: SummaryBannerProps) {
                                 py: 1.3,
                                 fontSize: 16
                             }}
+                            onClick={doesCourseExistInCart ? () => navigate('/cart') : onAddToCartClicked}
                             fullWidth
                             disableElevation
                             disableRipple
                         >
-                            Add to cart
+                            {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
                         </Button>
                     </Stack>
                     <Stack

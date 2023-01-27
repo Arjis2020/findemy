@@ -84,13 +84,14 @@ export default function CourseDetails() {
         sx={{
           position: 'relative'
         }}
-        alignItems={laptop ? 'center' : 'stretch'}
+        // alignItems={laptop ? 'center' : 'stretch'}
         ref={stackRef}
       >
         <Summary
           values={courseDetails}
         />
         <SummaryBanner
+          onAddToCartClicked={onAddToCartClicked}
           values={courseDetails}
         />
         {!laptop && <Box>
@@ -154,22 +155,26 @@ export default function CourseDetails() {
         <Stack
           pl={!laptop ? 15 : !mobile ? 7.5 : 2}
           pr={!laptop ? 8 : !mobile ? 7.5 : 2}
-          maxWidth={!laptop ? '66%' : !mobile ? '74%' : '100%'}
+          maxWidth={!laptop ? '66%' : '100%'}
           alignItems={laptop ? 'center' : 'stretch'}
         >
-          <WhatYouWillLearn
-            points={courseDetails.learnings}
-          />
-          <TopCompanies />
-          <Requirements
-            requirements={courseDetails.requirements}
-          />
-          <Description
-            description={courseDetails.detailedDescription}
-          />
-          <Instructor
-            instructors={courseDetails.instructors}
-          />
+          <Stack
+            maxWidth={!mobile && laptop ? '71%' : '100%'}
+          >
+            <WhatYouWillLearn
+              points={courseDetails.learnings}
+            />
+            <TopCompanies />
+            <Requirements
+              requirements={courseDetails.requirements}
+            />
+            <Description
+              description={courseDetails.detailedDescription}
+            />
+            <Instructor
+              instructors={courseDetails.instructors}
+            />
+          </Stack>
         </Stack>
       </Stack>
       :

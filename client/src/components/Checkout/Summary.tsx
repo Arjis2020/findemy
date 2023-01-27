@@ -8,6 +8,7 @@ import { PaymentState } from '../../redux/reducers/payment.reducer'
 
 type SummaryProps = {
     orderMeta: CartOrderMetaModel,
+    // paytmPaymentHandler: () => void
     // onCheckout: () => void
 }
 
@@ -17,7 +18,7 @@ export default function Summary({ orderMeta }: SummaryProps) {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
     const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
     const paymentMethod = payment.method
-    
+
     return (
         <Stack
             spacing={2}
@@ -111,7 +112,8 @@ export default function Summary({ orderMeta }: SummaryProps) {
                         disableElevation
                         disableRipple
                         fullWidth
-                        type='submit'
+                        // onClick={paymentMethod === 'paytm' ? paytmPaymentHandler : undefined}
+                        type={'submit'}
                     >
                         Proceed
                     </Button>}
@@ -194,6 +196,7 @@ export default function Summary({ orderMeta }: SummaryProps) {
                                         disableElevation
                                         disableRipple
                                         fullWidth
+                                        type='submit'
                                     >
                                         Proceed
                                     </Button>

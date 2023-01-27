@@ -1,8 +1,9 @@
 import { ExpandMore } from '@mui/icons-material'
 import { FormControl, NativeSelect, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
+import { PaymentMethodProps } from '..'
 
-export default function StateTerritory() {
+export default function StateTerritory({ formValues: { register, formState: { errors } } }: PaymentMethodProps) {
     const stateTerritories = [
         'Andaman and Nicobar Islands',
         'Andhra Pradesh',
@@ -13,13 +14,13 @@ export default function StateTerritory() {
         'Chhattisgarh',
         'Dadra and Nagar Haveli and Daman and Diu',
         'Goa',
-        'Gujurat',
+        'Gujarat',
         'Haryana',
         'Himachal Pradesh',
         'Jammu and Kashmir',
         'Jharkhand',
         'Karnataka',
-        'Kerela',
+        'Kerala',
         'Ladakh',
         'Lakshadweep',
         'Madhya Pradesh',
@@ -56,7 +57,8 @@ export default function StateTerritory() {
                     sx={{
                         fontFamily: 'UdemySansBold',
                         color: theme => theme.palette.common.black,
-                        fontSize: 14
+                        fontSize: 14,
+                        whiteSpace: 'nowrap'
                     }}
                 >
                     State / Union Territory
@@ -67,64 +69,77 @@ export default function StateTerritory() {
                     Required
                 </Typography>
             </Stack>
-            <FormControl
-                fullWidth
-                variant='standard'
+            <Stack
+                spacing={0.5}
             >
-                <Stack
-                    direction='row'
-                    alignItems='center'
-                    sx={{
-                        // minWidth: '11rem',
-                        // width: matches ? '100%' : 'unset',
-                        border: theme => `1px solid ${theme.palette.common.black}`,
-                        py: 1,
-                        px: 1.5,
-                        width: '100%',
-                        transition: '0.3s all ease',
-                        "&:hover": {
-                            background: 'rgba(0,0,0,0.04)'
-                        }
-                    }}
-                    spacing={2}
+                <FormControl
+                    fullWidth
+                    variant='standard'
                 >
-                    <NativeSelect
-                        fullWidth
-                        IconComponent={() => null}
-                        id='sort-by'
-                        disableUnderline
-                        inputProps={{
-                            sx: {
-                                "&:focus": {
-                                    background: 'none'
-                                }
-                            },
-                            required: true
+                    <Stack
+                        direction='row'
+                        alignItems='center'
+                        sx={{
+                            // minWidth: '11rem',
+                            // width: matches ? '100%' : 'unset',
+                            border: theme => `1px solid ${!!errors.state ? theme.palette.error.main : theme.palette.common.black}`,
+                            py: 1,
+                            px: 1.5,
+                            width: '100%',
+                            transition: '0.3s all ease',
+                            "&:hover": {
+                                background: 'rgba(0,0,0,0.04)'
+                            }
                         }}
-                        value='disabled'
-                    // value={age}
-                    // label="Age"
-                    // onChange={handleChange}
+                        spacing={2}
                     >
-                        <option
-                            disabled
-                            value='disabled'
+                        <NativeSelect
+                            fullWidth
+                            IconComponent={() => null}
+                            id='state-territory'
+                            disableUnderline
+                            error={!!errors.state}
+                            inputProps={{
+                                sx: {
+                                    "&:focus": {
+                                        background: 'none'
+                                    }
+                                },
+                                required: true
+                            }}
+                            defaultValue='disabled'
+                            {...register('address', {
+                                validate: (value) => value !== 'disabled' || 'State / Union Territory needs to be specified'
+                            })}
                         >
-                            Please select...
-                        </option>
-                        {stateTerritories.map(item => {
-                            return (
-                                <option
-                                    value={item}
-                                >
-                                    {item}
-                                </option>
-                            )
-                        })}
-                    </NativeSelect>
-                    <ExpandMore />
-                </Stack>
-            </FormControl>
+                            <option
+                                disabled
+                                value='disabled'
+                            >
+                                Please select...
+                            </option>
+                            {stateTerritories.map(item => {
+                                return (
+                                    <option
+                                        value={item}
+                                    >
+                                        {item}
+                                    </option>
+                                )
+                            })}
+                        </NativeSelect>
+                        <ExpandMore />
+                    </Stack>
+                </FormControl>
+                <Typography
+                    variant='caption'
+                    sx={{
+                        color: theme => theme.palette.error.main
+                    }}
+                >
+                    {errors.address?.message?.toString()}
+                </Typography>
+            </Stack>
         </Stack>
     )
 }

@@ -1,12 +1,82 @@
-const razorpayInstance = require('../razorpay')
+const { privateRazorpayInstance, publicRazorpayInstance } = require('../razorpay')
 require('dotenv').config()
 const crypto = require('crypto')
+const QRCode = require('qrcode')
+
+const getPaymentMethods = async (req, res) => {
+    try {
+        const methods = await publicRazorpayInstance.payments.fetchPaymentMethods()
+        res.send(methods)
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send({
+            status: 'failed',
+            reason: err
+        })
+    }
+}
+
+// not working as of 27/01/2023
+const verifyVPA = async (req, res) => {
+    const { vpa } = req.body
+
+    try {
+        const response = await privateRazorpayInstance.payments.validateVpa({
+            vpa
+        })
+        res.send(response)
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send({
+            status: 'failed',
+            reason: 'Internal server error'
+        })
+    }
+}
+
+const generateQR = async (req, res) => {
+    const { amount } = req.body
+    try {
+        const currentDate = new Date()
+        const close_by = Math.floor(new Date(currentDate.setMinutes(currentDate.getMinutes() + 15)).getTime() / 1000)
+        const response = await privateRazorpayInstance.qrCode.create({
+            type: "upi_qr",
+            name: "",
+            usage: "single_use",
+            fixed_amount: true,
+            payment_amount: amount,
+            close_by
+        })
+        // const response = await privateRazorpayInstance.paymentLink.create({
+        //     upi_link: true,
+        //     amount,
+        //     currency: "INR",
+        //     accept_partial: false,
+        //     customer,
+        //     notify: {
+        //         sms: true,
+        //     },
+        //     reminder_enable: true,
+        // })
+        // const qrCode = await QRCode.toDataURL(response.short_url)
+        res.send(response)
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send({
+            status: 'failed',
+            reason: err.toString()
+        })
+    }
+}
 
 const createOrder = async (req, res) => {
     const { amount, currency, receipt, notes } = req.body
     try {
 
-        const order = await razorpayInstance.orders.create({ amount, currency, receipt, notes })
+        const order = await privateRazorpayInstance.orders.create({ amount, currency, receipt, notes })
         res.send(order)
     }
     catch (err) {
@@ -37,4 +107,4 @@ const verifyOrder = async (req, res) => {
         res.status(500).json({ success: 'failed', reason: "Payment verification failed" })
 }
 
-module.exports = { createOrder, verifyOrder }
+module.exports = { createOrder, verifyOrder, getPaymentMethods, verifyVPA, generateQR }

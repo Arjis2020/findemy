@@ -4,7 +4,7 @@ import React from 'react'
 import { PaymentMethodProps } from '..'
 import Methods from './Methods'
 
-export default function PaymentDetails({ register, errors }: PaymentMethodProps) {
+export default function PaymentDetails({ formValues }: PaymentMethodProps) {
     return (
         <Stack
             spacing={2}
@@ -35,8 +35,7 @@ export default function PaymentDetails({ register, errors }: PaymentMethodProps)
                 </Stack>
             </Stack>
             <Methods
-                errors={errors}
-                register={register}
+                formValues={formValues}
             />
         </Stack>
     )

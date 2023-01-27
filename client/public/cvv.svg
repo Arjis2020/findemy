@@ -1,0 +1,10 @@
+<svg class="adyen-checkout__card__cvc__hint adyen-checkout__card__cvc__hint--front" width="27"
+    height="18" viewBox="0 0 27 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M0 3C0 1.34315 1.34315 0 3 0H24C25.6569 0 27 1.34315 27 3V15C27 16.6569 25.6569 18 24 18H3C1.34315 18 0 16.6569 0 15V3Z"
+        fill="#E6E9EB"></path>
+    <rect x="4" y="12" width="19" height="2" fill="#B9C4C9"></rect>
+    <rect x="4" y="4" width="4" height="4" rx="1" fill="white"></rect>
+    <rect class="adyen-checkout__card__cvc__hint__location" x="16.5" y="4.5" width="7" height="5"
+        rx="2.5" stroke="#D10244"></rect>
+</svg>

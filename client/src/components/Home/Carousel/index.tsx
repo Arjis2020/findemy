@@ -28,6 +28,7 @@ export default function Carousel() {
     return (
         courses.data.length ?
             <GridCarousel
+                containerClassName='grid-carousel-container'
                 gap={15}
                 cols={datasetLength}
                 rows={1}
@@ -96,7 +97,7 @@ export default function Carousel() {
                                     maxWidth: '37.5rem',
                                     background: 'none',
                                     borderRadius: 0,
-                                    height: '100%',
+                                    height: '100%'
                                 }}
                                 elevation={0}
                             >
@@ -169,7 +170,7 @@ export default function Carousel() {
                                                     >
                                                         {data.rating}
                                                     </Typography>
-                                                    <Ratings 
+                                                    <Ratings
                                                         value={data.rating}
                                                     />
                                                     <Typography

@@ -2,22 +2,42 @@ import { SupportedPaymentMethods } from "../../models/order.model";
 import { PaymentActions } from "../constants"
 
 interface CommonDetails {
-    method?: SupportedPaymentMethods
+    method?: SupportedPaymentMethods;
 }
 
-export interface CardDetails extends CommonDetails {
+export interface CardDetails {
     name: string;
     number: string;
     cvv: string;
-    expiry: string
+    expiry: string;
+    notes?: {
+        [x: string]: string
+    };
 }
 
-export interface UPIDetails extends CommonDetails {
-    vpa: string
+export interface UPIDetails {
+    vpa: string;
+    notes?: {
+        [x: string]: string
+    };
+}
+
+export interface NetbankingDetails {
+    bank: string;
+    notes?: {
+        [x: string]: string
+    };
+}
+
+export interface MobileWalletDetails {
+    wallet: string;
+    notes?: {
+        [x: string]: string
+    };
 }
 
 export interface PaymentDetails extends CommonDetails {
-    details?: CardDetails | UPIDetails
+    details?: CardDetails | UPIDetails | NetbankingDetails | MobileWalletDetails
 }
 
 export const setPaymentMethod = (method: SupportedPaymentMethods) => {
@@ -27,7 +47,7 @@ export const setPaymentMethod = (method: SupportedPaymentMethods) => {
     }
 }
 
-export const setPaymentDetails = (details: CardDetails | UPIDetails) => {
+export const setPaymentDetails = (details: CardDetails | UPIDetails | NetbankingDetails | MobileWalletDetails) => {
     return {
         type: PaymentActions.PAYMENT_DETAILS,
         details
@@ -36,6 +56,6 @@ export const setPaymentDetails = (details: CardDetails | UPIDetails) => {
 
 export const resetPayment = () => {
     return {
-        type : PaymentActions.RESET_PAYMENT
+        type: PaymentActions.RESET_PAYMENT
     }
 }

@@ -1,9 +1,10 @@
 import { Stack, Theme, Typography, useMediaQuery } from '@mui/material'
+import { PaymentMethodProps } from '..'
 import { APP_NAME } from '../../../utils/constants'
 import Country from './Country'
 import StateTerritory from './StateTerritory'
 
-export default function BillingDetails() {
+export default function BillingDetails({ formValues }: PaymentMethodProps) {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
     return (
@@ -24,7 +25,9 @@ export default function BillingDetails() {
                     spacing={!matches ? 3 : 2}
                 >
                     <Country />
-                    <StateTerritory />
+                    <StateTerritory 
+                        formValues={formValues}
+                    />
                 </Stack>
             </Stack>
             <Typography

@@ -1,27 +1,41 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 import { PaymentMethodProps } from '..'
+import { generateUpiQR, getMobileWallets, getNetbankingBanks } from '../../../API/handlers/payment.handler'
+import CartOrderMetaModel from '../../../models/cart.meta.model'
 import { SupportedPaymentMethods } from '../../../models/order.model'
 import { setPaymentMethod } from '../../../redux/actions/payment.action'
 import { RootState } from '../../../redux/reducers'
+import { CartAction } from '../../../redux/reducers/cart.reducer'
 import { PaymentState } from '../../../redux/reducers/payment.reducer'
 import CreditDebitCard from './PaymentMethods/CreditDebitCard'
-import MobileBanking from './PaymentMethods/MobileBanking'
+import MobileWallets from './PaymentMethods/MobileWallets'
 import NetBanking from './PaymentMethods/NetBanking'
 import Paytm from './PaymentMethods/Paytm'
 import UPI from './PaymentMethods/UPI'
 
-export default function Methods({ register, errors }: PaymentMethodProps) {
-    // const [activePaymentMethod, setActiveAccordion] = useState<number | undefined>()
+type IconGeneratorProps = {
+    icon: string,
+    height?: number
+}
+
+export const IconGenerator = ({ icon, height }: IconGeneratorProps) => (
+    <img
+        src={icon}
+        style={{
+            height: height || 25,
+            objectFit: 'cover',
+        }}
+    />
+)
+
+export default function Methods({ formValues, banks, wallets }: PaymentMethodProps) {
     const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
     const activePaymentMethod = payment.method
 
     type AccordionGeneratorProps = PaymentMethodArgs
-
-    type IconGeneratorProps = {
-        icon: string,
-    }
 
     type PaymentMethods = Array<PaymentMethodArgs>
 
@@ -34,19 +48,35 @@ export default function Methods({ register, errors }: PaymentMethodProps) {
         component?: React.ReactElement
     }
 
-    const IconGenerator = ({ icon }: IconGeneratorProps) => (
-        <img
-            src={icon}
-            style={{
-                height: 25,
-                objectFit: 'cover',
-            }}
-        />
-    )
+    const [netbankingBanks, setBanks] = useState<typeof banks>()
+    const [mobileWallets, setWallets] = useState<typeof wallets>()
+    const [qrCode, setQrCode] = useState<string>()
+
+    const location = useLocation()
+
+    const cart = location.state as CartAction
+    const orderMeta: CartOrderMetaModel = cart
+
+    useEffect(() => {
+        getNetbankingBanks()
+            .then(banks => setBanks(banks))
+            .catch(err => console.log(err.toString()))
+
+        getMobileWallets()
+            .then(wallets => setWallets(wallets))
+            .catch(err => console.log(err.toString()))
+
+        generateUpiQR({
+            amount: orderMeta.totalPrice * 100
+        })
+            .then(data => setQrCode(data.image_url))
+            .catch(err => {
+                console.log(err.toString())
+            })
+    }, [])
 
     const paymentMethods: PaymentMethods = [
         {
-            // id: 1,
             method: 'card',
             title: 'Credit/Debit Card',
             icons: [
@@ -73,8 +103,7 @@ export default function Methods({ register, errors }: PaymentMethodProps) {
                 icon='https://www.udemy.com/staticx/udemy/images/v9/card-default.svg'
             />,
             component: <CreditDebitCard
-                errors={errors}
-                register={register}
+                formValues={formValues}
             />
         },
         {
@@ -84,18 +113,18 @@ export default function Methods({ register, errors }: PaymentMethodProps) {
                 <IconGenerator
                     icon='https://www.udemy.com/staticx/udemy/images/v9/common-upi.svg'
                 />,
-            component: <UPI />
-        },
-        {
-            method: 'paytm',
-            title: 'PayTM',
-            defIcon: <IconGenerator
-                icon='https://www.udemy.com/staticx/udemy/images/v9/hpp-paytm.svg'
-            />,
-            component: <Paytm
-
+            component: <UPI 
+                qrCode={qrCode}
             />
         },
+        // {
+        //     method: 'paytm',
+        //     title: 'PayTM',
+        //     defIcon: <IconGenerator
+        //         icon='https://www.udemy.com/staticx/udemy/images/v9/hpp-paytm.svg'
+        //     />,
+        //     component: <Paytm />
+        // },
         {
             method: 'netbanking',
             title: 'Net Banking',
@@ -103,19 +132,19 @@ export default function Methods({ register, errors }: PaymentMethodProps) {
                 icon='https://www.udemy.com/staticx/udemy/images/v9/common-onlinebanking-in.svg'
             />,
             component: <NetBanking
-                errors={errors}
-                register={register}
+                formValues={formValues}
+                banks={netbankingBanks}
             />
         },
         {
-            method: 'mobile-wallet',
+            method: 'wallet',
             title: 'Mobile Wallets',
             defIcon: <IconGenerator
                 icon='https://www.udemy.com/staticx/udemy/images/v9/common-wallet-in.svg'
             />,
-            component: <MobileBanking
-                errors={errors}
-                register={register}
+            component: <MobileWallets
+                formValues={formValues}
+                wallets={mobileWallets}
             />
         }
     ]
@@ -196,7 +225,7 @@ export default function Methods({ register, errors }: PaymentMethodProps) {
                             alignItems='center'
                             flexWrap='wrap'
                         >
-                            {icons?.map(icon => (
+                            {method !== activePaymentMethod && icons?.map(icon => (
                                 <Stack
                                     sx={{
                                         border: '1px solid #d1d7dc',
@@ -213,9 +242,11 @@ export default function Methods({ register, errors }: PaymentMethodProps) {
                         </Stack>
                     </Stack>
                 </AccordionSummary>
-                <AccordionDetails>
-                    {children}
-                </AccordionDetails>
+                {method === activePaymentMethod &&
+                    <AccordionDetails>
+                        {children}
+                    </AccordionDetails>
+                }
             </Accordion>
         )
     }

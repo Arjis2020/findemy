@@ -1,12 +1,13 @@
-import { Box, Stack, Theme, Typography, useMediaQuery, useTheme } from '@mui/material'
-import { useEffect } from 'react'
-import { FieldErrorsImpl, FieldValues, useForm, UseFormRegister } from 'react-hook-form'
+import { Box, Container, Stack, Theme, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { FieldValues, useForm, UseFormReturn } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { Navigate, useLocation } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { createOrder, verifyOrder } from '../../API/handlers/payment.handler'
+import { checkout } from '../../API/handlers/purchase.handler'
 import CartOrderMetaModel from '../../models/cart.meta.model'
 import { CreateOrderModel, VerifyOrderModel } from '../../models/order.model'
-import { CardDetails, resetPayment, setPaymentDetails } from '../../redux/actions/payment.action'
+import { CardDetails, MobileWalletDetails, NetbankingDetails, resetPayment, setPaymentDetails, UPIDetails } from '../../redux/actions/payment.action'
 import { RootState } from '../../redux/reducers'
 import { LoginStateAction } from '../../redux/reducers/auth.reducer'
 import { CartAction } from '../../redux/reducers/cart.reducer'
@@ -21,18 +22,27 @@ import Summary from './Summary'
 // const RAZORPAY_CHECKOUT_SCRIPT_SRC = "https://checkout.razorpay.com/v1/checkout.js"
 
 export type PaymentMethodProps = {
-    register: UseFormRegister<FieldValues>,
-    errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>
+    // register: UseFormRegister<FieldValues>,
+    // errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>,
+    formValues: UseFormReturn<FieldValues, any>
+    // paytmPaymentHandler?: () => void
+    banks?: {
+        [bank: string]: string
+    },
+    wallets?: {
+        [wallet: string]: boolean
+    }
 }
 
 export default function Checkout() {
-    const { handleSubmit, register, reset, formState: { errors } } = useForm({
+    const formValues = useForm({
         shouldFocusError: false
     })
 
+    const { handleSubmit, reset } = formValues
+
     const location = useLocation()
 
-    console.log(location.state)
     const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
     const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
@@ -46,12 +56,36 @@ export default function Checkout() {
     }, [paymentMethod])
 
     useEffect(() => {
-        if (payment.method === 'card' && payment.details) {
-            displayRazorpay(payment.details as CardDetails)
+        if (payment.details) {
+            if (paymentMethod === 'card') {
+                displayRazorpay(buildCardPrefillOptions(payment.details as CardDetails), payment.details as CardDetails)
+            }
+            else if (paymentMethod === 'upi') {
+                displayRazorpay(buildUPIPrefillOptions(payment.details as UPIDetails), payment.details as UPIDetails)
+            }
+            // else if (paymentMethod === 'paytm') {
+            //     displayRazorpay(null)
+            // }
+            else if (paymentMethod === 'netbanking') {
+                displayRazorpay(buildNetbankingPrefillOptions(payment.details as NetbankingDetails), payment.details as NetbankingDetails)
+            }
+            else if (paymentMethod === 'wallet') {
+                displayRazorpay(buildWalletPrefillOptions(payment.details as MobileWalletDetails), payment.details as MobileWalletDetails)
+            }
         }
     }, [payment.details])
 
     const theme = useTheme()
+    const [razorpayOptions, setRazorpayOptions] = useState<any>()
+
+    useEffect(() => {
+        if (razorpayOptions) {
+            const paymentObject = new window.Razorpay(razorpayOptions)
+            paymentObject.open()
+        }
+    }, [razorpayOptions])
+
+    const navigate = useNavigate()
 
     // redirects user to home screen if location.state is null
     // this forces the user to come via a route that explicitly defines a state
@@ -69,19 +103,100 @@ export default function Checkout() {
     const createOrderParams: CreateOrderModel = {
         amount: String(orderMeta.totalPrice * 100),
         currency: 'INR',
-        receipt: generateReceipt()
+        receipt: generateReceipt(),
+        method: paymentMethod!,
+        notes: { ...payment.details ? { ...payment.details.notes } : null }
     }
 
     const onSubmit = (values: FieldValues) => {
-        const details: CardDetails = {
-            ...values as CardDetails
+        if (paymentMethod === 'card') {
+            values.number = values.number.split(' ').join('')
+            const details: CardDetails = {
+                ...values as CardDetails
+            }
+            dispatch(setPaymentDetails(details))
         }
-        dispatch(setPaymentDetails(details))
+        else if (paymentMethod === 'netbanking') {
+            dispatch(setPaymentDetails(values as NetbankingDetails))
+        }
+        else if (paymentMethod === 'wallet') {
+            dispatch(setPaymentDetails(values as MobileWalletDetails))
+        }
     }
 
-    const displayRazorpay = async (details: CardDetails) => {
-        if (!window.Razorpay) throw new Error("Razorpay couldn't connect")
+    // const paytmPaymentHandler = () => {
+    //     displayRazorpay(null)
+    // }
 
+    const buildNetbankingPrefillOptions = (details: NetbankingDetails) => {
+        return {
+            config: {
+                display: {
+                    blocks: {
+                        banks: {
+                            name: 'All payment methods',
+                            instruments: [
+                                {
+                                    method: 'netbanking',
+                                    banks: [details.bank]
+                                }
+                            ],
+                        },
+                    },
+                    sequence: ['block.banks'],
+                    preferences: {
+                        show_default_blocks: false,
+                    },
+                },
+            }
+        }
+    }
+
+    const buildWalletPrefillOptions = (details: MobileWalletDetails) => {
+        return {
+            config: {
+                display: {
+                    blocks: {
+                        wallets: {
+                            name: 'All payment methods',
+                            instruments: [
+                                {
+                                    method: 'wallet',
+                                    wallets: [details.wallet]
+                                }
+                            ],
+                        },
+                    },
+                    sequence: ['block.wallets'],
+                    preferences: {
+                        show_default_blocks: false,
+                    },
+                },
+            }
+        }
+    }
+
+    const buildCardPrefillOptions = (details: CardDetails) => {
+        return {
+            prefill: {
+                "card[number]": +details.number,
+                "card[expiry]": details.expiry,
+                "card[cvv]": +details.cvv
+            }
+        }
+    }
+
+    const buildUPIPrefillOptions = (upi: UPIDetails) => {
+        return {
+            prefill: {
+                vpa: upi.vpa
+            }
+        }
+    }
+
+    const displayRazorpay = async (prefillOptions: any, details?: typeof payment.details) => {
+        if (!window.Razorpay) throw new Error("Razorpay couldn't connect")
+        // console.log(details.method)
         // creating a new order
         const result = await createOrder(createOrderParams)
 
@@ -114,7 +229,9 @@ export default function Checkout() {
                         razorpay_signature: data.razorpaySignature
                     }
                     await verifyOrder(params)
+                    await checkout(cart.orders.map(order => order._id))
                     dispatch(resetPayment())
+                    navigate('/my-learnings')
                 }
                 catch (err) {
                     console.log(err)
@@ -123,67 +240,84 @@ export default function Checkout() {
             modal: {
                 onDismiss() {
                     dispatch(resetPayment())
-                }
+                },
+                confirmClose: true
             },
             prefill: {
-                name: details.name,
+                name: paymentMethod !== 'card' ? user.data?.name : (details as CardDetails).name,
                 email: user.data?.email,
                 contact: "6290997993",
-                method: "card",
-                "card[number]": +details.number,
-                "card[expiry]": details.expiry,
-                "card[cvv]": +details.cvv
+                method: paymentMethod,
+                ...prefillOptions.prefill
             },
+            config: { ...prefillOptions.config },
             theme: {
                 color: theme.palette.primary.main,
             },
         };
 
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
+        setRazorpayOptions(options)
     }
 
     const DesktopView = () => (
-        <Stack
-            direction='row'
-            spacing={8}
+        <Container
+            maxWidth='laptop'
         >
             <Stack
-                spacing={3}
-                pl='10rem'
-                width='55%'
-                py={4}
+                direction='row'
+                spacing={8}
             >
-                <Typography
-                    variant='h4'
-                    fontFamily='SuisseBold'
+                <Stack
+                    spacing={3}
+                    width='55%'
+                    py={4}
                 >
-                    Checkout
-                </Typography>
-                <BillingDetails />
-                <PaymentDetails
-                    errors={errors}
-                    register={register}
-                />
-                <OrderDetails
-                    orders={cart.orders}
-                />
+                    <Typography
+                        variant='h4'
+                        fontFamily='SuisseBold'
+                    >
+                        Checkout
+                    </Typography>
+                    <BillingDetails
+                        formValues={formValues}
+                    />
+                    <PaymentDetails
+                        // paytmPaymentHandler={paytmPaymentHandler}
+                        formValues={formValues}
+                    />
+                    <OrderDetails
+                        orders={cart.orders}
+                    />
+                </Stack>
+                <Box
+                    sx={{
+                        background: '#f7f9fa',
+                        top: 0,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        transform: 'translateX(100%)',
+                        position: 'fixed',
+                        // zIndex: -2,
+                        width: '53%'
+                    }}
+                >
+                    <Box
+                        sx={{
+                            maxWidth: '55%',
+                            py: 10
+                        }}
+                        pl={8}
+                    >
+                        <Summary
+                            // onCheckout={displayRazorpay}
+                            // paytmPaymentHandler={paytmPaymentHandler}
+                            orderMeta={orderMeta}
+                        />
+                    </Box>
+                </Box>
             </Stack>
-            <Box
-                sx={{
-                    background: '#f7f9fa',
-                    py: 4
-                }}
-                pl={8}
-                pr='10rem'
-                flex={1}
-            >
-                <Summary
-                    // onCheckout={displayRazorpay}
-                    orderMeta={orderMeta}
-                />
-            </Box>
-        </Stack>
+        </Container>
     )
 
     const MobileView = () => (
@@ -203,16 +337,19 @@ export default function Checkout() {
                 >
                     Checkout
                 </Typography>
-                <BillingDetails />
+                <BillingDetails
+                    formValues={formValues}
+                />
                 <PaymentDetails
-                    errors={errors}
-                    register={register}
+                    // paytmPaymentHandler={paytmPaymentHandler}
+                    formValues={formValues}
                 />
                 <OrderDetails
                     orders={cart.orders}
                 />
                 <Summary
                     // onCheckout={displayRazorpay}
+                    // paytmPaymentHandler={paytmPaymentHandler}
                     orderMeta={orderMeta}
                 />
             </Stack>

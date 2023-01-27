@@ -14,6 +14,7 @@ import { RootState } from '../../redux/reducers';
 import { CartAction } from '../../redux/reducers/cart.reducer';
 import { useNavigate } from 'react-router-dom';
 import CourseModel from '../../models/course.model';
+import { Link } from 'react-router-dom';
 
 type SummaryCardProps = {
     showVideo?: boolean,
@@ -62,6 +63,13 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
         }
     ]
 
+    const courseAsCart = {
+        orders: [values],
+        totalPrice: values.price,
+        totalDiscountedPrice: values.discountedPrice,
+        discountPercentage: Math.floor((values.price - values.discountedPrice) / values.price),
+        discount: values.price - values.discountedPrice
+    }
     const navigate = useNavigate()
 
     return (
@@ -140,22 +148,28 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
                             >
                                 {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
                             </Button>
-                            <Button
-                                variant='outlined'
-                                color='inherit'
-                                sx={{
-                                    borderRadius: 0,
-                                    textTransform: 'none',
-                                    fontFamily: 'UdemySansBold',
-                                    py: 1.3,
-                                    fontSize: 16
-                                }}
-                                fullWidth
-                                disableRipple
-                                disableElevation
+                            {!doesCourseExistInCart && <Link
+                                to='/checkout'
+                                state={courseAsCart}
+                                className='link-unstyled-full'
                             >
-                                Buy now
-                            </Button>
+                                <Button
+                                    variant='outlined'
+                                    color='inherit'
+                                    sx={{
+                                        borderRadius: 0,
+                                        textTransform: 'none',
+                                        fontFamily: 'UdemySansBold',
+                                        py: 1.3,
+                                        fontSize: 16
+                                    }}
+                                    fullWidth
+                                    disableRipple
+                                    disableElevation
+                                >
+                                    Buy now
+                                </Button>
+                            </Link>}
                         </Stack>
                         <Typography
                             variant='caption'
