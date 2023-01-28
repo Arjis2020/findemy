@@ -26,19 +26,9 @@ export const cartReducer = (state = initialState, action: any) => {
         case CartActions.SET_CART:
             return {
                 ...state,
-                // itemsConsolidated: [...state.itemsConsolidated, action.data]
                 ...action.data
             }
-        // case CartActions.SET_CART_ALL:
-        //     return {
-        //         ...state,
-        //         // itemsConsolidated: action.data
-        //     }
-        // case CartActions.SET_CART_COURSES:
-        //     return {
-        //         ...state,
-        //         cartOrders: action.data
-        //     }
+        case CartActions.CLEAR_CART:
         case LoginActions.LOGOUT:
             return initialState
     }

@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const { COOKIE_TOKEN } = require('../constants')
 const Cart = require('../models/cart.model')
 const ValidationError = require('../errors/ValidationError')
+const Purchases = require('../models/purchase.model')
 
 require('dotenv').config()
 
@@ -13,20 +14,6 @@ const authorize = async (req, res) => {
     delete decoded.iat
     delete decoded.exp
 
-    // const cart = (await Cart.find(
-    //     {
-    //         user_id: decoded._id
-    //     },
-    //     {
-    //         course_id: 1
-    //     }
-    // ).populate(['course_id'])).map(item => ({ ...item.course_id.toJSON() }))
-
-    // const cart = (await Cart.find(
-    //     {
-    //         user_id: decoded._id
-    //     }
-    // ).populate('course_id')).map(i => ({ ...i.course_id.toJSON() }))
     const user_id = decoded._id
     const orders = (await Cart.find(
         {
@@ -38,6 +25,10 @@ const authorize = async (req, res) => {
             path: 'instructors'
         }
     })).map(item => ({ ...item.course_id.toJSON() }))
+
+    const purchases = (await Purchases.find({
+        user_id
+    }).populate('course_id')).map(item => ({ ...item.course_id.toJSON() }))
 
     const totalDiscountedPrice = orders.reduce((sum, i) => sum + i.discountedPrice, 0)
     const totalPrice = orders.reduce((sum, i) => sum + i.price, 0)
@@ -54,7 +45,8 @@ const authorize = async (req, res) => {
 
     const response = {
         ...decoded,
-        cart
+        cart,
+        purchases
     }
 
     // console.log(response)
@@ -86,6 +78,10 @@ const login = async (req, res) => {
                 }
             })).map(item => ({ ...item.course_id.toJSON() }))
 
+            const purchases = (await Purchases.find({
+                user_id: user._id
+            }).populate('course_id')).map(item => ({ ...item.course_id.toJSON() }))
+
             const totalDiscountedPrice = orders.reduce((sum, i) => sum + i.discountedPrice, 0)
             const totalPrice = orders.reduce((sum, i) => sum + i.price, 0)
             const discountPercentage = Math.floor(((totalPrice - totalDiscountedPrice) / totalPrice) * 100)
@@ -113,7 +109,8 @@ const login = async (req, res) => {
 
             const response = {
                 ...jwtSignaturePayload,
-                cart
+                cart,
+                purchases
             }
 
             res.cookie(COOKIE_TOKEN, authToken, {

@@ -26,7 +26,10 @@ export default function Courses({ course }: SearchResultCourseProps) {
 
     const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
     const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
+    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as CourseModel[]
+
     const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === course._id) !== -1
+    const isPurchased = purchases.findIndex(course => course._id === course._id) !== -1
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -332,6 +335,7 @@ export default function Courses({ course }: SearchResultCourseProps) {
                         <SearchResultTooltip
                             learnings={course.learnings}
                             doesCourseExistInCart={doesCourseExistInCart}
+                            isPurchased={isPurchased}
                             onAddToCartClicked={onAddToCartClicked}
                         />
                     }

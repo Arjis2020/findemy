@@ -3,6 +3,7 @@ import { handleAuthorization, handleLogin, handleLogout, handleSignup } from '..
 import UserModel from '../../models/user.model'
 import { logoutUser, TriggerLoginAction, TriggerSignupAction, userData, loginError, signupError } from '../actions/auth.action'
 import { setCart } from '../actions/cart.action'
+import { setPurchases } from '../actions/purchase.action'
 import { LoginActions } from '../constants'
 
 function* login(action?: TriggerLoginAction) {
@@ -13,6 +14,9 @@ function* login(action?: TriggerLoginAction) {
         )
         yield put(
             setCart(data.cart)
+        )
+        yield put(
+            setPurchases(data.purchases)
         )
     }
     catch (err: any) {
@@ -31,6 +35,9 @@ function* authorize() {
         )
         yield put(
             setCart(data.cart)
+        )
+        yield put(
+            setPurchases(data.purchases)
         )
     }
     catch (err: any) {

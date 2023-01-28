@@ -1,6 +1,6 @@
 const Purchases = require('../models/purchase.model')
-const insert = require('../databaseUtils/insert')
 const ValidationError = require('../errors/ValidationError')
+const Cart = require('../models/cart.model')
 
 const purchase = async (req, res) => {
     const { courses } = req.body
@@ -8,13 +8,38 @@ const purchase = async (req, res) => {
 
     const injectedCourses = courses.map(course => ({
         user_id,
-        course_id: course
+        course_id: course._id
     }))
     try {
         await Purchases.insertMany(injectedCourses)
-        res.send("Success")
+        const orders = (await Cart.find(
+            {
+                user_id
+            },
+        ).populate({
+            path: 'course_id',
+            populate: {
+                path: 'instructors'
+            }
+        })).map(item => ({ ...item.course_id.toJSON() }))
+
+        const totalDiscountedPrice = orders.reduce((sum, i) => sum + i.discountedPrice, 0)
+        const totalPrice = orders.reduce((sum, i) => sum + i.price, 0)
+        const discountPercentage = Math.floor(((totalPrice - totalDiscountedPrice) / totalPrice) * 100)
+        const discount = totalPrice - totalDiscountedPrice
+
+        const updatedCart = {
+            orders,
+            totalPrice,
+            totalDiscountedPrice,
+            discountPercentage,
+            discount
+        }
+
+        res.send(updatedCart)
     }
     catch (err) {
+        console.log(err)
         if (err instanceof ValidationError)
             res.status(409).send({
                 status: "Failed",
@@ -29,10 +54,15 @@ const purchase = async (req, res) => {
 }
 
 const getAllPurchases = async (req, res) => {
-    const { user_id } = req.query
-    const purchases = await Purchases.find({
+    const user_id = req.decoded._id
+    const purchases = (await Purchases.find({
         user_id
-    })
+    }).populate({
+        path: 'course_id',
+        populate: {
+            path: 'instructors'
+        }
+    })).map(item => ({ ...item.course_id.toJSON() }))
 
     res.send(purchases)
 }

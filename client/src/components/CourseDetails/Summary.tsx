@@ -4,6 +4,7 @@ import { memo, ReactElement } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import CourseModel from '../../models/course.model'
+import { LoginAction } from '../../redux/actions/auth.action'
 import { RootState } from '../../redux/reducers'
 import { CartAction } from '../../redux/reducers/cart.reducer'
 
@@ -49,8 +50,10 @@ export default memo(function Summary({ values }: SummaryProps) {
         discount: values.price - values.discountedPrice
     }
     const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as CourseModel[]
 
     const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
+    const isPurchased = purchases.findIndex(course => course._id === values._id) !== -1
 
     const BuyButton = () => (
         <Link
@@ -87,7 +90,7 @@ export default memo(function Summary({ values }: SummaryProps) {
 
     return (
         <RevealOnScroll>
-            <AppBar
+            {!doesCourseExistInCart && !isPurchased ? <AppBar
                 position='fixed'
                 sx={{
                     background: theme => !mobile ? theme.palette.common.black : theme.palette.common.white,
@@ -193,7 +196,7 @@ export default memo(function Summary({ values }: SummaryProps) {
                                     ₹{values.price.toLocaleString()}
                                 </Typography>}
                             </Stack>
-                            {!doesCourseExistInCart && <Link
+                            {!doesCourseExistInCart && !isPurchased && <Link
                                 to='/checkout'
                                 state={courseAsCart}
                                 className='link-unstyled-full'
@@ -222,10 +225,13 @@ export default memo(function Summary({ values }: SummaryProps) {
                         </Stack>}
                     </Stack>
                         :
-                        !doesCourseExistInCart && <BuyButton />
+                        <BuyButton />
                     }
                 </Toolbar>
             </AppBar>
+                :
+                <div></div>
+            }
         </RevealOnScroll>
     )
 })

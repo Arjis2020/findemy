@@ -1,6 +1,8 @@
 const { Schema } = require('mongoose')
 const { v4: uuidv4 } = require('uuid')
 const ValidationError = require('../errors/ValidationError')
+const Cart = require('../models/cart.model')
+const Courses = require('../models/course.model')
 
 const PurchasesSchema = new Schema({
     course_id: {
@@ -25,7 +27,17 @@ PurchasesSchema.pre('insertMany', async function (next, docs) {
         if (purchase?._id) {
             throw new ValidationError('One of the courses were already purchased')
         }
+        const course = await Courses.findById(doc.course_id)
+        if (!course._id) {
+            throw new ValidationError('No courses found with the given course id')
+        }
     }
+    await Cart.deleteMany({
+        course_id: {
+            $in: docs.map(doc => doc.course_id)
+        },
+        user_id: docs[0].user_id
+    })
     next()
 })
 

@@ -7,7 +7,9 @@ import { createOrder, verifyOrder } from '../../API/handlers/payment.handler'
 import { checkout } from '../../API/handlers/purchase.handler'
 import CartOrderMetaModel from '../../models/cart.meta.model'
 import { CreateOrderModel, VerifyOrderModel } from '../../models/order.model'
+// import { clearCart } from '../../redux/actions/cart.action'
 import { CardDetails, MobileWalletDetails, NetbankingDetails, resetPayment, setPaymentDetails, UPIDetails } from '../../redux/actions/payment.action'
+import { purchaseCourses } from '../../redux/actions/purchase.action'
 import { RootState } from '../../redux/reducers'
 import { LoginStateAction } from '../../redux/reducers/auth.reducer'
 import { CartAction } from '../../redux/reducers/cart.reducer'
@@ -101,7 +103,7 @@ export default function Checkout() {
     const orderMeta: CartOrderMetaModel = cart
 
     const createOrderParams: CreateOrderModel = {
-        amount: String(orderMeta.totalPrice * 100),
+        amount: String(orderMeta.totalDiscountedPrice * 100),
         currency: 'INR',
         receipt: generateReceipt(),
         method: paymentMethod!,
@@ -229,9 +231,10 @@ export default function Checkout() {
                         razorpay_signature: data.razorpaySignature
                     }
                     await verifyOrder(params)
-                    await checkout(cart.orders.map(order => order._id))
+                    // await checkout(cart.orders.map(order => order._id))
+                    dispatch(purchaseCourses(cart.orders))
                     dispatch(resetPayment())
-                    navigate('/my-learnings')
+                    navigate('/my-learning')
                 }
                 catch (err) {
                     console.log(err)

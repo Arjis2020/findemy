@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 import { CartAction } from '../../redux/reducers/cart.reducer';
+import { LoginAction } from '../../redux/actions/auth.action';
+import { Link } from 'react-router-dom';
 
 type SummaryBannerProps = {
     values: CourseModel,
@@ -23,9 +25,12 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
 
     const discountPercentage = Math.floor(((values.price - values.discountedPrice) / values.price) * 100)
     const navigate = useNavigate()
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
 
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as CourseModel[]
+    
     const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
+    const isPurchased = purchases.findIndex(course => course._id === values._id) !== -1
 
     const DesktopView = () => {
         return (
@@ -400,22 +405,47 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
                         spacing={1}
                         width='100%'
                     >
-                        <Button
-                            variant='contained'
-                            sx={{
-                                borderRadius: 0,
-                                textTransform: 'none',
-                                fontFamily: 'UdemySansBold',
-                                py: 1.3,
-                                fontSize: 16
-                            }}
-                            onClick={doesCourseExistInCart ? () => navigate('/cart') : onAddToCartClicked}
-                            fullWidth
-                            disableElevation
-                            disableRipple
-                        >
-                            {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
-                        </Button>
+                        {!isPurchased ?
+                            <Button
+                                variant='contained'
+                                sx={{
+                                    borderRadius: 0,
+                                    textTransform: 'none',
+                                    fontFamily: 'UdemySansBold',
+                                    py: 1.3,
+                                    fontSize: 16
+                                }}
+                                onClick={doesCourseExistInCart ? () => navigate('/cart') : onAddToCartClicked}
+                                fullWidth
+                                disableElevation
+                                disableRipple
+                            >
+                                {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
+                            </Button>
+                            :
+                            <Link
+                                to='/my-learning'
+                                className='link-unstyled-full'
+                            >
+                                <Button
+                                    variant='contained'
+                                    sx={{
+                                        borderRadius: 0,
+                                        textTransform: 'none',
+                                        fontFamily: 'UdemySansBold',
+                                        py: 1.3,
+                                        fontSize: 16,
+                                        // background: theme => theme.palette.common.black,
+                                        // "&:hover": { background: '#000' }
+                                    }}
+                                    fullWidth
+                                    disableElevation
+                                    disableRipple
+                                >
+                                    Go to course
+                                </Button>
+                            </Link>
+                        }
                     </Stack>
                     <Stack
                         spacing={0.5}

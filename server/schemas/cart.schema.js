@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const ValidationError = require('../errors/ValidationError')
+const Cart = require('../models/cart.model')
 const Courses = require('../models/course.model')
 // const { v4: uuidv4 } = require('uuid')
 // const CoursesSchema = require('./courses.schema')

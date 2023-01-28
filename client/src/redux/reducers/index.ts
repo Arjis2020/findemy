@@ -4,13 +4,15 @@ import { courseReducer } from "./course.reducer";
 import { cartReducer } from "./cart.reducer";
 import { historyReducer } from "./history.reducers";
 import { paymentReducer } from "./payment.reducer";
+import { purchaseReducer } from "./purchase.reducer";
 
 const rootReducer = combineReducers({
     authReducer,
     courseReducer,
     cartReducer,
     historyReducer,
-    paymentReducer
+    paymentReducer,
+    purchaseReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

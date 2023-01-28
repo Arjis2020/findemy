@@ -25,3 +25,4 @@ export const URL_GET_PAYMENT_METHODS = ROUTE_PAYMENT + '/paymentMethods'
 
 const ROUTE_PURCHASE = '/purchases'
 export const URL_PURCHASE_COURSES = ROUTE_PURCHASE + '/purchase'
+export const URL_GET_PURCHASES = ROUTE_PURCHASE + '/'

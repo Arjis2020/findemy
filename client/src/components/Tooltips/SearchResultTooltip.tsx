@@ -5,10 +5,11 @@ import React from 'react';
 type SearchResultTooltipProps = {
     learnings: Array<string>,
     doesCourseExistInCart: boolean,
+    isPurchased: boolean,
     onAddToCartClicked: (e: React.MouseEvent) => void,
 }
 
-export default function SearchResultTooltip({ learnings, doesCourseExistInCart, onAddToCartClicked }: SearchResultTooltipProps) {
+export default function SearchResultTooltip({ learnings, doesCourseExistInCart, isPurchased, onAddToCartClicked }: SearchResultTooltipProps) {
     return (
         <Stack
             spacing={2}
@@ -58,22 +59,45 @@ export default function SearchResultTooltip({ learnings, doesCourseExistInCart, 
                     }
                 </ul>
             </Stack>
-            <Button
-                variant='contained'
-                sx={{
-                    borderRadius: 0,
-                    textTransform: 'none',
-                    fontFamily: 'UdemySansBold',
-                    py: 1.3,
-                    fontSize: 16
-                }}
-                fullWidth
-                disableElevation
-                disableRipple
-                onClick={onAddToCartClicked}
-            >
-                {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
-            </Button>
+            {!isPurchased ?
+                <Button
+                    variant='contained'
+                    sx={{
+                        borderRadius: 0,
+                        textTransform: 'none',
+                        fontFamily: 'UdemySansBold',
+                        py: 1.3,
+                        fontSize: 16
+                    }}
+                    fullWidth
+                    disableElevation
+                    disableRipple
+                    onClick={onAddToCartClicked}
+                >
+                    {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
+                </Button>
+                :
+                <Button
+                    variant='contained'
+                    sx={{
+                        borderRadius: 0,
+                        textTransform: 'none',
+                        fontFamily: 'UdemySansBold',
+                        py: 1.3,
+                        fontSize: 16,
+                        background: theme => theme.palette.common.black,
+                        "&:hover": {
+                            background: '#000'
+                        }
+                    }}
+                    fullWidth
+                    disableElevation
+                    disableRipple
+                    onClick={onAddToCartClicked}
+                >
+                    Go to course
+                </Button>
+            }
         </Stack>
     )
 }

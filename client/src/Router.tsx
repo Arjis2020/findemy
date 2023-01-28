@@ -7,6 +7,7 @@ import Footer from './components/Footer'
 import History from './components/History'
 import Home from './components/Home'
 import Login from './components/Login'
+import MyLearnings from './components/MyLearnings'
 import Navbar from './components/Navbar'
 import ScrollToTop from './components/ScrollToTop'
 import SearchResults from './components/SearchResults'
@@ -19,7 +20,6 @@ export default function Router() {
   const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
   const { paths: [previousPath, currentPath] } = useSelector<RootState>((state) => state.historyReducer) as HistoryState
 
-  console.log(previousPath)
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -73,6 +73,10 @@ export default function Router() {
               to='/login'
             />
           }
+        />
+        <Route 
+          path='/my-learning'
+          element={<MyLearnings />}
         />
         <Route
           path='*'

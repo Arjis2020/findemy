@@ -34,10 +34,12 @@ export default function VideoPreview({ sx, course }: VideoPreviewProps) {
                 onClick={toggleVideoOpen}
                 disableElevation
                 disableRipple
+                fullWidth
             >
                 <Box
                     sx={{
-                        position: 'relative'
+                        position: 'relative',
+                        width: '100%'
                     }}
                 >
                     <img

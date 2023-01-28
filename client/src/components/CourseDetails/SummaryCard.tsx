@@ -15,6 +15,7 @@ import { CartAction } from '../../redux/reducers/cart.reducer';
 import { useNavigate } from 'react-router-dom';
 import CourseModel from '../../models/course.model';
 import { Link } from 'react-router-dom';
+import { LoginAction } from '../../redux/actions/auth.action';
 
 type SummaryCardProps = {
     showVideo?: boolean,
@@ -26,7 +27,10 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
     const discountPercentage = Math.floor(((values.price - values.discountedPrice) / values.price) * 100)
 
     const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as CourseModel[]
+
     const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
+    const isPurchased = purchases.findIndex(course => course._id === values._id) !== -1
 
     const features = [
         {
@@ -132,23 +136,48 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
                             spacing={1}
                             width='100%'
                         >
-                            <Button
-                                variant='contained'
-                                sx={{
-                                    borderRadius: 0,
-                                    textTransform: 'none',
-                                    fontFamily: 'UdemySansBold',
-                                    py: 1.3,
-                                    fontSize: 16
-                                }}
-                                fullWidth
-                                disableElevation
-                                disableRipple
-                                onClick={doesCourseExistInCart ? () => navigate('/cart') : onAddToCartClicked}
-                            >
-                                {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
-                            </Button>
-                            {!doesCourseExistInCart && <Link
+                            {!isPurchased ?
+                                <Button
+                                    variant='contained'
+                                    sx={{
+                                        borderRadius: 0,
+                                        textTransform: 'none',
+                                        fontFamily: 'UdemySansBold',
+                                        py: 1.3,
+                                        fontSize: 16
+                                    }}
+                                    onClick={doesCourseExistInCart ? () => navigate('/cart') : onAddToCartClicked}
+                                    fullWidth
+                                    disableElevation
+                                    disableRipple
+                                >
+                                    {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
+                                </Button>
+                                :
+                                <Link
+                                    to='/my-learning'
+                                    className='link-unstyled-full'
+                                >
+                                    <Button
+                                        variant='contained'
+                                        sx={{
+                                            borderRadius: 0,
+                                            textTransform: 'none',
+                                            fontFamily: 'UdemySansBold',
+                                            py: 1.3,
+                                            fontSize: 16,
+                                            background: theme => theme.palette.common.black,
+                                            "&:hover": { background: '#000' }
+                                        }}
+                                        fullWidth
+                                        disableElevation
+                                        disableRipple
+                                    >
+                                        Go to course
+                                    </Button>
+                                </Link>
+                            }
+                            {!doesCourseExistInCart && !isPurchased && <Link
                                 to='/checkout'
                                 state={courseAsCart}
                                 className='link-unstyled-full'
