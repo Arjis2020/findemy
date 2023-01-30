@@ -69,11 +69,7 @@ export default function CourseView({ item }: CourseViewProps) {
                             <Typography
                                 fontSize={12}
                             >
-                                By {item.instructors.map((instructor, i) => (
-                                    <span>
-                                        {instructor.name}{i < item.instructors.length - 1 ? ', ' : ''}
-                                    </span>
-                                ))}
+                                By {item.instructors.map(i => i.name).join(', ')}
                             </Typography>
                         </Stack>
                         {downDesktop && <Stack
@@ -149,7 +145,7 @@ export default function CourseView({ item }: CourseViewProps) {
                                 >
                                     {item.rating}
                                 </Typography>
-                                <Ratings 
+                                <Ratings
                                     value={item.rating}
                                 />
                             </Stack>}

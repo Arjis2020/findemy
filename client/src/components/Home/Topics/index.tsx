@@ -1,7 +1,17 @@
 import { Grid, Stack, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { getGroupedCategories } from '../../../API/handlers/category.handler'
+import { GroupedCategories } from '../../../models/category.model'
+import Loader from '../../Loader'
 import Categories from './Categories'
 
 export default function Topics() {
+    const [categories, setCategories] = useState<GroupedCategories[]>()
+    useEffect(() => {
+        getGroupedCategories()
+            .then(data => setCategories(data))
+            .catch(err => err.toString())
+    }, [])
     return (
         <Stack
             width='100%'
@@ -20,43 +30,22 @@ export default function Topics() {
                 >
                     Featured topics by category
                 </Typography>
-                <Grid
-                    container
-                    gap={3}
-                >
-                    <Categories
-                        category='Development'
-                        links={[
-                            'Web Development',
-                            'React',
-                            'Python'
-                        ]}
-                    />
-                    <Categories
-                        category='Business'
-                        links={[
-                            'Financial Analysis',
-                            'MBA',
-                            'SQL'
-                        ]}
-                    />
-                    <Categories
-                        category='IT and Software'
-                        links={[
-                            'AWS Certification',
-                            'Azure',
-                            'Cyber Security'
-                        ]}
-                    />
-                    <Categories
-                        category='Design'
-                        links={[
-                            'UI/UX',
-                            'Digital Art',
-                            'Photoshop'
-                        ]}
-                    />
-                </Grid>
+                {
+                    categories ?
+                        <Grid
+                            container
+                            gap={3}
+                        >
+                            {categories.map(parent => (
+                                <Categories
+                                    category={parent.title}
+                                    links={parent.sub_categories}
+                                />
+                            ))}
+                        </Grid>
+                        :
+                        <Loader />
+                }
             </Stack>
         </Stack>
     )

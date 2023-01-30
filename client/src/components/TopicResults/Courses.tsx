@@ -227,21 +227,6 @@ export default function Courses({ course }: SearchResultCourseProps) {
                     >
                         {course.title}
                     </Typography>
-                    {/* <span>
-                        {course.instructors.map((instructor, i) => (
-                            <>
-                                <Typography
-                                    variant='caption'
-                                    color="#6a6f73"
-                                    textOverflow='ellipsis'
-                                    noWrap
-                                    maxWidth='80%'
-                                >
-                                    {instructor.name}
-                                </Typography>{course.instructors.length > 1 && i < course.instructors.length - 1 && ', '}
-                            </>
-                        ))}
-                    </span> */}
                     <Typography
                         variant='caption'
                         color="#6a6f73"

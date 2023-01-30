@@ -231,10 +231,13 @@ export default function Checkout() {
                         razorpay_signature: data.razorpaySignature
                     }
                     await verifyOrder(params)
-                    // await checkout(cart.orders.map(order => order._id))
                     dispatch(purchaseCourses(cart.orders))
                     dispatch(resetPayment())
-                    navigate('/my-learning')
+                    navigate(`/order/success/${params.order_id}`, {
+                        state: {
+                            order_id: params.order_id
+                        }
+                    })
                 }
                 catch (err) {
                     console.log(err)

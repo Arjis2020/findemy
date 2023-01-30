@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery } from "redux-saga/effects";
+import { all, call, debounce, put, takeEvery, takeLeading } from "redux-saga/effects";
 import { getAllCourses } from "../../API/handlers/course.handler";
 import CartModel from "../../models/cart.model";
 import CourseModel from "../../models/course.model";
@@ -26,6 +26,6 @@ function* checkout(action: PurchaseAction) {
 
 export default function* purchaseSaga() {
     yield all([
-        takeEvery(PurchaseActions.PURCHASE_COURSES, checkout)
+        takeLeading(PurchaseActions.PURCHASE_COURSES, checkout)
     ])
 }

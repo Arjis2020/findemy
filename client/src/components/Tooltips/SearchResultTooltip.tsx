@@ -1,6 +1,7 @@
 import { Button, Stack, Typography } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 type SearchResultTooltipProps = {
     learnings: Array<string>,
@@ -77,26 +78,33 @@ export default function SearchResultTooltip({ learnings, doesCourseExistInCart, 
                     {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
                 </Button>
                 :
-                <Button
-                    variant='contained'
-                    sx={{
-                        borderRadius: 0,
-                        textTransform: 'none',
-                        fontFamily: 'UdemySansBold',
-                        py: 1.3,
-                        fontSize: 16,
-                        background: theme => theme.palette.common.black,
-                        "&:hover": {
-                            background: '#000'
-                        }
+                <Link
+                    to='/my-learning'
+                    className='link-unstyled-full'
+                    style={{
+                        width: '100%'
                     }}
-                    fullWidth
-                    disableElevation
-                    disableRipple
-                    onClick={onAddToCartClicked}
                 >
-                    Go to course
-                </Button>
+                    <Button
+                        variant='contained'
+                        sx={{
+                            borderRadius: 0,
+                            textTransform: 'none',
+                            fontFamily: 'UdemySansBold',
+                            py: 1.3,
+                            fontSize: 16,
+                            background: theme => theme.palette.common.black,
+                            "&:hover": {
+                                background: '#000'
+                            }
+                        }}
+                        fullWidth
+                        disableElevation
+                        disableRipple
+                    >
+                        Go to course
+                    </Button>
+                </Link>
             }
         </Stack>
     )

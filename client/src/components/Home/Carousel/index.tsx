@@ -139,7 +139,7 @@ export default function Carousel() {
                                                 >
                                                     {data.title}
                                                 </Typography>
-                                                <span>
+                                                {/* <span>
                                                     {data.instructors.map((instructor, i) => (
                                                         <>
                                                             <Typography
@@ -153,7 +153,16 @@ export default function Carousel() {
                                                             </Typography>{data.instructors.length > 1 && i < data.instructors.length - 1 && ', '}
                                                         </>
                                                     ))}
-                                                </span>
+                                                </span> */}
+                                                <Typography
+                                                    variant='caption'
+                                                    color="#6a6f73"
+                                                    textOverflow='ellipsis'
+                                                    noWrap
+                                                    maxWidth='15rem'
+                                                >
+                                                    {data.instructors.map(i => i.name).join(', ')}
+                                                </Typography>
                                             </Stack>
                                             <Stack
                                                 alignItems='start'

@@ -9,9 +9,11 @@ import Home from './components/Home'
 import Login from './components/Login'
 import MyLearnings from './components/MyLearnings'
 import Navbar from './components/Navbar'
+import OrderPlaced from './components/OrderPlaced'
 import ScrollToTop from './components/ScrollToTop'
 import SearchResults from './components/SearchResults'
 import Signup from './components/Signup'
+import TopicResults from './components/TopicResults'
 import { RootState } from './redux/reducers'
 import { LoginStateAction } from './redux/reducers/auth.reducer'
 import { HistoryState } from './redux/reducers/history.reducers'
@@ -56,6 +58,10 @@ export default function Router() {
           element={<SearchResults />}
         />
         <Route
+          path='/topic/:category'
+          element={<TopicResults />}
+        />
+        <Route
           path='/course/:slug'
           element={<CourseDetails />}
         />
@@ -77,6 +83,10 @@ export default function Router() {
         <Route 
           path='/my-learning'
           element={<MyLearnings />}
+        />
+        <Route 
+          path='/order/success/:oid'
+          element={<OrderPlaced />}
         />
         <Route
           path='*'

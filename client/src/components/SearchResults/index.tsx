@@ -13,8 +13,8 @@ import Loader from '../Loader';
 import { Link } from 'react-router-dom';
 import Pagination from '../Pagination';
 import { searchQueryParser } from '../../utils/searchQueryParser';
-import SearchResultModel from '../../models/searchResult.model';
-import SearchResultMetaModel from '../../models/searchResult.meta.model';
+import {SearchResultModel} from '../../models/searchResult.model';
+import {SearchResultMetaModel} from '../../models/searchResult.meta.model';
 import { SortByModel } from '../../models/sortBy.filter.model';
 
 const RESULTS_PER_PAGE = 10

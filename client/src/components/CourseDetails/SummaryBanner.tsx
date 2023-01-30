@@ -28,7 +28,7 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
 
     const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
     const purchases = useSelector<RootState>((state) => state.purchaseReducer) as CourseModel[]
-    
+
     const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
     const isPurchased = purchases.findIndex(course => course._id === values._id) !== -1
 
@@ -115,7 +115,7 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
                         fontSize={14}
                     >
                         Created by
-                        <span className='course-creators'>
+                        {/* <span className='course-creators'>
                             {values.instructors.map((instructor, i) => (
                                 <>
                                     <Typography
@@ -125,21 +125,24 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
                                         sx={{
                                             textDecoration: 'underline'
                                         }}
-                                        color='#cec0fc'>
+                                        color='#cec0fc'
+                                    >
                                         {instructor.name}
                                     </Typography>{values.instructors.length > 1 && i < values.instructors.length - 1 && ','}
                                 </>
                             ))}
-                            {/* <Typography
-                                component='a'
-                                fontSize={14}
-                                sx={{
-                                    textDecoration: 'underline'
-                                }}
-                                color='#cec0fc'>
-                                Maximillian Schwarmüller
-                            </Typography> */}
-                        </span>
+                        </span> */}
+                        <Typography
+                            component='a'
+                            fontSize={14}
+                            ml={0.5}
+                            sx={{
+                                textDecoration: 'underline'
+                            }}
+                            color='#cec0fc'
+                        >
+                            {values.instructors.map(i => i.name).join(', ')}
+                        </Typography>
                     </Typography>
                 </Stack>
                 <Stack
@@ -289,7 +292,7 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
                             fontSize={14}
                         >
                             Created by
-                            <span className='course-creators'>
+                            {/* <span className='course-creators'>
                                 {values.instructors.map((instructor, i) => (
                                     <>
                                         <Typography
@@ -304,16 +307,17 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
                                         </Typography>{values.instructors.length > 1 && i < values.instructors.length - 1 && ','}
                                     </>
                                 ))}
-                                {/* <Typography
+                            </span> */}
+                            <Typography
                                 component='a'
                                 fontSize={14}
+                                ml={0.5}
                                 sx={{
                                     textDecoration: 'underline'
                                 }}
                                 color='#cec0fc'>
-                                Maximillian Schwarmüller
-                            </Typography> */}
-                            </span>
+                                {values.instructors.map(i => i.name).join(', ')}
+                            </Typography>
                         </Typography>
                     </Stack>
                     <Stack

@@ -1,10 +1,12 @@
 import { Button, Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { Category } from '../../../models/category.model'
 
 export default function Categories({
     category,
     links
-}: { category: string, links: Array<string> }) {
+}: { category: string, links: Category[] }) {
     return (
         <Grid
             item
@@ -22,7 +24,7 @@ export default function Categories({
                 <Stack
                     spacing={3}
                 >
-                    {links.map((link: any) => {
+                    {links.map(link => {
                         return (
                             <Stack
                                 spacing={1}
@@ -37,14 +39,16 @@ export default function Categories({
                                         minWidth: 0
                                     }}
                                 >
-                                    <a href='https://google.com'>
-                                        {link}
-                                    </a>
+                                    <Link
+                                        to={`/topic/${link.title.toLowerCase()}`}
+                                    >
+                                        {link.title}
+                                    </Link>
                                 </Typography>
                                 <Typography
                                     color='#6a6f73'
                                 >
-                                    36,354,994 students
+                                    ({link.students.toLocaleString()}) students
                                 </Typography>
                             </Stack>
                         )

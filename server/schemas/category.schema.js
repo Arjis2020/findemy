@@ -4,7 +4,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const CategorySchema = new Schema({
-    title: String
+    title: String,
+    parent_category: {
+        type: Schema.Types.ObjectId,
+        ref: 'categories'
+    },
+    students: Number
 }, {
     timestamps: true
 })

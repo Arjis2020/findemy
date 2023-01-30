@@ -29,7 +29,7 @@ const getCourseBySlug = async (req, res) => {
 
 const search = async (req, res) => {
     const search = req.query.q
-    const page = req.query.page
+    const page = req.query.page || 1
     const sortBy = req.query.sort
 
     let sort
@@ -124,14 +124,7 @@ const search = async (req, res) => {
         },
         $score: {
             $meta: 'textScore'
-        },
-        // rating: {
-        //     $gte: filters.rating || 0
-        // },
-        // levels: {
-        //     $in: levels
-        // },
-        // price
+        }
     })
 
     const ratingStats = fullResult.reduce((stats, i) => {
@@ -194,6 +187,85 @@ const search = async (req, res) => {
     res.send(response)
 }
 
+const searchByCategory = async (req, res) => {
+    try {
+        const page = req.query.page || 1
+        const category = req.params.category
+
+        const RESULTS_PER_PAGE = 10
+        const SKIP = (page - 1) * RESULTS_PER_PAGE
+
+        const data = await Courses.aggregate([
+            {
+                $lookup: {
+                    from: 'categories',
+                    localField: 'categories',
+                    foreignField: '_id',
+                    as: 'categories'
+                }
+            },
+            {
+                $lookup: {
+                    from: 'instructors',
+                    localField: 'instructors',
+                    foreignField: '_id',
+                    as: 'instructors'
+                }
+            },
+            {
+                $match: {
+                    'categories.title': {
+                        $regex: `^${category}$`,
+                        $options: 'i'
+                    }
+                }
+            },
+            {
+                $facet: {
+                    stage1: [
+                        {
+                            $group: {
+                                _id: "",
+                                totalSize: {
+                                    $count: {}
+                                }
+                            }
+                        }
+                    ],
+                    stage2: [
+                        {
+                            $skip: SKIP
+                        },
+                        {
+                            $limit: RESULTS_PER_PAGE
+                        },
+                        {
+                            $group: {
+                                _id: "",
+                                results: {
+                                    $push: '$$ROOT'
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ])
+
+        const consolidatedData = data[0]
+        const response = { ...consolidatedData.stage1[0], results: [...consolidatedData.stage2[0]?.results] }
+        delete response._id
+
+        res.send(response)
+    }
+    catch (err) {
+        res.status(500).send({
+            status: 'failed',
+            reason: err.toString()
+        })
+    }
+}
+
 const addOne = async (req, res) => {
     const { title, body, price } = req.body
 
@@ -211,4 +283,4 @@ const addOne = async (req, res) => {
     }
 }
 
-module.exports = { getAllCourses, getCourseBySlug, search, addOne }
+module.exports = { getAllCourses, getCourseBySlug, search, searchByCategory, addOne }

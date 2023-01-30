@@ -1,6 +1,10 @@
 import CourseModel from "./course.model";
-import SearchResultMetaModel from "./searchResult.meta.model";
+import { SearchResultMetaModel, TopicSearchResultMetaModel } from "./searchResult.meta.model";
 
-export default interface SearchResultModel extends SearchResultMetaModel{
+export interface SearchResultModel extends SearchResultMetaModel {
+    results: Array<CourseModel>;
+}
+
+export interface TopicSearchResultModel extends TopicSearchResultMetaModel {
     results: Array<CourseModel>;
 }

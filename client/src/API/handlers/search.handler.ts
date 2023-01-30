@@ -1,8 +1,8 @@
 import axios from "axios"
 import { FiltersModel } from "../../models/filters.model"
-import SearchResultModel from "../../models/searchResult.model"
+import {SearchResultModel} from "../../models/searchResult.model"
 import { SortByModel } from "../../models/sortBy.filter.model"
-import { URL_SEARCH_COURSE } from "../endpoints"
+import { URL_SEARCH_COURSE, URL_SEARCH_COURSE_BY_CATEGORY } from "../endpoints"
 
 export const searchCourses = async (query: string, page: number = 1, filters?: FiltersModel, sortBy?: SortByModel): Promise<SearchResultModel> => {
     let urlEncodedFilters = {
@@ -27,4 +27,19 @@ export const searchCourses = async (query: string, page: number = 1, filters?: F
         console.error(err)
         throw err
     }
-} 
+}
+
+export const searchCoursesByCategory = async (category: string, page: number = 1): Promise<SearchResultModel> => {
+    try {
+        const { data } = await axios.get<SearchResultModel>(`${URL_SEARCH_COURSE_BY_CATEGORY}/${category}`, {
+            params: {
+                page
+            }
+        })
+        return data
+    }
+    catch (err: any) {
+        console.error(err)
+        throw new Error(err)
+    }
+}

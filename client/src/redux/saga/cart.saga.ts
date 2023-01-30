@@ -1,4 +1,4 @@
-import { all, call, put, takeEvery } from "redux-saga/effects";
+import { all, call, put, takeEvery, takeLeading } from "redux-saga/effects";
 import { addToCart, getCartCourses, removeFromCart } from "../../API/handlers/cart.handler";
 import CartModel from "../../models/cart.model";
 import { loginError } from "../actions/auth.action";
@@ -44,8 +44,8 @@ function* removeCourseFromCart(action?: TriggerRemoveFromCartAction) {
 
 export default function* cartSaga() {
     yield all([
-        takeEvery(CartActions.TRIGGER_ADD_TO_CART, callAddToCart),
+        takeLeading(CartActions.TRIGGER_ADD_TO_CART, callAddToCart),
         takeEvery(CartActions.TRIGGER_GET_CART_COURSES, callCartCourses),
-        takeEvery(CartActions.TRIGGER_REMOVE_FROM_CART, removeCourseFromCart)
+        takeLeading(CartActions.TRIGGER_REMOVE_FROM_CART, removeCourseFromCart)
     ])
 }

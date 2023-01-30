@@ -133,7 +133,7 @@ export default function YouMayAlsoLike() {
                                                 >
                                                     {data.title}
                                                 </Typography>
-                                                <span>
+                                                {/* <span>
                                                     {data.instructors.map((instructor, i) => (
                                                         <>
                                                             <Typography
@@ -147,7 +147,16 @@ export default function YouMayAlsoLike() {
                                                             </Typography>{data.instructors.length > 1 && i < data.instructors.length - 1 && ', '}
                                                         </>
                                                     ))}
-                                                </span>
+                                                </span> */}
+                                                <Typography
+                                                    variant='caption'
+                                                    color="#6a6f73"
+                                                    textOverflow='ellipsis'
+                                                    noWrap
+                                                    maxWidth='15rem'
+                                                >
+                                                    {data.instructors.map(i => i.name).join(', ')}
+                                                </Typography>
                                             </Stack>
                                             <Stack
                                                 alignItems='start'
@@ -164,7 +173,7 @@ export default function YouMayAlsoLike() {
                                                     >
                                                         {data.rating}
                                                     </Typography>
-                                                    <Ratings 
+                                                    <Ratings
                                                         value={data.rating}
                                                     />
                                                     <Typography
