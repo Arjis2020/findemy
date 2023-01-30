@@ -41,6 +41,7 @@ export default function Categories({
                                 >
                                     <Link
                                         to={`/topic/${link.title.toLowerCase()}`}
+                                        className='link'
                                     >
                                         {link.title}
                                     </Link>

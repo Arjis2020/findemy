@@ -17,7 +17,10 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
         '/signup',
         '/search',
         '/course',
-        '/cart'
+        '/cart',
+        '/search',
+        '/my-learning',
+        '/topic'
     ]
 
     const blackListedRoutes = [
@@ -295,7 +298,7 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
         )
     }
 
-    showBusinessBranding = typeof showBusinessBranding !== 'undefined' && businessBrandingWhitelistedRoutes.includes(location.pathname)
+    showBusinessBranding = typeof showBusinessBranding !== 'undefined' && businessBrandingWhitelistedRoutes.includes(location.pathname.substring(0, location.pathname.indexOf('/', 2) === -1 ? location.pathname.length : location.pathname.indexOf('/', 2)))
     const omitFooter = blackListedRoutes.includes(location.pathname)
 
     return (

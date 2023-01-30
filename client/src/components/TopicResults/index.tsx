@@ -18,30 +18,6 @@ import { SortByModel } from '../../models/sortBy.filter.model';
 const RESULTS_PER_PAGE = 10
 
 export default function TopicResults() {
-    type SortByOptions = {
-        title: string,
-        value: SortByModel
-    }
-
-    // const sortByOptions: SortByOptions[] = [
-    //     {
-    //         title: 'Most relevant',
-    //         value: 'mostRelevant'
-    //     },
-    //     {
-    //         title: 'Most reviewed',
-    //         value: 'mostReviewed'
-    //     },
-    //     {
-    //         title: 'Highest rated',
-    //         value: 'highestRated'
-    //     },
-    //     {
-    //         title: 'Newest',
-    //         value: 'newest'
-    //     }
-    // ]
-
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
     const [searchParams, setSearchParams] = useSearchParams()

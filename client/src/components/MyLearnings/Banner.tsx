@@ -16,7 +16,7 @@ export default function Banner() {
                 }}
             >
                 <Typography
-                    fontFamily='UdemySansBold'
+                    fontFamily='SuisseBold'
                     fontSize='3rem'
                     sx={{
                         marginLeft: {
