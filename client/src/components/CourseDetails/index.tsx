@@ -69,7 +69,6 @@ export default function CourseDetails() {
   const dispatch = useDispatch()
 
   const onAddToCartClicked = () => {
-    console.log(courseDetails?._id)
     if (user.data?._id) {
       dispatch(triggerAddToCart(courseDetails?._id!))
     }
@@ -141,7 +140,7 @@ export default function CourseDetails() {
                 bottom: '2.3rem',
                 left: cardProperties.left,
                 width: cardProperties.width,
-                zIndex: '-1',
+                zIndex: 1,
               }}
             >
               <SummaryCard
