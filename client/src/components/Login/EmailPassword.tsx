@@ -202,7 +202,8 @@ export default function EmailPassword({ onLogin }: EmailPasswordProps) {
                         or
                     </Typography>
                     <Link
-                        to='/'
+                        to='/forgotPassword'
+                        className='link'
                     >
                         <Typography>
                             Forgot Password
@@ -221,6 +222,7 @@ export default function EmailPassword({ onLogin }: EmailPasswordProps) {
                 </Typography>
                 <Link
                     to='/signup'
+                    className='link'
                 >
                     <Typography
                         fontFamily='UdemySansBold'

@@ -20,7 +20,8 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
         '/cart',
         '/search',
         '/my-learning',
-        '/topic'
+        '/topic',
+        '/forgotPassword'
     ]
 
     const blackListedRoutes = [

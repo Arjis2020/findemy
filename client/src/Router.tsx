@@ -4,6 +4,7 @@ import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import CourseDetails from './components/CourseDetails'
 import Footer from './components/Footer'
+import ForgotPassword from './components/ForgotPassword'
 import History from './components/History'
 import Home from './components/Home'
 import Login from './components/Login'
@@ -67,7 +68,14 @@ export default function Router() {
         />
         <Route
           path='/cart'
-          element={<Cart />}
+          element={
+            !user.data?._id ?
+              <Navigate
+                to='/'
+              />
+              :
+              <Cart />
+          }
         />
         <Route
           path='/checkout'
@@ -80,13 +88,31 @@ export default function Router() {
             />
           }
         />
-        <Route 
+        <Route
           path='/my-learning'
-          element={<MyLearnings />}
+          element={
+            !user.data?._id ?
+              <Navigate
+                to='/'
+              />
+              :
+              <MyLearnings />
+          }
         />
-        <Route 
+        <Route
           path='/order/success/:oid'
           element={<OrderPlaced />}
+        />
+        <Route
+          path='/forgotPassword'
+          element={
+            user.data?._id ?
+              <Navigate
+                to='/'
+              />
+              :
+              <ForgotPassword />
+          }
         />
         <Route
           path='*'

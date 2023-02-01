@@ -9,6 +9,7 @@ import { RootState } from '../../redux/reducers'
 import { PurchaseAction } from '../../redux/reducers/purchase.reducer'
 import Loader from '../Loader'
 import Course from './Course'
+import Empty from './Empty'
 
 export default function Content() {
     const [purchases, setPurchases] = useState<CourseModel[] | undefined>(undefined)
@@ -30,20 +31,23 @@ export default function Content() {
         >
             {
                 purchases ?
-                    <Grid
-                        container
-                        gap={2}
-                    >
-                        {purchases.map(course => (
-                            <Grid
-                                item
-                            >
-                                <Course 
-                                    course={course}
-                                />
-                            </Grid>
-                        ))}
-                    </Grid>
+                    purchases.length > 0 ?
+                        <Grid
+                            container
+                            gap={2}
+                        >
+                            {purchases.map(course => (
+                                <Grid
+                                    item
+                                >
+                                    <Course
+                                        course={course}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
+                        :
+                        <Empty />
                     :
                     <Loader />
             }

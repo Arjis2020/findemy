@@ -6,6 +6,9 @@ const { COOKIE_TOKEN } = require('../constants')
 const Cart = require('../models/cart.model')
 const ValidationError = require('../errors/ValidationError')
 const Purchases = require('../models/purchase.model')
+const nodemailer = require('nodemailer')
+const handlebars = require('handlebars')
+const fs = require('fs')
 
 require('dotenv').config()
 
@@ -168,4 +171,62 @@ const getAllUsers = async (req, res) => {
     return res.send(users)
 }
 
-module.exports = { authorize, login, signup, getAllUsers, logout }
+const forgotPassword = async (req, res) => {
+    const { email } = req.body
+    try {
+        var readHTMLFile = function (path, callback) {
+            fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
+                if (err) {
+                    callback(err);
+                }
+                else {
+                    callback(null, html);
+                }
+            });
+        };
+
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            port: 465,
+            secure: true, // true for 465, false for other ports
+            auth: {
+                user: 'dave.hester2023@gmail.com',
+                pass: 'kvfaarnhzwrbqlly',
+            },
+        });
+
+        readHTMLFile('views/forgotPassword.html', async function (err, html) {
+            if (err) {
+                console.log('error reading file', err);
+                return;
+            }
+            var template = handlebars.compile(html);
+            var replacements = {
+                email: "arjis.chakraborty@gmail.com",
+                name: "Arjis Chakraborty",
+                app_name: "Findemy",
+                operating_system: "Mac OS",
+                browser_name: "Chrome"
+            };
+            var htmlToSend = template(replacements);
+            fs.writeFileSync('gen.html', htmlToSend, { encoding: 'utf-8' })
+            // await transporter.sendMail({
+            //     from: '"Findemy.com" <dave.hester@findemy.com>', // sender address
+            //     to: email,
+            //     subject: "Forgot password",
+            //     html: htmlToSend,
+            // });
+        });
+
+        res.send("success")
+    }
+    catch (err) {
+        console.log(err.toString())
+        res.status(500).send({
+            status: 'failed',
+            reason: err.toString()
+        })
+    }
+}
+
+module.exports = { authorize, login, signup, getAllUsers, logout, forgotPassword }

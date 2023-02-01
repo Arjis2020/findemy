@@ -11,16 +11,9 @@ import Methods from './Methods'
 
 export default function Login() {
   const dispatch = useDispatch()
-  // const { login } = useAuth()
-  const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   if (data?.data?._id) navigate(-1)
-  // }, [data])
 
   const onLogin = (values: FieldValues) => {
     dispatch(triggerLogin(values as TriggerLoginAction))
-    // login(values as { email: string, password: string })
   }
 
   return (
