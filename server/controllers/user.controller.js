@@ -185,13 +185,23 @@ const forgotPassword = async (req, res) => {
             });
         };
 
+        const user = await Users.findOne({ email })
+
+        const token = jwt.sign({
+            _id: user._id,
+            email: user.email,
+            name: user.name
+        }, process.env.JWT_SECRET, {
+            expiresIn: "1d"
+        })
+
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             port: 465,
             secure: true, // true for 465, false for other ports
             auth: {
-                user: 'dave.hester2023@gmail.com',
-                pass: 'kvfaarnhzwrbqlly',
+                user: process.env.NODEMAILER_AUTH_EMAIL,
+                pass: process.env.NODEMAILER_AUTH_PASSWORD,
             },
         });
 
@@ -202,23 +212,27 @@ const forgotPassword = async (req, res) => {
             }
             var template = handlebars.compile(html);
             var replacements = {
-                email: "arjis.chakraborty@gmail.com",
-                name: "Arjis Chakraborty",
+                email,
+                name: user.name,
                 app_name: "Findemy",
                 operating_system: "Mac OS",
-                browser_name: "Chrome"
+                browser_name: "Chrome",
+                action_url: `http://localhost:3000/resetPassword?token=${token}`,
+                support_url: ""
             };
             var htmlToSend = template(replacements);
-            fs.writeFileSync('gen.html', htmlToSend, { encoding: 'utf-8' })
-            // await transporter.sendMail({
-            //     from: '"Findemy.com" <dave.hester@findemy.com>', // sender address
-            //     to: email,
-            //     subject: "Forgot password",
-            //     html: htmlToSend,
-            // });
+            // fs.writeFileSync('gen.html', htmlToSend)
+            await transporter.sendMail({
+                from: '"Findemy.com" <dave.hester@findemy.com>', // sender address
+                to: email,
+                subject: "Forgot password",
+                html: htmlToSend,
+            });
         });
 
-        res.send("success")
+        res.send({
+            status: "success"
+        })
     }
     catch (err) {
         console.log(err.toString())

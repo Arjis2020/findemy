@@ -12,8 +12,6 @@
     <style type="text/css" rel="stylesheet" media="all">
         /* Base ------------------------------ */
 
-        @import url("https://fonts.googleapis.com/css?family=Nunito+Sans:400,700&display=swap");
-
         @font-face {
             font-family: UdemySansRegular;
             src: url("https://www.udemy.com/staticx/udemy/fonts/Udemy-Sans-Regular-v1.woff2");
@@ -130,7 +128,7 @@
         .button {
             font-family: UdemySansBold;
             display: inline-block;
-            color: #FFF;
+            color: #FFF  !important;
             text-decoration: none;
             -webkit-text-size-adjust: none;
             box-sizing: border-box;
@@ -319,7 +317,7 @@
             -premailer-width: 100%;
             -premailer-cellpadding: 0;
             -premailer-cellspacing: 0;
-            background-color: #F2F4F6;
+            background-color: #000;
         }
 
         .email-content {
@@ -437,7 +435,7 @@
             h3,
             span,
             .purchase_item {
-                color:#000 !important;
+                color: #000 !important;
             }
 
             .attributes_content,
@@ -453,6 +451,10 @@
         :root {
             color-scheme: light dark;
             supported-color-schemes: light dark;
+        }
+
+        a {
+            color: #5624d0;
         }
     </style>
 </head>
@@ -485,8 +487,9 @@
                                                             role="presentation">
                                                             <tr>
                                                                 <td align="center">
-                                                                    <a href=""
+                                                                    <a href="http://localhost:3000/resetPassword?token&#x3D;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2JlZjRlMTVhZDNhOGJlMWU5MzVjOWEiLCJlbWFpbCI6ImFyamlzLmNoYWtyYWJvcnR5QGdtYWlsLmNvbSIsIm5hbWUiOiJBcmppcyBDaGFrcmFib3J0eSIsImlhdCI6MTY3NTI3MTg2NiwiZXhwIjoxNjc1MzU4MjY2fQ.TDJwZg4AEKhm4YeKphWfjq1OJOKoXIwYTR1LgvJyfHw"
                                                                         class="f-fallback button button--green"
+                                                                        rel="noreferrer noopener"
                                                                         target="_blank">Reset your password</a>
                                                                 </td>
                                                             </tr>
@@ -494,10 +497,13 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <p>For security, this request was received from a <strong>Mac OS</strong>
-                                                device using <strong>Chrome</strong>. If you did not request a password reset,
+                                            <p>For security, this request was received from a
+                                                <strong>Mac OS</strong>
+                                                device using <strong>Chrome</strong>. If you did not request a
+                                                password reset,
                                                 please ignore this email or <a href="">contact
-                                                    support</a> if you have questions.</p>
+                                                    support</a> if you have questions.
+                                            </p>
                                             <p>Thanks,
                                                 <br>The Findemy team
                                             </p>
@@ -508,7 +514,7 @@
                                                         <p class="f-fallback sub">If you’re having trouble with the
                                                             button above, copy and paste the URL below into your web
                                                             browser.</p>
-                                                        <p class="f-fallback sub"></p>
+                                                        <p class="f-fallback sub">http://localhost:3000/resetPassword?token&#x3D;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2JlZjRlMTVhZDNhOGJlMWU5MzVjOWEiLCJlbWFpbCI6ImFyamlzLmNoYWtyYWJvcnR5QGdtYWlsLmNvbSIsIm5hbWUiOiJBcmppcyBDaGFrcmFib3J0eSIsImlhdCI6MTY3NTI3MTg2NiwiZXhwIjoxNjc1MzU4MjY2fQ.TDJwZg4AEKhm4YeKphWfjq1OJOKoXIwYTR1LgvJyfHw</p>
                                                     </td>
                                                 </tr>
                                             </table>
