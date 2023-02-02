@@ -1,7 +1,6 @@
 const { privateRazorpayInstance, publicRazorpayInstance } = require('../razorpay')
 require('dotenv').config()
 const crypto = require('crypto')
-const QRCode = require('qrcode')
 
 const getPaymentMethods = async (req, res) => {
     try {
@@ -49,18 +48,6 @@ const generateQR = async (req, res) => {
             payment_amount: amount,
             close_by
         })
-        // const response = await privateRazorpayInstance.paymentLink.create({
-        //     upi_link: true,
-        //     amount,
-        //     currency: "INR",
-        //     accept_partial: false,
-        //     customer,
-        //     notify: {
-        //         sms: true,
-        //     },
-        //     reminder_enable: true,
-        // })
-        // const qrCode = await QRCode.toDataURL(response.short_url)
         res.send(response)
     }
     catch (err) {

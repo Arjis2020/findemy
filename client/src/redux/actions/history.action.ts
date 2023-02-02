@@ -6,3 +6,9 @@ export const addPath = (path: string) => {
         path
     }
 }
+
+export const resetPaths = () => {
+    return {
+        type: HistoryActions.RESET_PATHS
+    }
+}

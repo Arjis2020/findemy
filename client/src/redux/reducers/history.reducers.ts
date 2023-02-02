@@ -22,6 +22,8 @@ export const historyReducer = (state = initialState, action: any) => {
                 ...state,
                 paths: currentPaths
             }
+        case HistoryActions.RESET_PATHS:
+            return initialState
     }
     return state
 }

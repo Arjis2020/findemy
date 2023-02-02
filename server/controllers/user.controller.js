@@ -9,6 +9,7 @@ const Purchases = require('../models/purchase.model')
 const nodemailer = require('nodemailer')
 const handlebars = require('handlebars')
 const fs = require('fs')
+const sniff = require('../utils/clientSniff')
 
 require('dotenv').config()
 
@@ -173,6 +174,8 @@ const getAllUsers = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
     const { email } = req.body
+    const { browser, os } = sniff(req.headers['user-agent'])
+
     try {
         var readHTMLFile = function (path, callback) {
             fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
@@ -192,7 +195,7 @@ const forgotPassword = async (req, res) => {
             email: user.email,
             name: user.name
         }, process.env.JWT_SECRET, {
-            expiresIn: "1d"
+            expiresIn: "10m"
         })
 
         let transporter = nodemailer.createTransport({
@@ -215,8 +218,8 @@ const forgotPassword = async (req, res) => {
                 email,
                 name: user.name,
                 app_name: "Findemy",
-                operating_system: "Mac OS",
-                browser_name: "Chrome",
+                operating_system: os.name,
+                browser_name: browser.name,
                 action_url: `http://localhost:3000/resetPassword?token=${token}`,
                 support_url: ""
             };
@@ -243,4 +246,25 @@ const forgotPassword = async (req, res) => {
     }
 }
 
-module.exports = { authorize, login, signup, getAllUsers, logout, forgotPassword }
+const resetPassword = async (req, res) => {
+    try {
+        const { _id } = req.decoded
+        const { password } = req.body
+        const hashedPass = await bcrypt.hash(password, 10)
+
+        await Users.updateOne({ _id }, { password: hashedPass })
+
+        res.send({
+            status: "success"
+        })
+    }
+    catch (err) {
+        console.log(err.toString())
+        res.status(500).send({
+            status: 'failed',
+            reason: err.toString()
+        })
+    }
+}
+
+module.exports = { authorize, login, signup, getAllUsers, logout, forgotPassword, resetPassword }

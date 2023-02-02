@@ -11,6 +11,7 @@ import Login from './components/Login'
 import MyLearnings from './components/MyLearnings'
 import Navbar from './components/Navbar'
 import OrderPlaced from './components/OrderPlaced'
+import ResetPassword from './components/ResetPassword'
 import ScrollToTop from './components/ScrollToTop'
 import SearchResults from './components/SearchResults'
 import Signup from './components/Signup'
@@ -113,6 +114,10 @@ export default function Router() {
               :
               <ForgotPassword />
           }
+        />
+        <Route
+          path='/resetPassword'
+          element={<ResetPassword />}
         />
         <Route
           path='*'

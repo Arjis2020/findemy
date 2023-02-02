@@ -1,6 +1,6 @@
 import axios from "axios";
 import UserModel from "../../models/user.model";
-import { URL_AUTHORIZE, URL_LOGIN, URL_LOGOUT, URL_SIGNUP } from "../endpoints";
+import { URL_AUTHORIZE, URL_FORGOT_PASSWORD, URL_LOGIN, URL_LOGOUT, URL_RESET_PASSWORD, URL_SIGNUP } from "../endpoints";
 
 export const handleLogin = async (email: string, password: string): Promise<UserModel> => {
     try {
@@ -58,7 +58,7 @@ export const handleSignup = async (name: string, email: string, password: string
     }
 }
 
-export const handleLogout = async () : Promise<void> => {
+export const handleLogout = async (): Promise<void> => {
     try {
         await axios.post(URL_LOGOUT)
     }
@@ -70,5 +70,33 @@ export const handleLogout = async () : Promise<void> => {
                 data: err.response.data
             }
         }
+    }
+}
+
+export const forgotPassword = async (email: string): Promise<void> => {
+    try {
+        await axios.post<void>(URL_FORGOT_PASSWORD, {
+            email
+        })
+    }
+    catch (err: any) {
+        console.error(err)
+        throw new Error(err)
+    }
+}
+
+export const resetPassword = async (password: string, token: string): Promise<void> => {
+    try {
+        await axios.put<void>(URL_RESET_PASSWORD, {
+            password
+        }, {
+            headers: {
+                'x-auth-token': token
+            }
+        })
+    }
+    catch (err: any) {
+        console.error(err)
+        throw new Error(err)
     }
 }

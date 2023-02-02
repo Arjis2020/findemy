@@ -21,7 +21,8 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
         '/search',
         '/my-learning',
         '/topic',
-        '/forgotPassword'
+        '/forgotPassword',
+        '/resetPassword'
     ]
 
     const blackListedRoutes = [

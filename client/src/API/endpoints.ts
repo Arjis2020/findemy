@@ -5,6 +5,8 @@ export const URL_LOGIN = ROUTE_USERS + '/login'
 export const URL_AUTHORIZE = ROUTE_USERS + '/authorize'
 export const URL_LOGOUT = ROUTE_USERS + '/logout'
 export const URL_SIGNUP = ROUTE_USERS + '/signup'
+export const URL_FORGOT_PASSWORD = ROUTE_USERS + '/forgotPassword'
+export const URL_RESET_PASSWORD = ROUTE_USERS + '/resetPassword'
 
 const ROUTE_COURSES = '/courses'
 export const URL_ALL_COURSES = ROUTE_COURSES + '/all'

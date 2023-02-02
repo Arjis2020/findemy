@@ -28,7 +28,8 @@ export const CartActions = {
 }
 
 export const HistoryActions = {
-    ADD_PATH: 'ADD_PATH'
+    ADD_PATH: 'ADD_PATH',
+    RESET_PATHS: 'RESET_PATHS'
 }
 
 export const PaymentActions = {
