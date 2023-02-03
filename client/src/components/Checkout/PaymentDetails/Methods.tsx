@@ -225,9 +225,9 @@ export default function Methods({ formValues, banks, wallets }: PaymentMethodPro
                             alignItems='center'
                             flexWrap='wrap'
                         >
-                            {method !== activePaymentMethod && icons?.map(icon => (
+                            {method !== activePaymentMethod && icons?.map((icon, i) => (
                                 <Stack
-                                    key={icon.key}
+                                    key={i}
                                     sx={{
                                         border: '1px solid #d1d7dc',
                                         background: '#fff',
@@ -258,14 +258,14 @@ export default function Methods({ formValues, banks, wallets }: PaymentMethodPro
                 border: '1px solid #D3D7DB'
             }}
         >
-            {paymentMethods.map(method => (
+            {paymentMethods.map((method, i) => (
                 <Box
                     sx={{
                         "&:not(:last-child)": {
                             borderBottom: '1px solid #D3D7DB',
                         }
                     }}
-                    key={method.method}
+                    key={i}
                 >
                     <RadioGroup>
                         <AccordionGenerator
