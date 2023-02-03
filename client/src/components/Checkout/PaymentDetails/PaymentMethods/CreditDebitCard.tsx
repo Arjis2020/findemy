@@ -284,6 +284,7 @@ export default function CreditDebitCard({ formValues: { register, formState: { e
                 >
                     {cardIcons.map(icon => (
                         <Stack
+                            key={icon.icon.key}
                             sx={{
                                 border: '1px solid #d1d7dc',
                                 background: '#fff',

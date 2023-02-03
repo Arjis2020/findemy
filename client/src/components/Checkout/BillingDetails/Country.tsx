@@ -76,10 +76,11 @@ export default function Country() {
                         >
                             Please select...
                         </option>
-                        {countries.map(item => {
+                        {countries.map((item, i) => {
                             return (
                                 <option
                                     value={item}
+                                    key={i}
                                 >
                                     {item}
                                 </option>

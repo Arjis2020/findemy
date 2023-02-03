@@ -115,23 +115,6 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
                         fontSize={14}
                     >
                         Created by
-                        {/* <span className='course-creators'>
-                            {values.instructors.map((instructor, i) => (
-                                <>
-                                    <Typography
-                                        component='a'
-                                        fontSize={14}
-                                        ml={0.5}
-                                        sx={{
-                                            textDecoration: 'underline'
-                                        }}
-                                        color='#cec0fc'
-                                    >
-                                        {instructor.name}
-                                    </Typography>{values.instructors.length > 1 && i < values.instructors.length - 1 && ','}
-                                </>
-                            ))}
-                        </span> */}
                         <Typography
                             component='a'
                             fontSize={14}
@@ -292,22 +275,6 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
                             fontSize={14}
                         >
                             Created by
-                            {/* <span className='course-creators'>
-                                {values.instructors.map((instructor, i) => (
-                                    <>
-                                        <Typography
-                                            component='a'
-                                            fontSize={14}
-                                            ml={0.5}
-                                            sx={{
-                                                textDecoration: 'underline'
-                                            }}
-                                            color='#cec0fc'>
-                                            {instructor.name}
-                                        </Typography>{values.instructors.length > 1 && i < values.instructors.length - 1 && ','}
-                                    </>
-                                ))}
-                            </span> */}
                             <Typography
                                 component='a'
                                 fontSize={14}
@@ -322,8 +289,6 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
                     </Stack>
                     <Stack
                         spacing={1}
-                    // direction='row'
-                    // alignItems='center'
                     >
                         <Stack
                             spacing={1}

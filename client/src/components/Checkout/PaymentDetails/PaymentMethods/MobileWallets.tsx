@@ -58,10 +58,11 @@ export default function MobileWallets({ formValues: { register, formState: { err
                         >
                             Please select...
                         </option>
-                        {wallets && Object.keys(wallets).map(wallet => {
+                        {wallets && Object.keys(wallets).map((wallet, i) => {
                             return (
                                 wallets[wallet] && <option
                                     value={wallet}
+                                    key={i}
                                 >
                                     {capitalize(wallet)}
                                 </option>

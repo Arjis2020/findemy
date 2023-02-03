@@ -113,7 +113,9 @@ export default function Video({ open, onClose, course }: VideoProps) {
                             {
                                 learnings.map(point => {
                                     return (
-                                        <li>
+                                        <li
+                                            key={point}
+                                        >
                                             <Stack
                                                 spacing={2}
                                                 direction='row'

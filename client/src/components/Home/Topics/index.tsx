@@ -38,6 +38,7 @@ export default function Topics() {
                         >
                             {categories.map(parent => (
                                 <Categories
+                                    key={parent._id}
                                     category={parent.title}
                                     links={parent.sub_categories}
                                 />

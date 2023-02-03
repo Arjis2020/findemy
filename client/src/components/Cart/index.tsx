@@ -58,6 +58,7 @@ export default function Cart() {
                                         </Typography>
                                         {cart.orders.map(course => (
                                             <CourseView
+                                                key={course._id}
                                                 item={course}
                                             />
                                         ))}
@@ -83,6 +84,7 @@ export default function Cart() {
                                         >
                                             {cart.orders.map(course => (
                                                 <CourseView
+                                                    key={course._id}
                                                     item={course}
                                                 />
                                             ))}

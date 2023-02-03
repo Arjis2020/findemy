@@ -227,6 +227,7 @@ export default function Methods({ formValues, banks, wallets }: PaymentMethodPro
                         >
                             {method !== activePaymentMethod && icons?.map(icon => (
                                 <Stack
+                                    key={icon.key}
                                     sx={{
                                         border: '1px solid #d1d7dc',
                                         background: '#fff',

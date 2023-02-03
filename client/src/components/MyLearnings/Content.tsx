@@ -39,6 +39,7 @@ export default function Content() {
                             {purchases.map(course => (
                                 <Grid
                                     item
+                                    key={course._id}
                                 >
                                     <Course
                                         course={course}

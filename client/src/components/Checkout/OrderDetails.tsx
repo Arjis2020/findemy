@@ -72,6 +72,7 @@ export default function OrderDetails({ orders }: OrdersProps) {
                 {orders.map(order => {
                     return (
                         <OrderSummary
+                            key={order._id}
                             title={order.title}
                             imageUrl={order.imageUrl}
                             price={order.price}

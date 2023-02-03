@@ -225,18 +225,20 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
                                         fontSize: 18
                                     }
                                 })
-                                return (<Stack
-                                    direction='row'
-                                    alignItems='center'
-                                    spacing={2}
-                                >
-                                    {clonedIcon}
-                                    <Typography
-                                        fontSize={14}
+                                return (
+                                    <Stack
+                                        key={i.icon.key}
+                                        direction='row'
+                                        alignItems='center'
+                                        spacing={2}
                                     >
-                                        {i.title}
-                                    </Typography>
-                                </Stack>
+                                        {clonedIcon}
+                                        <Typography
+                                            fontSize={14}
+                                        >
+                                            {i.title}
+                                        </Typography>
+                                    </Stack>
                                 )
                             })}
                         </Stack>

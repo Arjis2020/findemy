@@ -84,7 +84,9 @@ export default function YouMayAlsoLike() {
             >
                 {courses.data.map((data) => {
                     return (
-                        <GridCarousel.Item>
+                        <GridCarousel.Item
+                            key={data._id}
+                        >
                             <Card
                                 sx={{
                                     minWidth: '15rem',
@@ -133,21 +135,6 @@ export default function YouMayAlsoLike() {
                                                 >
                                                     {data.title}
                                                 </Typography>
-                                                {/* <span>
-                                                    {data.instructors.map((instructor, i) => (
-                                                        <>
-                                                            <Typography
-                                                                variant='caption'
-                                                                color="#6a6f73"
-                                                                textOverflow='ellipsis'
-                                                                noWrap
-                                                                maxWidth='15rem'
-                                                            >
-                                                                {instructor.name}
-                                                            </Typography>{data.instructors.length > 1 && i < data.instructors.length - 1 && ', '}
-                                                        </>
-                                                    ))}
-                                                </span> */}
                                                 <Typography
                                                     variant='caption'
                                                     color="#6a6f73"

@@ -32,7 +32,9 @@ export default function WhatYouWillLearn({ points }: WhatYouWillLearnProps) {
                 {
                     points.map(point => {
                         return (
-                            <li>
+                            <li
+                                key={point}
+                            >
                                 <Stack
                                     spacing={2}
                                     direction='row'

@@ -21,7 +21,9 @@ export default function Requirements({ requirements }: RequirementsProps) {
                 className='single-column-ul'
             >
                 {requirements.map(requirement => (
-                    <li>
+                    <li
+                        key={requirement}
+                    >
                         <Typography
                             fontSize={14}
                         >

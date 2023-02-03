@@ -22,6 +22,7 @@ export default function Description({ description }: DescriptionProps) {
                     maxWidth={'95%'}
                     fontSize={14}
                     paragraph
+                    key={paragraph}
                 >
                     {paragraph}
                 </Typography>

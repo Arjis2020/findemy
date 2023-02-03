@@ -22,7 +22,9 @@ export default function Instructor({ instructors }: IntructorProps) {
                 Instructor
             </Typography>
             {instructors.map(instructor => (
-                <>
+                <div
+                    key={instructor._id}
+                >
                     <Stack>
                         <Typography
                             component='a'
@@ -125,7 +127,7 @@ export default function Instructor({ instructors }: IntructorProps) {
                     >
                         {instructor.introduction}
                     </Typography>
-                </>
+                </div>
             ))}
         </Stack>
     )

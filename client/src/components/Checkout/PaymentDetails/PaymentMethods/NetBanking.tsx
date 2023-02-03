@@ -233,6 +233,7 @@ export default function NetBanking({ formValues: { register, formState: { errors
                             return (
                                 <option
                                     value={key}
+                                    key={key}
                                 >
                                     {item}
                                 </option>

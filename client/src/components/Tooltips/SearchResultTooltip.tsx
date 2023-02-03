@@ -36,7 +36,9 @@ export default function SearchResultTooltip({ learnings, doesCourseExistInCart, 
                     {
                         learnings.slice(0, 3).map(point => {
                             return (
-                                <li>
+                                <li
+                                    key={point}
+                                >
                                     <Stack
                                         spacing={2}
                                         direction='row'

@@ -278,6 +278,7 @@ export default function SearchResults() {
                                             return (
                                                 <option
                                                     value={item.value}
+                                                    key={item.title}
                                                 >
                                                     {item.title}
                                                 </option>
@@ -345,6 +346,7 @@ export default function SearchResults() {
                             >
                                 {searchResults.results.map(course => (
                                     <Link
+                                        key={course._id}
                                         to={`/course${course.slug}`}
                                         className='link-unstyled-full'
                                     >

@@ -27,6 +27,7 @@ export default function Categories({
                     {links.map(link => {
                         return (
                             <Stack
+                                key={link._id}
                                 spacing={1}
                                 alignItems='start'
                             >

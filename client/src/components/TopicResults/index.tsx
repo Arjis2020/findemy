@@ -114,6 +114,7 @@ export default function TopicResults() {
                             >
                                 {searchResults.results.map(course => (
                                     <Link
+                                        key={course._id}
                                         to={`/course${course.slug}`}
                                         className='link-unstyled-full'
                                     >

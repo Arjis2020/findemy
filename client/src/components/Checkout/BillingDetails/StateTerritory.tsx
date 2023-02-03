@@ -118,10 +118,11 @@ export default function StateTerritory({ formValues: { register, formState: { er
                             >
                                 Please select...
                             </option>
-                            {stateTerritories.map(item => {
+                            {stateTerritories.map((item, i) => {
                                 return (
                                     <option
                                         value={item}
+                                        key={i}
                                     >
                                         {item}
                                     </option>
