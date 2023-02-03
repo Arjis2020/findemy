@@ -81,14 +81,11 @@ export default function EmailPassword({ onLogin }: EmailPasswordProps) {
                             <TextField
                                 variant='standard'
                                 type='email'
-                                error={!!(errors.email?.message && getValues().email)}
-                                helperText={getValues().email && errors.email?.message?.toString() ? errors.email?.message?.toString() : ""}
+                                error={!!(errors.email?.message)}
+                                helperText={errors.email?.message?.toString()}
                                 label='Email'
                                 InputProps={{
                                     disableUnderline: true,
-                                }}
-                                inputProps={{
-                                    required: true
                                 }}
                                 sx={{
                                     "& .MuiFormLabel-root": {
@@ -103,7 +100,12 @@ export default function EmailPassword({ onLogin }: EmailPasswordProps) {
                                     }
                                 }}
                                 fullWidth
-                                {...register('email')}
+                                {...register('email', {
+                                    required: {
+                                        value: true,
+                                        message: "Please enter your email"
+                                    }
+                                })}
                             />
                         </Box>
                         <Box
@@ -149,14 +151,18 @@ export default function EmailPassword({ onLogin }: EmailPasswordProps) {
                                             }
                                         </IconButton>
                                 }}
-                                inputProps={{
-                                    minLength: 8,
-                                    required: true,
-                                }}
                                 {...register('password', {
                                     onChange: (event) => {
                                         setPassword(event.target.value)
                                     },
+                                    minLength: {
+                                        value: 8,
+                                        message: "Please enter a minimum of 8 characters"
+                                    },
+                                    required: {
+                                        value: true,
+                                        message: "Please enter your password"
+                                    }
                                 })}
                                 sx={{
                                     "& .MuiFormLabel-root": {

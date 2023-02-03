@@ -86,13 +86,11 @@ export default function Details({ onSignup }: SignupDetailsProps) {
                                 <TextField
                                     variant='standard'
                                     type='text'
-                                    error={!!errors.email}
+                                    error={!!errors.name}
+                                    helperText={errors.name?.message?.toString()}
                                     label='Full name'
                                     InputProps={{
                                         disableUnderline: true
-                                    }}
-                                    inputProps={{
-                                        required: true
                                     }}
                                     sx={{
                                         "& .MuiFormLabel-root": {
@@ -108,7 +106,12 @@ export default function Details({ onSignup }: SignupDetailsProps) {
                                         }
                                     }}
                                     fullWidth
-                                    {...register('name')}
+                                    {...register('name', {
+                                        required: {
+                                            value: true,
+                                            message: "Name cannot be empty"
+                                        }
+                                    })}
                                 />
                             </Box>
                             <Box
@@ -123,12 +126,10 @@ export default function Details({ onSignup }: SignupDetailsProps) {
                                     variant='standard'
                                     type='email'
                                     error={!!errors.email}
+                                    helperText={errors.email?.message?.toString()}
                                     label='Email'
                                     InputProps={{
                                         disableUnderline: true,
-                                    }}
-                                    inputProps={{
-                                        required: true
                                     }}
                                     sx={{
                                         "& .MuiFormLabel-root": {
@@ -144,7 +145,12 @@ export default function Details({ onSignup }: SignupDetailsProps) {
                                         }
                                     }}
                                     fullWidth
-                                    {...register('email')}
+                                    {...register('email', {
+                                        required: {
+                                            value: true,
+                                            message: "Email cannot be empty"
+                                        }
+                                    })}
                                 />
                             </Box>
                             <Box
@@ -158,6 +164,7 @@ export default function Details({ onSignup }: SignupDetailsProps) {
                                 <TextField
                                     error={!!errors.password}
                                     type={visibility ? 'text' : 'password'}
+                                    helperText={errors.password?.message?.toString()}
                                     variant='standard'
                                     label='Password'
                                     InputProps={{
@@ -189,15 +196,18 @@ export default function Details({ onSignup }: SignupDetailsProps) {
                                                 }
                                             </IconButton>
                                     }}
-                                    inputProps={{
-                                        minLength: 8,
-                                        required: true,
-                                        // pattern: '^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'
-                                    }}
                                     {...register('password', {
                                         onChange: (event) => {
                                             setPassword(event.target.value)
                                         },
+                                        required: {
+                                            value: true,
+                                            message: "Password cannot be empty"
+                                        },
+                                        minLength: {
+                                            value: 8,
+                                            message: "Please enter a strong password of minimum length of 8 characters"
+                                        }
                                     })}
                                     sx={{
                                         "& .MuiFormLabel-root": {

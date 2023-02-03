@@ -8,16 +8,31 @@ import { resetPassword } from '../../API/handlers/auth.handler';
 import { resetPaths } from '../../redux/actions/history.action';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PasswordStrength from '../Signup/PasswordStrength';
 
 export default function ResetPassword() {
     const [searchParams] = useSearchParams()
-    const { handleSubmit, formState: { errors }, register, getValues } = useForm()
+    const { handleSubmit, watch, formState: { errors }, register, getValues } = useForm()
     const [btnDisabled, setBtnDisabled] = useState<boolean>(false)
 
     const token = searchParams.get('token')
     const navigate = useNavigate()
 
+    const password = watch('password', "")
+    const confirm_password = watch('confirm_password', "")
+
     const [success, setSuccess] = useState<boolean>(false)
+
+    const [password_visibility, setPasswordVisibility] = useState<boolean>(false)
+    const [confirm_password_visibility, setConfirmPasswordVisibility] = useState<boolean>(false)
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisibility(!password_visibility)
+    }
+
+    const toggleConfirmPasswordVisibility = () => {
+        setConfirmPasswordVisibility(!confirm_password_visibility)
+    }
 
     useEffect(() => {
         if (!token) {
@@ -36,99 +51,9 @@ export default function ResetPassword() {
             dispatch(resetPaths())
             setSuccess(true)
         }
-        catch(err) {
+        catch (err) {
             setBtnDisabled(false)
         }
-    }
-
-    type TextInputProps = {
-        name: string,
-        label: string,
-        validation: (value: string) => boolean
-    }
-
-    const TextInput = ({ name, label, validation }: TextInputProps) => {
-        const [visibility, setVisibility] = useState(false)
-        const [password, setPassword] = useState("")
-
-        const toggleVisibility = () => {
-            setVisibility(!visibility)
-        }
-
-        return (
-            <Box
-                sx={{
-                    border: '1px solid #000',
-                    px: 2,
-                    pt: 1,
-                    pb: 1.5
-                }}
-            >
-                <TextField
-                    error={!!(errors[name])}
-                    helperText={errors[name]?.message?.toString()}
-                    type={visibility ? 'text' : 'password'}
-                    variant='standard'
-                    label={label}
-                    InputProps={{
-                        disableUnderline: true,
-                        endAdornment:
-                            <IconButton
-                                onClick={toggleVisibility}
-                                sx={{
-                                    opacity: !password ? 0 : 1,
-                                    transition: '0.3s all ease',
-                                    pointerEvents: !password ? 'none' : 'all'
-                                }}
-                            >
-                                {
-                                    visibility ?
-                                        <VisibilityOffIcon
-                                            fontSize='small'
-                                            sx={{
-                                                color: '#000'
-                                            }}
-                                        />
-                                        :
-                                        <VisibilityIcon
-                                            fontSize='small'
-                                            sx={{
-                                                color: '#000'
-                                            }}
-                                        />
-                                }
-                            </IconButton>
-                    }}
-                    {...register(name, {
-                        onChange: (event) => {
-                            setPassword(event.target.value)
-                        },
-                        required: {
-                            value: true,
-                            message: "Please create a new password"
-                        },
-                        minLength: {
-                            value: 8,
-                            message: "Please create a password of minimum 8 characters"
-                        },
-                        validate: validation
-                    })}
-                    sx={{
-                        "& .MuiFormLabel-root": {
-                            color: '#000',
-                            fontFamily: 'UdemySansBold',
-                            "&.Mui-focused": {
-                                color: 'black'
-                            },
-                            "&.Mui-error": {
-                                color: 'black'
-                            }
-                        }
-                    }}
-                    fullWidth
-                />
-            </Box>
-        )
     }
 
     return (
@@ -153,18 +78,146 @@ export default function ResetPassword() {
                     <Stack
                         spacing={1}
                     >
-                        <TextInput
-                            name='password'
-                            label='Password'
-                            validation={(value) => value === getValues('confirm_password')}
-                        />
-                        <TextInput
-                            name='confirm_password'
-                            label='Confirm Password'
-                            validation={(value) => value === getValues('password')}
-                        />
+                        <Box
+                            sx={{
+                                border: '1px solid #000',
+                                px: 2,
+                                pt: 1,
+                                pb: 1.5
+                            }}
+                        >
+                            <TextField
+                                error={!!(errors.password)}
+                                helperText={errors.password?.message?.toString()}
+                                type={password_visibility ? 'text' : 'password'}
+                                variant='standard'
+                                label='Password'
+                                InputProps={{
+                                    disableUnderline: true,
+                                    endAdornment:
+                                        <IconButton
+                                            onClick={togglePasswordVisibility}
+                                            sx={{
+                                                opacity: !password ? 0 : 1,
+                                                transition: '0.3s all ease',
+                                                pointerEvents: !password ? 'none' : 'all'
+                                            }}
+                                        >
+                                            {
+                                                password_visibility ?
+                                                    <VisibilityOffIcon
+                                                        fontSize='small'
+                                                        sx={{
+                                                            color: '#000'
+                                                        }}
+                                                    />
+                                                    :
+                                                    <VisibilityIcon
+                                                        fontSize='small'
+                                                        sx={{
+                                                            color: '#000'
+                                                        }}
+                                                    />
+                                            }
+                                        </IconButton>
+                                }}
+                                {...register('password', {
+                                    required: {
+                                        value: true,
+                                        message: "Please create a new password"
+                                    },
+                                    minLength: {
+                                        value: 8,
+                                        message: "Please create a password of minimum 8 characters"
+                                    },
+                                    validate: (value) => value === getValues('confirm_password'),
+                                })}
+                                sx={{
+                                    "& .MuiFormLabel-root": {
+                                        color: '#000',
+                                        fontFamily: 'UdemySansBold',
+                                        "&.Mui-focused": {
+                                            color: 'black'
+                                        },
+                                        "&.Mui-error": {
+                                            color: 'black'
+                                        }
+                                    }
+                                }}
+                                fullWidth
+                            />
+                        </Box>
+                        <Box
+                            sx={{
+                                border: '1px solid #000',
+                                px: 2,
+                                pt: 1,
+                                pb: 1.5
+                            }}
+                        >
+                            <TextField
+                                error={!!(errors.confirm_password)}
+                                helperText={errors.confirm_password?.message?.toString()}
+                                type={confirm_password_visibility ? 'text' : 'password'}
+                                variant='standard'
+                                label='Confirm password'
+                                InputProps={{
+                                    disableUnderline: true,
+                                    endAdornment:
+                                        <IconButton
+                                            onClick={toggleConfirmPasswordVisibility}
+                                            sx={{
+                                                opacity: !confirm_password ? 0 : 1,
+                                                transition: '0.3s all ease',
+                                                pointerEvents: !confirm_password ? 'none' : 'all'
+                                            }}
+                                        >
+                                            {
+                                                confirm_password_visibility ?
+                                                    <VisibilityOffIcon
+                                                        fontSize='small'
+                                                        sx={{
+                                                            color: '#000'
+                                                        }}
+                                                    />
+                                                    :
+                                                    <VisibilityIcon
+                                                        fontSize='small'
+                                                        sx={{
+                                                            color: '#000'
+                                                        }}
+                                                    />
+                                            }
+                                        </IconButton>
+                                }}
+                                {...register('confirm_password', {
+                                    required: {
+                                        value: true,
+                                        message: "Please re-enter your password"
+                                    },
+                                    minLength: {
+                                        value: 8,
+                                        message: "Please create a password of minimum 8 characters"
+                                    },
+                                    validate: (value) => value === getValues('password'),
+                                })}
+                                sx={{
+                                    "& .MuiFormLabel-root": {
+                                        color: '#000',
+                                        fontFamily: 'UdemySansBold',
+                                        "&.Mui-focused": {
+                                            color: 'black'
+                                        },
+                                        "&.Mui-error": {
+                                            color: 'black'
+                                        }
+                                    }
+                                }}
+                                fullWidth
+                            />
+                        </Box>
                         {
-                            getValues('password') !== getValues('confirm_password') ?
+                            !!errors.password || !!errors.confirm_password ?
                                 <Typography
                                     sx={{
                                         color: theme => theme.palette.error.main
@@ -176,6 +229,9 @@ export default function ResetPassword() {
                                 :
                                 null
                         }
+                        <PasswordStrength
+                            password={password}
+                        />
                         <Button
                             type='submit'
                             variant='contained'
