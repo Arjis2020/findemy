@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    stages : {
+        stage('build') {
+            stage('server-build') {
+                steps { 
+                    echo "Starting process daemon for server"
+                    sh "cd server"
+                    sh "pm2 start index.js"
+                    sh "pm2 startup"
+                    sh "pm2 save"
+                }
+            }
+            stage('client-build') {
+                steps {
+                    echo "Building client"
+                    sh "cd client"
+                    sh "npm run build"
+                }
+            }
+            stage('client-deploy') {
+                steps {
+                    sh "mv client/build /var/www/html/findemy"
+                }
+            }
+        }
+    }
+}
