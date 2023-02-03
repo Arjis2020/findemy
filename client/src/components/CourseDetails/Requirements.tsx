@@ -20,9 +20,9 @@ export default function Requirements({ requirements }: RequirementsProps) {
             <ul
                 className='single-column-ul'
             >
-                {requirements.map(requirement => (
+                {requirements.map((requirement, i) => (
                     <li
-                        key={requirement}
+                        key={i}
                     >
                         <Typography
                             fontSize={14}

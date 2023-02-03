@@ -10,7 +10,7 @@ type VideoPreviewProps = {
 }
 
 export default function VideoPreview({ sx, course }: VideoPreviewProps) {
-    const { imageUrl, learnings } = course
+    const { imageUrl } = course
     const gradient = 'linear-gradient(180deg,rgba(28,29,31,0) 0%,rgba(28,29,31,0.9) 100%)'
 
     const [videoOpen, setVideoOpen] = useState<boolean>(false)

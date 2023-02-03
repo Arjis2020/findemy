@@ -219,7 +219,7 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
                         <Stack
                             spacing={1}
                         >
-                            {features.map(i => {
+                            {features.map((i, index) => {
                                 const clonedIcon = React.cloneElement(i.icon, {
                                     sx: {
                                         fontSize: 18
@@ -227,7 +227,7 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
                                 })
                                 return (
                                     <Stack
-                                        key={i.icon.key}
+                                        key={index}
                                         direction='row'
                                         alignItems='center'
                                         spacing={2}

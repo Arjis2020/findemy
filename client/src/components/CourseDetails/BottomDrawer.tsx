@@ -23,7 +23,7 @@ export default function BottomDrawer({ open, onClose: toggleDrawer, children }: 
                     position: 'relative',
                     background: theme => theme.palette.common.black,
                     color: '#fff',
-                    maxHeight: '90%'
+                    maxHeight: '95%'
                 }
             }}
             ModalProps={{

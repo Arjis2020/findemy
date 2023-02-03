@@ -17,12 +17,12 @@ export default function Description({ description }: DescriptionProps) {
             >
                 Description
             </Typography>
-            {description.split('\n').map(paragraph => (
+            {description.split('\n').map((paragraph, i) => (
                 <Typography
                     maxWidth={'95%'}
                     fontSize={14}
                     paragraph
-                    key={paragraph}
+                    key={i}
                 >
                     {paragraph}
                 </Typography>

@@ -30,10 +30,10 @@ export default function WhatYouWillLearn({ points }: WhatYouWillLearnProps) {
                 className='two-column-ul'
             >
                 {
-                    points.map(point => {
+                    points.map((point, i) => {
                         return (
                             <li
-                                key={point}
+                                key={i}
                             >
                                 <Stack
                                     spacing={2}

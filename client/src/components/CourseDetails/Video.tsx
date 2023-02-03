@@ -111,10 +111,10 @@ export default function Video({ open, onClose, course }: VideoProps) {
                             }}
                         >
                             {
-                                learnings.map(point => {
+                                learnings.map((point, i) => {
                                     return (
                                         <li
-                                            key={point}
+                                            key={i}
                                         >
                                             <Stack
                                                 spacing={2}
