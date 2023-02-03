@@ -13,9 +13,10 @@ import Loader from '../Loader';
 import { Link } from 'react-router-dom';
 import Pagination from '../Pagination';
 import { searchQueryParser } from '../../utils/searchQueryParser';
-import {SearchResultModel} from '../../models/searchResult.model';
-import {SearchResultMetaModel} from '../../models/searchResult.meta.model';
+import { SearchResultModel } from '../../models/searchResult.model';
+import { SearchResultMetaModel } from '../../models/searchResult.meta.model';
 import { SortByModel } from '../../models/sortBy.filter.model';
+import EmptySearch from './EmptySearch';
 
 const RESULTS_PER_PAGE = 10
 
@@ -344,17 +345,23 @@ export default function SearchResults() {
                                 spacing={2}
                                 width='100%'
                             >
-                                {searchResults.results.map(course => (
-                                    <Link
-                                        key={course._id}
-                                        to={`/course${course.slug}`}
-                                        className='link-unstyled-full'
-                                    >
-                                        <Courses
-                                            course={course}
+                                {
+                                    searchResults.results.length > 0 ? searchResults.results.map(course => (
+                                        <Link
+                                            key={course._id}
+                                            to={`/course${course.slug}`}
+                                            className='link-unstyled-full'
+                                        >
+                                            <Courses
+                                                course={course}
+                                            />
+                                        </Link>
+                                    ))
+                                        :
+                                        <EmptySearch 
+                                            onClearFilters={clearFilters}
                                         />
-                                    </Link>
-                                ))}
+                                }
                             </Stack>
                             <Pagination
                                 count={pageCount}
