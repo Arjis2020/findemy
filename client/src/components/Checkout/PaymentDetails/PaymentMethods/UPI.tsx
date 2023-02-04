@@ -1,13 +1,9 @@
 import { Button, Divider, Stack, TextField, Theme, Typography, useMediaQuery } from '@mui/material'
-import React, { BaseSyntheticEvent, useEffect, useState } from 'react'
-import { FieldValues, useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
-import { generateUpiQR, verifyVpa } from '../../../../API/handlers/payment.handler'
-import CartOrderMetaModel from '../../../../models/cart.meta.model'
 import { setPaymentDetails, UPIDetails } from '../../../../redux/actions/payment.action'
 import { RootState } from '../../../../redux/reducers'
-import { CartAction } from '../../../../redux/reducers/cart.reducer'
 import { PaymentState } from '../../../../redux/reducers/payment.reducer'
 import Loader from '../../../Loader'
 
@@ -15,15 +11,19 @@ type UPIProps = {
     qrCode?: string
 }
 
+interface IForm {
+    upi: string;
+}
+
 export default function UPI({ qrCode }: UPIProps) {
-    const { handleSubmit, register, formState: { errors }, reset, setError } = useForm()
+    const { handleSubmit, register, formState: { errors }, reset, setError } = useForm<IForm>()
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
     const dispatch = useDispatch()
     const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
     const paymentMethod = payment.method
 
-    const onSubmit = (values: FieldValues, e?: BaseSyntheticEvent<object, any, any>) => {
+    const onSubmit: SubmitHandler<IForm> = (values) => {
         const details: UPIDetails = {
             vpa: values.upi
         }

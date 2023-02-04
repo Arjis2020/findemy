@@ -2,7 +2,7 @@ import { AppBar, Avatar, Button, Divider, Drawer, IconButton, Paper, Stack, Swip
 import Cart from './Cart'
 import Languages from './Languages'
 import Login from './Login'
-import Search from './Search'
+import Search, { ISearchForm } from './Search'
 import Signup from './Signup'
 import MenuIcon from '@mui/icons-material/Menu';
 import { Fragment, useEffect, useState } from 'react'
@@ -20,7 +20,7 @@ import { RootState } from '../../redux/reducers'
 import { resetAuthErrors } from '../../redux/actions/auth.action'
 import { addPath } from '../../redux/actions/history.action'
 import './index.css'
-import { FieldValues } from 'react-hook-form'
+import { FieldValues, SubmitHandler } from 'react-hook-form'
 
 export default function Header() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
@@ -58,7 +58,7 @@ export default function Header() {
         setOpen(!open);
     }
 
-    const onSearch = (values: FieldValues) => {
+    const onSearch : SubmitHandler<ISearchForm> = (values) => {
         navigate(`/search?q=${values.search}&page=1`)
     }
 

@@ -1,6 +1,6 @@
 import { Box, Button, Container, Divider, IconButton, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { FieldValues, useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -10,9 +10,14 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PasswordStrength from '../Signup/PasswordStrength';
 
+interface IForm {
+    password: string;
+    confirm_password: string;
+}
+
 export default function ResetPassword() {
     const [searchParams] = useSearchParams()
-    const { handleSubmit, watch, formState: { errors }, register, getValues } = useForm()
+    const { handleSubmit, watch, formState: { errors }, register, getValues } = useForm<IForm>()
     const [btnDisabled, setBtnDisabled] = useState<boolean>(false)
 
     const token = searchParams.get('token')
@@ -44,7 +49,7 @@ export default function ResetPassword() {
 
     if (!searchParams.get('token')) return <Navigate to='/' />
 
-    const onSubmit = async (values: FieldValues) => {
+    const onSubmit : SubmitHandler<IForm> = async (values) => {
         try {
             setBtnDisabled(true)
             await resetPassword(values.password, token!)

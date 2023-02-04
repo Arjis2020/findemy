@@ -1,10 +1,9 @@
 import { Box, Container, Stack, Theme, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { FieldValues, useForm, UseFormReturn } from 'react-hook-form'
+import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { createOrder, verifyOrder } from '../../API/handlers/payment.handler'
-import { checkout } from '../../API/handlers/purchase.handler'
 import CartOrderMetaModel from '../../models/cart.meta.model'
 import { CreateOrderModel, VerifyOrderModel } from '../../models/order.model'
 // import { clearCart } from '../../redux/actions/cart.action'
@@ -24,10 +23,7 @@ import Summary from './Summary'
 // const RAZORPAY_CHECKOUT_SCRIPT_SRC = "https://checkout.razorpay.com/v1/checkout.js"
 
 export type PaymentMethodProps = {
-    // register: UseFormRegister<FieldValues>,
-    // errors: Partial<FieldErrorsImpl<{ [x: string]: any }>>,
-    formValues: UseFormReturn<FieldValues, any>
-    // paytmPaymentHandler?: () => void
+    formValues: UseFormReturn<IForm, any>
     banks?: {
         [bank: string]: string
     },
@@ -36,8 +32,19 @@ export type PaymentMethodProps = {
     }
 }
 
+interface IForm {
+    bank: string;
+    wallet: string;
+    cvv: string;
+    expiry: string;
+    number: string;
+    name: string;
+    address: string;
+    state: string;
+}
+
 export default function Checkout() {
-    const formValues = useForm({
+    const formValues = useForm<IForm>({
         shouldFocusError: false
     })
 
@@ -110,7 +117,7 @@ export default function Checkout() {
         notes: { ...payment.details ? { ...payment.details.notes } : null }
     }
 
-    const onSubmit = (values: FieldValues) => {
+    const onSubmit: SubmitHandler<IForm> = (values) => {
         if (paymentMethod === 'card') {
             values.number = values.number.split(' ').join('')
             const details: CardDetails = {
@@ -125,10 +132,6 @@ export default function Checkout() {
             dispatch(setPaymentDetails(values as MobileWalletDetails))
         }
     }
-
-    // const paytmPaymentHandler = () => {
-    //     displayRazorpay(null)
-    // }
 
     const buildNetbankingPrefillOptions = (details: NetbankingDetails) => {
         return {
@@ -198,7 +201,6 @@ export default function Checkout() {
 
     const displayRazorpay = async (prefillOptions: any, details?: typeof payment.details) => {
         if (!window.Razorpay) throw new Error("Razorpay couldn't connect")
-        // console.log(details.method)
         // creating a new order
         const result = await createOrder(createOrderParams)
 

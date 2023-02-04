@@ -1,13 +1,17 @@
 import { TextField } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
-import { FieldValues, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 type SearchProps = {
-    onSearch: (values: FieldValues) => void
+    onSearch: SubmitHandler<ISearchForm>
+}
+
+export interface ISearchForm {
+    search: string;
 }
 
 export default function Search({ onSearch }: SearchProps) {
-    const { handleSubmit, register } = useForm()
+    const { handleSubmit, register } = useForm<ISearchForm>()
 
     return (
         <form onSubmit={handleSubmit(onSearch)}>

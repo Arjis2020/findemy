@@ -1,13 +1,18 @@
 import { Box, Button, Container, Stack, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
-import { FieldValues, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { forgotPassword } from '../../API/handlers/auth.handler'
 
+interface IForm {
+    email: string;
+}
+
 export default function ForgotPassword() {
-    const { handleSubmit, register, formState: { errors } } = useForm()
+    const { handleSubmit, register, formState: { errors } } = useForm<IForm>()
     const [email, setEmail] = useState<string>()
-    const onSubmit = async (values: FieldValues) => {
+
+    const onSubmit: SubmitHandler<IForm> = async (values) => {
         const email = values.email
         await forgotPassword(email)
         setEmail(email)

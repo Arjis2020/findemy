@@ -1,6 +1,6 @@
 import { Box, Button, Divider, IconButton, Stack, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { FieldValues, useForm } from 'react-hook-form'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -14,13 +14,19 @@ type SignupDetailsProps = {
     onSignup: (values: FieldValues) => void
 }
 
+interface IForm {
+    name: string;
+    email: string;
+    password: string;
+}
+
 export default function Details({ onSignup }: SignupDetailsProps) {
-    const { handleSubmit, formState: { errors }, register } = useForm()
+    const { handleSubmit, formState: { errors }, register } = useForm<IForm>()
     const [btnDisabled, setBtnDisabled] = useState<boolean>(false)
 
     const user = useSelector<RootState>((state) => state.authReducer) as LoginAction
 
-    const onSubmit = (values: FieldValues, e: any) => {
+    const onSubmit: SubmitHandler<IForm> = (values) => {
         setBtnDisabled(true)
         onSignup(values)
     }
