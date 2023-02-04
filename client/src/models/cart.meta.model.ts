@@ -1,4 +1,4 @@
-export default interface CartOrderMetaModel {
+export default interface ICartOrderMetaModel {
     totalDiscountedPrice: number;
     totalPrice: number;
     discountPercentage: number;

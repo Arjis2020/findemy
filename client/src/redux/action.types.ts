@@ -1,13 +1,13 @@
-import CourseModel from "../models/course.model"
+import ICourseModel from "../models/course.model"
 
-export interface Action {
+export interface IAction {
     type: string
 }
 
-export interface IPurchaseCourse extends Action {
-    courses: CourseModel[]
+export interface IPurchaseCourse extends IAction {
+    courses: ICourseModel[]
 }
 
-export interface ISetPurchases extends Action {
-    courses: CourseModel[]
+export interface ISetPurchases extends IAction {
+    courses: ICourseModel[]
 }

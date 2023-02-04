@@ -1,11 +1,11 @@
 import { SupportedPaymentMethods } from "../../models/order.model";
 import { PaymentActions } from "../constants"
 
-interface CommonDetails {
+interface ICommonDetails {
     method?: SupportedPaymentMethods;
 }
 
-export interface CardDetails {
+export interface ICardDetails {
     name: string;
     number: string;
     cvv: string;
@@ -15,29 +15,29 @@ export interface CardDetails {
     };
 }
 
-export interface UPIDetails {
+export interface IUPIDetails {
     vpa: string;
     notes?: {
         [x: string]: string
     };
 }
 
-export interface NetbankingDetails {
+export interface INetbankingDetails {
     bank: string;
     notes?: {
         [x: string]: string
     };
 }
 
-export interface MobileWalletDetails {
+export interface IMobileWalletDetails {
     wallet: string;
     notes?: {
         [x: string]: string
     };
 }
 
-export interface PaymentDetails extends CommonDetails {
-    details?: CardDetails | UPIDetails | NetbankingDetails | MobileWalletDetails
+export interface IPaymentDetails extends ICommonDetails {
+    details?: ICardDetails | IUPIDetails | INetbankingDetails | IMobileWalletDetails
 }
 
 export const setPaymentMethod = (method: SupportedPaymentMethods) => {
@@ -47,7 +47,7 @@ export const setPaymentMethod = (method: SupportedPaymentMethods) => {
     }
 }
 
-export const setPaymentDetails = (details: CardDetails | UPIDetails | NetbankingDetails | MobileWalletDetails) => {
+export const setPaymentDetails = (details: ICardDetails | IUPIDetails | INetbankingDetails | IMobileWalletDetails) => {
     return {
         type: PaymentActions.PAYMENT_DETAILS,
         details

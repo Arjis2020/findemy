@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/reducers'
 import { LoginAction, triggerLogout } from '../../redux/actions/auth.action'
 import { Link, useNavigate } from 'react-router-dom'
-import { CartAction } from '../../redux/reducers/cart.reducer'
+import { CartState } from '../../redux/reducers/cart.reducer'
 
 const MenuContents = () => {
     const user = useSelector<RootState>((state) => state.authReducer) as LoginAction
@@ -21,7 +21,7 @@ const MenuContents = () => {
         navigate('/')
     }
 
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
 
     return (
         <Stack

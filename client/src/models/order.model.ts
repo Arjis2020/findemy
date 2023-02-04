@@ -1,4 +1,4 @@
-export interface CreateOrderModel {
+export interface ICreateOrderModel {
     amount: string;
     currency: 'INR' | 'USD' | 'GBP';
     receipt: string;
@@ -8,7 +8,7 @@ export interface CreateOrderModel {
     }
 }
 
-export interface OrderResponse {
+export interface IOrderResponse {
     id: string;
     entity: string;
     amount: number;
@@ -21,23 +21,23 @@ export interface OrderResponse {
     notes?: object
 }
 
-export interface VerifyOrderModel {
+export interface IVerifyOrderModel {
     order_id: string;
     payment_id: string;
     razorpay_signature: string;
 }
 
-export interface VerifyVpaModel {
+export interface IVerifyVpaModel {
     vpa: string;
     success: boolean;
     customer_name: string
 }
 
-export interface GenerateQRRequestModel {
+export interface IGenerateQRRequestModel {
     amount: number
 }
 
-export interface GenerateQRResponseModel {
+export interface IGenerateQRResponseModel {
     id: string,
     entity: string,
     created_at: number,

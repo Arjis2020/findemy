@@ -2,7 +2,7 @@ import { Button, Divider, Stack, TextField, Theme, Typography, useMediaQuery } f
 import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { setPaymentDetails, UPIDetails } from '../../../../redux/actions/payment.action'
+import { setPaymentDetails, IUPIDetails } from '../../../../redux/actions/payment.action'
 import { RootState } from '../../../../redux/reducers'
 import { PaymentState } from '../../../../redux/reducers/payment.reducer'
 import Loader from '../../../Loader'
@@ -24,7 +24,7 @@ export default function UPI({ qrCode }: UPIProps) {
     const paymentMethod = payment.method
 
     const onSubmit: SubmitHandler<IForm> = (values) => {
-        const details: UPIDetails = {
+        const details: IUPIDetails = {
             vpa: values.upi
         }
         // verifyVpa(details.vpa)

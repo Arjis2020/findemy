@@ -1,13 +1,13 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
 import BottomDrawer from './BottomDrawer'
-import CourseModel from '../../models/course.model';
+import ICourseModel from '../../models/course.model';
 import { Close } from '@mui/icons-material';
 
 type VideoProps = {
     open: boolean,
     onClose: () => void,
-    course: CourseModel
+    course: ICourseModel
 }
 
 export default function Video({ open, onClose, course }: VideoProps) {

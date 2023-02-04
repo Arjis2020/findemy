@@ -1,10 +1,10 @@
 import axios from "axios"
-import CourseModel from "../../models/course.model"
+import ICourseModel from "../../models/course.model"
 import { URL_GET_PURCHASES, URL_PURCHASE_COURSES } from "../endpoints"
 
-export const checkout = async (courses: CourseModel[]): Promise<CourseModel[]> => {
+export const checkout = async (courses: ICourseModel[]): Promise<ICourseModel[]> => {
     try {
-        const { data } = await axios.post<CourseModel[]>(URL_PURCHASE_COURSES, {
+        const { data } = await axios.post<ICourseModel[]>(URL_PURCHASE_COURSES, {
             courses
         })
         return data
@@ -15,9 +15,9 @@ export const checkout = async (courses: CourseModel[]): Promise<CourseModel[]> =
     }
 }
 
-export const getPurchases = async (): Promise<CourseModel[]> => {
+export const getPurchases = async (): Promise<ICourseModel[]> => {
     try {
-        const { data } = await axios.get<CourseModel[]>(URL_GET_PURCHASES)
+        const { data } = await axios.get<ICourseModel[]>(URL_GET_PURCHASES)
         return data
     }
     catch (err: any) {

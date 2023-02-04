@@ -1,6 +1,6 @@
-import CartOrderMetaModel from "./cart.meta.model";
-import CourseModel from "./course.model";
+import ICartOrderMetaModel from "./cart.meta.model";
+import ICourseModel from "./course.model";
 
-export default interface CartModel extends CartOrderMetaModel {
-    orders: Array<CourseModel>;
+export default interface ICartModel extends ICartOrderMetaModel {
+    orders: Array<ICourseModel>;
 }

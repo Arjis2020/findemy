@@ -1,11 +1,17 @@
-import { CardDetails, PaymentDetails, UPIDetails } from "../actions/payment.action"
+import { ICardDetails, IPaymentDetails, IUPIDetails, INetbankingDetails, IMobileWalletDetails } from "../actions/payment.action"
 import { PaymentActions } from "../constants"
 
-export type PaymentState = PaymentDetails
+export type PaymentState = IPaymentDetails
 
 let initialState: PaymentState = {}
 
-export const paymentReducer = (state = initialState, action: any) => {
+type PaymentAction = {
+    type?: string,
+    method: string,
+    details: ICardDetails | IUPIDetails | INetbankingDetails | IMobileWalletDetails
+}
+
+export const paymentReducer = (state = initialState, action: PaymentAction) => {
     switch (action.type) {
         case PaymentActions.PAYMENT_METHOD :
             return {

@@ -1,19 +1,14 @@
-import CartModel from "../../models/cart.model"
+import ICartModel from "../../models/cart.model"
 import { CartActions, LoginActions } from "../constants"
 
-// export type CartAction = {
-//     // itemsConsolidated: Array<Cart>,
-//     cartOrders?: CartOrders
-// }
+export type CartState = ICartModel
 
-export type CartAction = CartModel
+export type CartAction = {
+    type?: string,
+    data: ICartModel
+}
 
-// const initialState: CartAction = {
-//     // itemsConsolidated: [],
-//     cartOrders: undefined
-// }
-
-const initialState: CartAction = {
+const initialState: CartState = {
     orders: [],
     totalDiscountedPrice: 0,
     totalPrice: 0,
@@ -21,7 +16,7 @@ const initialState: CartAction = {
     discountPercentage: 0
 }
 
-export const cartReducer = (state = initialState, action: any) => {
+export const cartReducer = (state = initialState, action: CartAction) => {
     switch (action.type) {
         case CartActions.SET_CART:
             return {

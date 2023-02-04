@@ -2,17 +2,17 @@ import { Box, Button, Stack, Theme, Typography, useMediaQuery } from "@mui/mater
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import CourseModel from "../../models/course.model";
+import ICourseModel from "../../models/course.model";
 import { triggerAddToCart } from "../../redux/actions/cart.action";
 import { RootState } from "../../redux/reducers";
-import { LoginStateAction } from "../../redux/reducers/auth.reducer";
-import { CartAction } from "../../redux/reducers/cart.reducer";
+import { ILoginStateAction } from "../../redux/reducers/auth.reducer";
+import { CartState } from "../../redux/reducers/cart.reducer";
 import StyledTooltip from "../GlobalStyles/StyledTooltip";
 import Ratings from "../Ratings";
 import SearchResultTooltip from "../Tooltips/SearchResultTooltip";
 
 type SearchResultCourseProps = {
-    course: CourseModel,
+    course: ICourseModel,
 }
 
 export default function Courses({ course }: SearchResultCourseProps) {
@@ -24,9 +24,9 @@ export default function Courses({ course }: SearchResultCourseProps) {
     })()
 
 
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
-    const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
-    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as CourseModel[]
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
+    const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
+    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as ICourseModel[]
 
     const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === course._id) !== -1
     const isPurchased = purchases.findIndex(item => item._id === course._id) !== -1

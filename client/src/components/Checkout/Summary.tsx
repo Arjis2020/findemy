@@ -1,13 +1,13 @@
 import { AppBar, Button, Divider, Stack, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import CartOrderMetaModel from '../../models/cart.meta.model'
+import ICartOrderMetaModel from '../../models/cart.meta.model'
 import { RootState } from '../../redux/reducers'
 import { PaymentState } from '../../redux/reducers/payment.reducer'
 // import { OrderMeta, Orders } from '../Cart'
 
 type SummaryProps = {
-    orderMeta: CartOrderMetaModel,
+    orderMeta: ICartOrderMetaModel,
     // paytmPaymentHandler: () => void
     // onCheckout: () => void
 }

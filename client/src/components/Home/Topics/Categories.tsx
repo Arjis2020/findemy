@@ -1,12 +1,12 @@
 import { Button, Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Category } from '../../../models/category.model'
+import { ICategory } from '../../../models/category.model'
 
 export default function Categories({
     category,
     links
-}: { category: string, links: Category[] }) {
+}: { category: string, links: ICategory[] }) {
     return (
         <Grid
             item

@@ -1,11 +1,11 @@
-import CartModel from "./cart.model";
-import CommonModel from "./common.model";
-import CourseModel from "./course.model";
+import ICartModel from "./cart.model";
+import ICommonModel from "./common.model";
+import ICourseModel from "./course.model";
 
-export default interface UserModel extends CommonModel {
+export default interface IUserModel extends ICommonModel {
     name: string,
     email: string,
     password: string,
-    cart: CartModel,
-    purchases: Array<CourseModel>
+    cart: ICartModel,
+    purchases: Array<ICourseModel>
 }

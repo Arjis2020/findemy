@@ -15,7 +15,7 @@ import UserAvatar from './UserAvatar'
 import Notification from './Notification'
 import MyLearning from './MyLearning'
 import { useDispatch, useSelector } from 'react-redux'
-import { LoginStateAction } from '../../redux/reducers/auth.reducer'
+import { ILoginStateAction } from '../../redux/reducers/auth.reducer'
 import { RootState } from '../../redux/reducers'
 import { resetAuthErrors } from '../../redux/actions/auth.action'
 import { addPath } from '../../redux/actions/history.action'
@@ -25,7 +25,7 @@ import { FieldValues, SubmitHandler } from 'react-hook-form'
 export default function Header() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
     const [open, setOpen] = useState(false)
-    const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
+    const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
 
     const location = useLocation()
     const navigate = useNavigate()

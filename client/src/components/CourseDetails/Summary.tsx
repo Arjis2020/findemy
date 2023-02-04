@@ -3,13 +3,13 @@ import { AppBar, Box, Button, Slide, Stack, Theme, Toolbar, Typography, useMedia
 import { memo, ReactElement } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import CourseModel from '../../models/course.model'
+import ICourseModel from '../../models/course.model'
 import { LoginAction } from '../../redux/actions/auth.action'
 import { RootState } from '../../redux/reducers'
-import { CartAction } from '../../redux/reducers/cart.reducer'
+import { CartState } from '../../redux/reducers/cart.reducer'
 
 type SummaryProps = {
-    values: CourseModel
+    values: ICourseModel
 }
 
 export default memo(function Summary({ values }: SummaryProps) {
@@ -49,8 +49,8 @@ export default memo(function Summary({ values }: SummaryProps) {
         discountPercentage: Math.floor((values.price - values.discountedPrice) / values.price),
         discount: values.price - values.discountedPrice
     }
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
-    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as CourseModel[]
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
+    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as ICourseModel[]
 
     const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
     const isPurchased = purchases.findIndex(course => course._id === values._id) !== -1

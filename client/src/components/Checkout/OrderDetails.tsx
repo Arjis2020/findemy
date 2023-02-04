@@ -1,13 +1,13 @@
 import { Stack, Typography } from '@mui/material'
 import React from 'react'
-import CourseModel from '../../models/course.model'
+import ICourseModel from '../../models/course.model'
 
 type OrdersProps = {
-    orders: Array<CourseModel>
+    orders: Array<ICourseModel>
 }
 
 export default function OrderDetails({ orders }: OrdersProps) {
-    const OrderSummary = ({ imageUrl, title, price, discountedPrice }: Partial<CourseModel>) => {
+    const OrderSummary = ({ imageUrl, title, price, discountedPrice }: Partial<ICourseModel>) => {
         return (
             <Stack
                 direction='row'

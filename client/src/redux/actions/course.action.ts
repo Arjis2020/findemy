@@ -1,8 +1,8 @@
-import CourseModel from "../../models/course.model"
+import ICourseModel from "../../models/course.model"
 import { CourseActions } from "../constants"
 
 export type CourseAction = {
-    data: Array<CourseModel>
+    data: Array<ICourseModel>
 }
 
 export const triggerCoursesRetrieval = () => {
@@ -11,7 +11,7 @@ export const triggerCoursesRetrieval = () => {
     }
 }
 
-export const setCourses = (data : Array<CourseModel>) => {
+export const setCourses = (data : Array<ICourseModel>) => {
     return {
         type: CourseActions.GET_ALL,
         data

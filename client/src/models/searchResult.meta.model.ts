@@ -1,14 +1,14 @@
-import LevelStatsModel from "./level.stats.model";
-import PriceStatsModel from "./price.stats.model";
-import RatingStatsModel from "./rating.stats.model";
+import ILevelStatsModel from "./level.stats.model";
+import IPriceStatsModel from "./price.stats.model";
+import IRatingStatsModel from "./rating.stats.model";
 
-export interface SearchResultMetaModel {
+export interface ISearchResultMetaModel {
     totalSize: number,
-    levelStats: LevelStatsModel;
-    ratingStats: RatingStatsModel;
-    priceStats: PriceStatsModel;
+    levelStats: ILevelStatsModel;
+    ratingStats: IRatingStatsModel;
+    priceStats: IPriceStatsModel;
 }
 
-export interface TopicSearchResultMetaModel {
+export interface ITopicSearchResultMetaModel {
     totalSize: number
 }

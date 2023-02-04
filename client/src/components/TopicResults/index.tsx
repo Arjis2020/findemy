@@ -10,8 +10,8 @@ import Loader from '../Loader';
 import { Link } from 'react-router-dom';
 import Pagination from '../Pagination';
 import { searchQueryParser } from '../../utils/searchQueryParser';
-import { TopicSearchResultModel } from '../../models/searchResult.model';
-import { TopicSearchResultMetaModel } from '../../models/searchResult.meta.model';
+import { ITopicSearchResultModel } from '../../models/searchResult.model';
+import { ITopicSearchResultMetaModel } from '../../models/searchResult.meta.model';
 
 const RESULTS_PER_PAGE = 10
 
@@ -21,11 +21,11 @@ export default function TopicResults() {
     const [searchParams, setSearchParams] = useSearchParams()
     const { category } = useParams()
     const navigate = useNavigate()
-    const [searchResults, setSearchResults] = useState<TopicSearchResultModel>()
+    const [searchResults, setSearchResults] = useState<ITopicSearchResultModel>()
 
     const page = Number(searchParams.get('page') || 1)
 
-    const meta: TopicSearchResultMetaModel | undefined = searchResults
+    const meta: ITopicSearchResultMetaModel | undefined = searchResults
 
     const pageCount: number = Math.ceil(meta?.totalSize! / RESULTS_PER_PAGE)
 

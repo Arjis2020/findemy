@@ -1,7 +1,7 @@
 import { all, call, debounce, put, takeEvery, takeLeading } from "redux-saga/effects";
 import { getAllCourses } from "../../API/handlers/course.handler";
-import CartModel from "../../models/cart.model";
-import CourseModel from "../../models/course.model";
+import ICartModel from "../../models/cart.model";
+import ICourseModel from "../../models/course.model";
 import { setCart } from "../actions/cart.action";
 import { setCourses } from "../actions/course.action";
 import { CourseActions, PurchaseActions } from "../constants";
@@ -11,7 +11,7 @@ import { purchaseCourses } from "../actions/purchase.action";
 
 function* checkout(action: PurchaseAction) {
     try {
-        const updatedCart: CartModel = yield call(purchaseCoursesHandler, action.courses)
+        const updatedCart: ICartModel = yield call(purchaseCoursesHandler, action.courses)
         yield put(
             setCart(updatedCart)
         )

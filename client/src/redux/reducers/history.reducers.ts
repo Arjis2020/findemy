@@ -8,7 +8,12 @@ const initialState: HistoryState = {
     paths: ['/'],
 }
 
-export const historyReducer = (state = initialState, action: any) => {
+type HistoryAction = {
+    type?: string,
+    path: string
+}
+
+export const historyReducer = (state = initialState, action: HistoryAction) => {
     switch (action.type) {
         case HistoryActions.ADD_PATH:
             let currentPaths = [...state.paths, action.path]

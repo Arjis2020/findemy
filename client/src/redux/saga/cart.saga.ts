@@ -1,13 +1,13 @@
 import { all, call, put, takeEvery, takeLeading } from "redux-saga/effects";
 import { addToCart, getCartCourses, removeFromCart } from "../../API/handlers/cart.handler";
-import CartModel from "../../models/cart.model";
+import ICartModel from "../../models/cart.model";
 import { loginError } from "../actions/auth.action";
 import { setCart, TriggerAddToCartAction, TriggerRemoveFromCartAction } from "../actions/cart.action";
 import { CartActions } from "../constants";
 
 function* callAddToCart(action?: TriggerAddToCartAction) {
     try {
-        const data: CartModel = yield call(addToCart, action?.course_id!)
+        const data: ICartModel = yield call(addToCart, action?.course_id!)
         yield put(
             setCart(data)
         )
@@ -19,7 +19,7 @@ function* callAddToCart(action?: TriggerAddToCartAction) {
 
 function* callCartCourses() {
     try {
-        const data: CartModel = yield call(getCartCourses)
+        const data: ICartModel = yield call(getCartCourses)
         yield put(
             setCart(data)
         )
@@ -31,7 +31,7 @@ function* callCartCourses() {
 
 function* removeCourseFromCart(action?: TriggerRemoveFromCartAction) {
     try {
-        const data: CartModel = yield call(removeFromCart, action?.course_id!)
+        const data: ICartModel = yield call(removeFromCart, action?.course_id!)
 
         yield put(
             setCart(data)

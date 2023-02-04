@@ -1,9 +1,9 @@
-export interface LoginError {
+export interface ILoginError {
     status: number;
     data?: Array<any> | object
 }
 
-export interface AuthError {
-    login?: LoginError,
-    signup?: LoginError
+export interface IAuthError {
+    login?: ILoginError,
+    signup?: ILoginError
 }

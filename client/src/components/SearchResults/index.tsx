@@ -13,8 +13,8 @@ import Loader from '../Loader';
 import { Link } from 'react-router-dom';
 import Pagination from '../Pagination';
 import { searchQueryParser } from '../../utils/searchQueryParser';
-import { SearchResultModel } from '../../models/searchResult.model';
-import { SearchResultMetaModel } from '../../models/searchResult.meta.model';
+import { ISearchResultModel } from '../../models/searchResult.model';
+import { ISearchResultMetaModel } from '../../models/searchResult.meta.model';
 import { SortByModel } from '../../models/sortBy.filter.model';
 import EmptySearch from './EmptySearch';
 
@@ -51,13 +51,13 @@ export default function SearchResults() {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const navigate = useNavigate()
-    const [searchResults, setSearchResults] = useState<SearchResultModel>()
+    const [searchResults, setSearchResults] = useState<ISearchResultModel>()
     const { paths: [previousPath] } = useSelector<RootState>((state) => state.historyReducer) as HistoryState
 
     const query = searchParams.get('q')
     const page = Number(searchParams.get('page') || 1)
 
-    const meta: SearchResultMetaModel | undefined = searchResults
+    const meta: ISearchResultMetaModel | undefined = searchResults
 
     const pageCount: number = Math.ceil(meta?.totalSize! / RESULTS_PER_PAGE)
 

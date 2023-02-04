@@ -2,11 +2,11 @@ import { Box, Button, Stack, SxProps, Theme, Typography } from '@mui/material'
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import { useState } from 'react';
 import Video from './Video';
-import CourseModel from '../../models/course.model';
+import ICourseModel from '../../models/course.model';
 
 type VideoPreviewProps = {
     sx?: SxProps<Theme>,
-    course: CourseModel
+    course: ICourseModel
 }
 
 export default function VideoPreview({ sx, course }: VideoPreviewProps) {

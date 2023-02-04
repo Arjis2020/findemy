@@ -1,10 +1,10 @@
 import { Card, LinearProgress, Stack, Typography } from '@mui/material'
 import React from 'react'
-import CourseModel from '../../models/course.model'
+import ICourseModel from '../../models/course.model'
 import Ratings from '../Ratings'
 
 type CourseProps = {
-    course: CourseModel
+    course: ICourseModel
 }
 
 export default function Course({ course }: CourseProps) {

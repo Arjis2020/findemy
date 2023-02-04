@@ -1,13 +1,13 @@
 import { LoginAction } from "../actions/auth.action";
 import { LoginActions } from "../constants";
 
-export interface LoginStateAction extends LoginAction {
+export interface ILoginStateAction extends LoginAction {
     type?: string,
 }
 
-const initialState: LoginStateAction = {}
+const initialState: ILoginStateAction = {}
 
-export const authReducer = (state = initialState, action: any) => {
+export const authReducer = (state = initialState, action: ILoginStateAction) => {
     switch (action.type) {
         case LoginActions.LOGIN:
             return {

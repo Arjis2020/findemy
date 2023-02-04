@@ -1,10 +1,10 @@
-import { AuthError } from "../../API/responseTypes/auth.type"
-import UserModel from "../../models/user.model"
+import { IAuthError } from "../../API/responseTypes/auth.type"
+import IUserModel from "../../models/user.model"
 import { LoginActions } from "../constants"
 
 export type LoginAction = {
-    data?: UserModel,
-    err?: AuthError,
+    data?: IUserModel,
+    err?: IAuthError,
 }
 
 export type TriggerLoginAction = {
@@ -47,21 +47,21 @@ export const triggerLogout = () => {
     }
 }
 
-export const userData = (data: UserModel) => {
+export const userData = (data: IUserModel) => {
     return {
         type: LoginActions.LOGIN,
         data
     }
 }
 
-export const loginError = (err: AuthError) => {
+export const loginError = (err: IAuthError) => {
     return {
         type: LoginActions.LOGIN_ERROR,
         err
     }
 }
 
-export const signupError = (err : AuthError) => {
+export const signupError = (err : IAuthError) => {
     return {
         type: LoginActions.SIGNUP_ERROR,
         err

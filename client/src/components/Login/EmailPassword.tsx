@@ -7,7 +7,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ReportIcon from '@mui/icons-material/Report';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
-import { LoginStateAction } from '../../redux/reducers/auth.reducer';
+import { ILoginStateAction } from '../../redux/reducers/auth.reducer';
 
 type EmailPasswordProps = {
     onLogin: (values: FieldValues) => void
@@ -22,7 +22,7 @@ export default function EmailPassword({ onLogin }: EmailPasswordProps) {
     const { handleSubmit, formState: { errors }, register, getValues } = useForm<IForm>()
     const [btnDisabled, setBtnDisabled] = useState<boolean>(false)
 
-    const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
+    const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
     const error = user.err?.login
 
     useEffect(() => {

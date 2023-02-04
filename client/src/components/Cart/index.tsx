@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { triggerGetCart } from '../../redux/actions/cart.action'
 import { RootState } from '../../redux/reducers'
-import { CartAction } from '../../redux/reducers/cart.reducer'
+import { CartState } from '../../redux/reducers/cart.reducer'
 import Loader from '../Loader'
 import CheckoutView from './CheckoutView'
 import CourseView from './CourseView'
 import YouMayAlsoLike from './YouMayAlsoLike'
 
 export default function Cart() {
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
 
     const dispatch = useDispatch()
 

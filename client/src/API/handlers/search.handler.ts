@@ -1,10 +1,10 @@
 import axios from "axios"
-import { FiltersModel } from "../../models/filters.model"
-import {SearchResultModel} from "../../models/searchResult.model"
+import { IFiltersModel } from "../../models/filters.model"
+import {ISearchResultModel} from "../../models/searchResult.model"
 import { SortByModel } from "../../models/sortBy.filter.model"
 import { URL_SEARCH_COURSE, URL_SEARCH_COURSE_BY_CATEGORY } from "../endpoints"
 
-export const searchCourses = async (query: string, page: number = 1, filters?: FiltersModel, sortBy?: SortByModel): Promise<SearchResultModel> => {
+export const searchCourses = async (query: string, page: number = 1, filters?: IFiltersModel, sortBy?: SortByModel): Promise<ISearchResultModel> => {
     let urlEncodedFilters = {
         rating: filters?.rating,
         prices: filters?.prices?.length ? filters.prices.join(',') : 'free,paid',
@@ -12,7 +12,7 @@ export const searchCourses = async (query: string, page: number = 1, filters?: F
     }
 
     try {
-        const { data } = await axios.get<SearchResultModel>(URL_SEARCH_COURSE, {
+        const { data } = await axios.get<ISearchResultModel>(URL_SEARCH_COURSE, {
             params: {
                 q: query,
                 page,
@@ -29,9 +29,9 @@ export const searchCourses = async (query: string, page: number = 1, filters?: F
     }
 }
 
-export const searchCoursesByCategory = async (category: string, page: number = 1): Promise<SearchResultModel> => {
+export const searchCoursesByCategory = async (category: string, page: number = 1): Promise<ISearchResultModel> => {
     try {
-        const { data } = await axios.get<SearchResultModel>(`${URL_SEARCH_COURSE_BY_CATEGORY}/${category}`, {
+        const { data } = await axios.get<ISearchResultModel>(`${URL_SEARCH_COURSE_BY_CATEGORY}/${category}`, {
             params: {
                 page
             }

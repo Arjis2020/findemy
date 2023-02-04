@@ -5,17 +5,17 @@ import LanguageIcon from '@mui/icons-material/Language';
 import SubtitlesIcon from '@mui/icons-material/Subtitles';
 import './index.css'
 import VideoPreview from './VideoPreview';
-import CourseModel from '../../models/course.model';
+import ICourseModel from '../../models/course.model';
 import Ratings from '../Ratings';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
-import { CartAction } from '../../redux/reducers/cart.reducer';
+import { CartState } from '../../redux/reducers/cart.reducer';
 import { LoginAction } from '../../redux/actions/auth.action';
 import { Link } from 'react-router-dom';
 
 type SummaryBannerProps = {
-    values: CourseModel,
+    values: ICourseModel,
     onAddToCartClicked: () => void
 }
 
@@ -26,8 +26,8 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
     const discountPercentage = Math.floor(((values.price - values.discountedPrice) / values.price) * 100)
     const navigate = useNavigate()
 
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
-    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as CourseModel[]
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
+    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as ICourseModel[]
 
     const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
     const isPurchased = purchases.findIndex(course => course._id === values._id) !== -1

@@ -17,11 +17,11 @@ import SearchResults from './components/SearchResults'
 import Signup from './components/Signup'
 import TopicResults from './components/TopicResults'
 import { RootState } from './redux/reducers'
-import { LoginStateAction } from './redux/reducers/auth.reducer'
+import { ILoginStateAction } from './redux/reducers/auth.reducer'
 import { HistoryState } from './redux/reducers/history.reducers'
 
 export default function Router() {
-  const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
+  const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
   const { paths: [previousPath, currentPath] } = useSelector<RootState>((state) => state.historyReducer) as HistoryState
 
   return (

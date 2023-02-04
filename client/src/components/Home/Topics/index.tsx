@@ -1,12 +1,12 @@
 import { Grid, Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { getGroupedCategories } from '../../../API/handlers/category.handler'
-import { GroupedCategories } from '../../../models/category.model'
+import { IGroupedCategories } from '../../../models/category.model'
 import Loader from '../../Loader'
 import Categories from './Categories'
 
 export default function Topics() {
-    const [categories, setCategories] = useState<GroupedCategories[]>()
+    const [categories, setCategories] = useState<IGroupedCategories[]>()
     useEffect(() => {
         getGroupedCategories()
             .then(data => setCategories(data))

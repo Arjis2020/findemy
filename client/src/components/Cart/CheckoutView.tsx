@@ -2,17 +2,17 @@ import { Check } from '@mui/icons-material'
 import { Button, Divider, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import CartOrderMetaModel from '../../models/cart.meta.model'
+import ICartOrderMetaModel from '../../models/cart.meta.model'
 import { RootState } from '../../redux/reducers'
-import { CartAction } from '../../redux/reducers/cart.reducer'
+import { CartState } from '../../redux/reducers/cart.reducer'
 
 export default function CheckoutView() {
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
 
-    const { totalPrice, totalDiscountedPrice, discountPercentage }: CartOrderMetaModel = cart
+    const { totalPrice, totalDiscountedPrice, discountPercentage }: ICartOrderMetaModel = cart
 
     return (
         <Stack

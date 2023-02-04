@@ -1,11 +1,11 @@
-import CommonModel from "./common.model";
+import ICommonModel from "./common.model";
 
-export interface Category extends CommonModel {
+export interface ICategory extends ICommonModel {
     title: string;
     students: number;
 }
 
-export interface GroupedCategories extends CommonModel {
+export interface IGroupedCategories extends ICommonModel {
     title: string;
-    sub_categories: Category[]
+    sub_categories: ICategory[]
 }

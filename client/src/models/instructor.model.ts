@@ -1,6 +1,6 @@
-import CommonModel from "./common.model";
+import ICommonModel from "./common.model";
 
-export default interface InstructorModel extends CommonModel {
+export default interface IInstructorModel extends ICommonModel {
     name: string,
     gender: string,
     skills: Array<string>,

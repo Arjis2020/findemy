@@ -4,14 +4,14 @@ import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { createOrder, verifyOrder } from '../../API/handlers/payment.handler'
-import CartOrderMetaModel from '../../models/cart.meta.model'
-import { CreateOrderModel, VerifyOrderModel } from '../../models/order.model'
+import ICartOrderMetaModel from '../../models/cart.meta.model'
+import { ICreateOrderModel, IVerifyOrderModel } from '../../models/order.model'
 // import { clearCart } from '../../redux/actions/cart.action'
-import { CardDetails, MobileWalletDetails, NetbankingDetails, resetPayment, setPaymentDetails, UPIDetails } from '../../redux/actions/payment.action'
+import { ICardDetails, IMobileWalletDetails, INetbankingDetails, resetPayment, setPaymentDetails, IUPIDetails } from '../../redux/actions/payment.action'
 import { purchaseCourses } from '../../redux/actions/purchase.action'
 import { RootState } from '../../redux/reducers'
-import { LoginStateAction } from '../../redux/reducers/auth.reducer'
-import { CartAction } from '../../redux/reducers/cart.reducer'
+import { ILoginStateAction } from '../../redux/reducers/auth.reducer'
+import { CartState } from '../../redux/reducers/cart.reducer'
 import { PaymentState } from '../../redux/reducers/payment.reducer'
 import { APP_NAME } from '../../utils/constants'
 import { generateReceipt } from '../../utils/generateReceipt'
@@ -53,7 +53,7 @@ export default function Checkout() {
     const location = useLocation()
 
     const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
-    const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
+    const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
     const paymentMethod = payment.method
@@ -67,19 +67,19 @@ export default function Checkout() {
     useEffect(() => {
         if (payment.details) {
             if (paymentMethod === 'card') {
-                displayRazorpay(buildCardPrefillOptions(payment.details as CardDetails), payment.details as CardDetails)
+                displayRazorpay(buildCardPrefillOptions(payment.details as ICardDetails), payment.details as ICardDetails)
             }
             else if (paymentMethod === 'upi') {
-                displayRazorpay(buildUPIPrefillOptions(payment.details as UPIDetails), payment.details as UPIDetails)
+                displayRazorpay(buildUPIPrefillOptions(payment.details as IUPIDetails), payment.details as IUPIDetails)
             }
             // else if (paymentMethod === 'paytm') {
             //     displayRazorpay(null)
             // }
             else if (paymentMethod === 'netbanking') {
-                displayRazorpay(buildNetbankingPrefillOptions(payment.details as NetbankingDetails), payment.details as NetbankingDetails)
+                displayRazorpay(buildNetbankingPrefillOptions(payment.details as INetbankingDetails), payment.details as INetbankingDetails)
             }
             else if (paymentMethod === 'wallet') {
-                displayRazorpay(buildWalletPrefillOptions(payment.details as MobileWalletDetails), payment.details as MobileWalletDetails)
+                displayRazorpay(buildWalletPrefillOptions(payment.details as IMobileWalletDetails), payment.details as IMobileWalletDetails)
             }
         }
     }, [payment.details])
@@ -106,10 +106,10 @@ export default function Checkout() {
         />
     }
 
-    const cart = location.state as CartAction
-    const orderMeta: CartOrderMetaModel = cart
+    const cart = location.state as CartState
+    const orderMeta: ICartOrderMetaModel = cart
 
-    const createOrderParams: CreateOrderModel = {
+    const createOrderParams: ICreateOrderModel = {
         amount: String(orderMeta.totalDiscountedPrice * 100),
         currency: 'INR',
         receipt: generateReceipt(),
@@ -120,20 +120,20 @@ export default function Checkout() {
     const onSubmit: SubmitHandler<IForm> = (values) => {
         if (paymentMethod === 'card') {
             values.number = values.number.split(' ').join('')
-            const details: CardDetails = {
-                ...values as CardDetails
+            const details: ICardDetails = {
+                ...values as ICardDetails
             }
             dispatch(setPaymentDetails(details))
         }
         else if (paymentMethod === 'netbanking') {
-            dispatch(setPaymentDetails(values as NetbankingDetails))
+            dispatch(setPaymentDetails(values as INetbankingDetails))
         }
         else if (paymentMethod === 'wallet') {
-            dispatch(setPaymentDetails(values as MobileWalletDetails))
+            dispatch(setPaymentDetails(values as IMobileWalletDetails))
         }
     }
 
-    const buildNetbankingPrefillOptions = (details: NetbankingDetails) => {
+    const buildNetbankingPrefillOptions = (details: INetbankingDetails) => {
         return {
             config: {
                 display: {
@@ -157,7 +157,7 @@ export default function Checkout() {
         }
     }
 
-    const buildWalletPrefillOptions = (details: MobileWalletDetails) => {
+    const buildWalletPrefillOptions = (details: IMobileWalletDetails) => {
         return {
             config: {
                 display: {
@@ -181,7 +181,7 @@ export default function Checkout() {
         }
     }
 
-    const buildCardPrefillOptions = (details: CardDetails) => {
+    const buildCardPrefillOptions = (details: ICardDetails) => {
         return {
             prefill: {
                 "card[number]": +details.number,
@@ -191,7 +191,7 @@ export default function Checkout() {
         }
     }
 
-    const buildUPIPrefillOptions = (upi: UPIDetails) => {
+    const buildUPIPrefillOptions = (upi: IUPIDetails) => {
         return {
             prefill: {
                 vpa: upi.vpa
@@ -227,7 +227,7 @@ export default function Checkout() {
                     razorpaySignature: response.razorpay_signature,
                 };
                 try {
-                    const params: VerifyOrderModel = {
+                    const params: IVerifyOrderModel = {
                         order_id: data.razorpayOrderId,
                         payment_id: data.razorpayPaymentId,
                         razorpay_signature: data.razorpaySignature
@@ -252,7 +252,7 @@ export default function Checkout() {
                 confirmClose: true
             },
             prefill: {
-                name: paymentMethod !== 'card' ? user.data?.name : (details as CardDetails).name,
+                name: paymentMethod !== 'card' ? user.data?.name : (details as ICardDetails).name,
                 email: user.data?.email,
                 contact: "6290997993",
                 method: paymentMethod,

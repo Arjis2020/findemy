@@ -1,10 +1,10 @@
 import axios from "axios";
-import { CreateOrderModel, GenerateQRRequestModel, GenerateQRResponseModel, OrderResponse, VerifyOrderModel, VerifyVpaModel } from "../../models/order.model";
+import { ICreateOrderModel, IGenerateQRRequestModel, IGenerateQRResponseModel, IOrderResponse, IVerifyOrderModel, IVerifyVpaModel } from "../../models/order.model";
 import { URL_CREATE_ORDER, URL_GENERTE_QR, URL_GET_PAYMENT_METHODS, URL_VERIFY_ORDER, URL_VERIFY_VPA } from "../endpoints";
 
-export const createOrder = async (parameters: CreateOrderModel): Promise<OrderResponse> => {
+export const createOrder = async (parameters: ICreateOrderModel): Promise<IOrderResponse> => {
     try {
-        const { data } = await axios.post<OrderResponse>(URL_CREATE_ORDER, {
+        const { data } = await axios.post<IOrderResponse>(URL_CREATE_ORDER, {
             ...parameters
         })
         return data
@@ -15,7 +15,7 @@ export const createOrder = async (parameters: CreateOrderModel): Promise<OrderRe
     }
 }
 
-export const verifyOrder = async (params: VerifyOrderModel): Promise<void> => {
+export const verifyOrder = async (params: IVerifyOrderModel): Promise<void> => {
     try {
         await axios.post(URL_VERIFY_ORDER, {
             order_id: params.order_id,
@@ -32,9 +32,9 @@ export const verifyOrder = async (params: VerifyOrderModel): Promise<void> => {
     }
 }
 
-export const verifyVpa = async (vpa: string): Promise<VerifyVpaModel> => {
+export const verifyVpa = async (vpa: string): Promise<IVerifyVpaModel> => {
     try {
-        const { data } = await axios.post<VerifyVpaModel>(URL_VERIFY_VPA, {
+        const { data } = await axios.post<IVerifyVpaModel>(URL_VERIFY_VPA, {
             vpa
         })
         return data
@@ -45,9 +45,9 @@ export const verifyVpa = async (vpa: string): Promise<VerifyVpaModel> => {
     }
 }
 
-export const generateUpiQR = async (params: GenerateQRRequestModel): Promise<GenerateQRResponseModel> => {
+export const generateUpiQR = async (params: IGenerateQRRequestModel): Promise<IGenerateQRResponseModel> => {
     try {
-        const { data } = await axios.post<GenerateQRResponseModel>(URL_GENERTE_QR, {
+        const { data } = await axios.post<IGenerateQRResponseModel>(URL_GENERTE_QR, {
             ...params
         })
         return data

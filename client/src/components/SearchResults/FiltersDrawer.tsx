@@ -2,7 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, AppBar, Box, Button, Che
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { StarBorder } from '@mui/icons-material';
-import {SearchResultMetaModel} from '../../models/searchResult.meta.model';
+import {ISearchResultMetaModel} from '../../models/searchResult.meta.model';
 import Ratings from '../Ratings';
 import { RatingFilterModel } from '../../models/rating.filter.model';
 import { PricesFilterModel } from '../../models/prices.filter.model';
@@ -24,7 +24,7 @@ export type FilterState = {
 type FiltersDrawerProps = {
     drawerState: boolean,
     toggleDrawerState: () => void,
-    meta: SearchResultMetaModel,
+    meta: ISearchResultMetaModel,
     filterEvents: FilterEvents,
     currentFilterState: FilterState
 }

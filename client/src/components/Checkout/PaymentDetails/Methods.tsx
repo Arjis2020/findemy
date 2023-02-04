@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { PaymentMethodProps } from '..'
 import { generateUpiQR, getMobileWallets, getNetbankingBanks } from '../../../API/handlers/payment.handler'
-import CartOrderMetaModel from '../../../models/cart.meta.model'
+import ICartOrderMetaModel from '../../../models/cart.meta.model'
 import { SupportedPaymentMethods } from '../../../models/order.model'
 import { setPaymentMethod } from '../../../redux/actions/payment.action'
 import { RootState } from '../../../redux/reducers'
-import { CartAction } from '../../../redux/reducers/cart.reducer'
+import { CartState } from '../../../redux/reducers/cart.reducer'
 import { PaymentState } from '../../../redux/reducers/payment.reducer'
 import CreditDebitCard from './PaymentMethods/CreditDebitCard'
 import MobileWallets from './PaymentMethods/MobileWallets'
@@ -54,8 +54,8 @@ export default function Methods({ formValues, banks, wallets }: PaymentMethodPro
 
     const location = useLocation()
 
-    const cart = location.state as CartAction
-    const orderMeta: CartOrderMetaModel = cart
+    const cart = location.state as CartState
+    const orderMeta: ICartOrderMetaModel = cart
 
     useEffect(() => {
         getNetbankingBanks()

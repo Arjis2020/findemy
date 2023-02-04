@@ -1,11 +1,11 @@
-import CommonModel from "./common.model";
-import InstructorModel from "./instructor.model";
+import ICommonModel from "./common.model";
+import IInstructorModel from "./instructor.model";
 
-export default interface CourseModel extends CommonModel {
+export default interface ICourseModel extends ICommonModel {
     title: string,
     shortDescription: string,
     detailedDescription: string,
-    instructors: Array<InstructorModel>,
+    instructors: Array<IInstructorModel>,
     rating: number,
     totalRatings: number,
     totalHours: number,

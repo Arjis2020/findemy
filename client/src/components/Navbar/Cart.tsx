@@ -4,12 +4,12 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/reducers';
-import { LoginStateAction } from '../../redux/reducers/auth.reducer';
-import { CartAction } from '../../redux/reducers/cart.reducer';
+import { ILoginStateAction } from '../../redux/reducers/auth.reducer';
+import { CartState } from '../../redux/reducers/cart.reducer';
 
 export default memo(function Cart() {
-  const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
-  const user = useSelector<RootState>((state) => state.authReducer) as LoginStateAction
+  const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
+  const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
 
   return (
     <Link

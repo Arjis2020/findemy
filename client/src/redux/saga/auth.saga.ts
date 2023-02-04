@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects'
 import { handleAuthorization, handleLogin, handleLogout, handleSignup } from '../../API/handlers/auth.handler'
-import UserModel from '../../models/user.model'
+import IUserModel from '../../models/user.model'
 import { logoutUser, TriggerLoginAction, TriggerSignupAction, userData, loginError, signupError } from '../actions/auth.action'
 import { setCart } from '../actions/cart.action'
 import { setPurchases } from '../actions/purchase.action'
@@ -8,7 +8,7 @@ import { LoginActions } from '../constants'
 
 function* login(action?: TriggerLoginAction) {
     try {
-        const data: UserModel = yield call(handleLogin, action!.email, action!.password)
+        const data: IUserModel = yield call(handleLogin, action!.email, action!.password)
         yield put(
             userData(data)
         )
@@ -28,7 +28,7 @@ function* login(action?: TriggerLoginAction) {
 
 function* authorize() {
     try {
-        const data: UserModel = yield call(handleAuthorization)
+        const data: IUserModel = yield call(handleAuthorization)
 
         yield put(
             userData(data)
@@ -47,7 +47,7 @@ function* authorize() {
 
 function* signup(action?: TriggerSignupAction) {
     try {
-        const data: UserModel = yield call(handleSignup, action!.name, action!.email, action!.password)
+        const data: IUserModel = yield call(handleSignup, action!.name, action!.email, action!.password)
         yield put(
             userData(data)
         )

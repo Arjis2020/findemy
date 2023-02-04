@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './index.css';
 import { LoginAction, triggerUserAuthorize } from './redux/actions/auth.action';
 import { RootState } from './redux/reducers';
-import { LoginStateAction } from './redux/reducers/auth.reducer';
+import { ILoginStateAction } from './redux/reducers/auth.reducer';
 import Router from './Router';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';

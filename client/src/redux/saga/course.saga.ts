@@ -1,12 +1,12 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import { getAllCourses } from "../../API/handlers/course.handler";
-import CourseModel from "../../models/course.model";
+import ICourseModel from "../../models/course.model";
 import { setCourses } from "../actions/course.action";
 import { CourseActions } from "../constants";
 
 function* getCourses() {
     try {
-        const data : Array<CourseModel> = yield call(getAllCourses)
+        const data : Array<ICourseModel> = yield call(getAllCourses)
         yield put(
             setCourses(data)
         )

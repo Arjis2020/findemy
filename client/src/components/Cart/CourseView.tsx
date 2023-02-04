@@ -4,11 +4,11 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { triggerRemoveFromCart } from '../../redux/actions/cart.action';
-import CourseModel from '../../models/course.model';
+import ICourseModel from '../../models/course.model';
 import Ratings from '../Ratings';
 
 type CourseViewProps = {
-    item: CourseModel
+    item: ICourseModel
 }
 
 export default function CourseView({ item }: CourseViewProps) {

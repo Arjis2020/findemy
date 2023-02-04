@@ -1,4 +1,4 @@
-export default interface PriceStatsModel {
+export default interface IPriceStatsModel {
     free: number;
     paid: number
 }

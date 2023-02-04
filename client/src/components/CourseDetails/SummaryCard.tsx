@@ -11,23 +11,23 @@ import React from 'react';
 import VideoPreview from './VideoPreview';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
-import { CartAction } from '../../redux/reducers/cart.reducer';
+import { CartState } from '../../redux/reducers/cart.reducer';
 import { useNavigate } from 'react-router-dom';
-import CourseModel from '../../models/course.model';
+import ICourseModel from '../../models/course.model';
 import { Link } from 'react-router-dom';
 import { LoginAction } from '../../redux/actions/auth.action';
 
 type SummaryCardProps = {
     showVideo?: boolean,
-    values: CourseModel,
+    values: ICourseModel,
     onAddToCartClicked: () => void
 }
 
 export default function SummaryCard({ showVideo = true, values, onAddToCartClicked }: SummaryCardProps) {
     const discountPercentage = Math.floor(((values.price - values.discountedPrice) / values.price) * 100)
 
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartAction
-    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as CourseModel[]
+    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
+    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as ICourseModel[]
 
     const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
     const isPurchased = purchases.findIndex(course => course._id === values._id) !== -1

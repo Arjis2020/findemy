@@ -8,7 +8,7 @@ import { CourseAction, triggerCoursesRetrieval } from '../../../redux/actions/co
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Loader from '../../Loader'
-import CourseModel from '../../../models/course.model'
+import ICourseModel from '../../../models/course.model'
 import Ratings from '../../Ratings'
 
 export default function Carousel() {
@@ -88,7 +88,7 @@ export default function Carousel() {
                     </IconButton>
                 }
             >
-                {courses.data?.map((data: CourseModel) => {
+                {courses.data?.map((data: ICourseModel) => {
                     return (
                         <GridCarousel.Item
                             key={data._id}
