@@ -5,8 +5,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { getCourseDetails } from '../../API/handlers/course.handler'
 import ICourseModel from '../../models/course.model'
 import { LoginAction } from '../../redux/actions/auth.action'
-import { triggerAddToCart } from '../../redux/actions/cart.action'
+// import { triggerAddToCart } from '../../redux/actions/cart.action'
 import { RootState } from '../../redux/reducers'
+import { triggerAddToCart } from '../../redux/reducers/cart.reducer'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 import Loader from '../Loader'
 import Description from './Description'
 import Instructor from './Instructor'
@@ -38,7 +40,7 @@ export default function CourseDetails() {
   const stackRef = useRef<Element>()
   const cardRef = useRef<Element>()
 
-  const user = useSelector<RootState>((state) => state.authReducer) as LoginAction
+  const user = useAppSelector((state) => state.authReducer)
 
   const [afterScrollTrigger, setAfterScrollTrigger] = useState(false)
 
@@ -66,7 +68,7 @@ export default function CourseDetails() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const onAddToCartClicked = () => {
     if (user.data?._id) {

@@ -3,10 +3,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ICourseModel from "../../models/course.model";
-import { triggerAddToCart } from "../../redux/actions/cart.action";
+// import { triggerAddToCart } from "../../redux/actions/cart.action";
 import { RootState } from "../../redux/reducers";
-import { ILoginStateAction } from "../../redux/reducers/auth.reducer";
-import { CartState } from "../../redux/reducers/cart.reducer";
+import { CartState, triggerAddToCart } from "../../redux/reducers/cart.reducer";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import StyledTooltip from "../GlobalStyles/StyledTooltip";
 import Ratings from "../Ratings";
 import SearchResultTooltip from "../Tooltips/SearchResultTooltip";
@@ -25,14 +25,14 @@ export default function Courses({ course }: SearchResultCourseProps) {
 
 
     const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
-    const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
+    const user = useAppSelector((state) => state.authReducer)
     const purchases = useSelector<RootState>((state) => state.purchaseReducer) as ICourseModel[]
 
-    const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === course._id) !== -1
+    const doesCourseExistInCart = cart.data.orders.findIndex((item) => item._id === course._id) !== -1
     const isPurchased = purchases.findIndex(item => item._id === course._id) !== -1
 
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const onAddToCartClicked = (e: React.MouseEvent) => {
         e.stopPropagation()

@@ -1,19 +1,17 @@
 import { Container, Stack, Typography } from '@mui/material'
-import { useEffect } from 'react'
-import { FieldValues } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { SubmitHandler } from 'react-hook-form'
+import { triggerLogin } from '../../redux/reducers/auth.reducer'
 // import { useDispatch } from 'react-redux'
-import { triggerLogin, TriggerLoginAction } from '../../redux/actions/auth.action'
+import { useAppDispatch } from '../../redux/store'
 // import { triggerLogin, TriggerLoginAction } from '../../redux/actions/auth.action'
-import EmailPassword from './EmailPassword'
+import EmailPassword, { ILoginForm } from './EmailPassword'
 import Methods from './Methods'
 
 export default function Login() {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const onLogin = (values: FieldValues) => {
-    dispatch(triggerLogin(values as TriggerLoginAction))
+  const onLogin: SubmitHandler<ILoginForm> = (values) => {
+    dispatch(triggerLogin(values))
   }
 
   return (

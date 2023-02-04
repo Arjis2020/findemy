@@ -1,13 +1,13 @@
+import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, takeEvery, takeLeading } from "redux-saga/effects";
 import { addToCart, getCartCourses, removeFromCart } from "../../API/handlers/cart.handler";
 import ICartModel from "../../models/cart.model";
-import { loginError } from "../actions/auth.action";
-import { setCart, TriggerAddToCartAction, TriggerRemoveFromCartAction } from "../actions/cart.action";
-import { CartActions } from "../constants";
+import { setCart } from "../reducers/cart.reducer";
 
-function* callAddToCart(action?: TriggerAddToCartAction) {
+function* callAddToCart(action?: PayloadAction<string>) {
     try {
-        const data: ICartModel = yield call(addToCart, action?.course_id!)
+        const data: ICartModel = yield call(addToCart, action?.payload!)
+        console.log(data)
         yield put(
             setCart(data)
         )
@@ -29,9 +29,9 @@ function* callCartCourses() {
     }
 }
 
-function* removeCourseFromCart(action?: TriggerRemoveFromCartAction) {
+function* removeCourseFromCart(action?: PayloadAction<string>) {
     try {
-        const data: ICartModel = yield call(removeFromCart, action?.course_id!)
+        const data: ICartModel = yield call(removeFromCart, action?.payload!)
 
         yield put(
             setCart(data)
@@ -44,8 +44,8 @@ function* removeCourseFromCart(action?: TriggerRemoveFromCartAction) {
 
 export default function* cartSaga() {
     yield all([
-        takeLeading(CartActions.TRIGGER_ADD_TO_CART, callAddToCart),
-        takeEvery(CartActions.TRIGGER_GET_CART_COURSES, callCartCourses),
-        takeLeading(CartActions.TRIGGER_REMOVE_FROM_CART, removeCourseFromCart)
+        takeLeading("cart/triggerAddToCart", callAddToCart),
+        takeEvery("cart/triggerGetCart", callCartCourses),
+        takeLeading("cart/triggerRemoveFromCart", removeCourseFromCart)
     ])
 }

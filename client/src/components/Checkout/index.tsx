@@ -7,12 +7,12 @@ import { createOrder, verifyOrder } from '../../API/handlers/payment.handler'
 import ICartOrderMetaModel from '../../models/cart.meta.model'
 import { ICreateOrderModel, IVerifyOrderModel } from '../../models/order.model'
 // import { clearCart } from '../../redux/actions/cart.action'
-import { ICardDetails, IMobileWalletDetails, INetbankingDetails, resetPayment, setPaymentDetails, IUPIDetails } from '../../redux/actions/payment.action'
-import { purchaseCourses } from '../../redux/actions/purchase.action'
-import { RootState } from '../../redux/reducers'
-import { ILoginStateAction } from '../../redux/reducers/auth.reducer'
+// import { ICardDetails, IMobileWalletDetails, INetbankingDetails, resetPayment, setPaymentDetails, IUPIDetails } from '../../redux/actions/payment.action'
+// import { purchaseCourses } from '../../redux/actions/purchase.action'
+// import { RootState } from '../../redux/reducers'
 import { CartState } from '../../redux/reducers/cart.reducer'
-import { PaymentState } from '../../redux/reducers/payment.reducer'
+// import { PaymentState } from '../../redux/reducers/payment.reducer'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { APP_NAME } from '../../utils/constants'
 import { generateReceipt } from '../../utils/generateReceipt'
 import BillingDetails from './BillingDetails'
@@ -52,13 +52,13 @@ export default function Checkout() {
 
     const location = useLocation()
 
-    const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
-    const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
+    const payment = useAppSelector((state) => state.paymentReducer)
+    const user = useAppSelector((state) => state.authReducer)
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
     const paymentMethod = payment.method
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         reset()
@@ -107,7 +107,7 @@ export default function Checkout() {
     }
 
     const cart = location.state as CartState
-    const orderMeta: ICartOrderMetaModel = cart
+    const orderMeta: ICartOrderMetaModel = cart.data
 
     const createOrderParams: ICreateOrderModel = {
         amount: String(orderMeta.totalDiscountedPrice * 100),
@@ -233,7 +233,7 @@ export default function Checkout() {
                         razorpay_signature: data.razorpaySignature
                     }
                     await verifyOrder(params)
-                    dispatch(purchaseCourses(cart.orders))
+                    dispatch(purchaseCourses(cart.data.orders))
                     dispatch(resetPayment())
                     navigate(`/order/success/${params.order_id}`, {
                         state: {
@@ -294,7 +294,7 @@ export default function Checkout() {
                         formValues={formValues}
                     />
                     <OrderDetails
-                        orders={cart.orders}
+                        orders={cart.data.orders}
                     />
                 </Stack>
                 <Box
@@ -353,7 +353,7 @@ export default function Checkout() {
                     formValues={formValues}
                 />
                 <OrderDetails
-                    orders={cart.orders}
+                    orders={cart.data.orders}
                 />
                 <Summary
                     // onCheckout={displayRazorpay}

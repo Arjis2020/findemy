@@ -1,14 +1,13 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { useDispatch, useSelector } from 'react-redux';
 import './index.css';
-import { LoginAction, triggerUserAuthorize } from './redux/actions/auth.action';
-import { RootState } from './redux/reducers';
-import { ILoginStateAction } from './redux/reducers/auth.reducer';
 import Router from './Router';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import { useAppDispatch } from './redux/store';
+import { triggerAuthorize } from './redux/reducers/auth.reducer';
+
 
 function App() {
   const theme = createTheme({
@@ -40,10 +39,10 @@ function App() {
     }
   })
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(triggerUserAuthorize())
+    dispatch(triggerAuthorize())
   }, [])
 
   return (

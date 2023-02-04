@@ -4,12 +4,12 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/reducers';
-import { ILoginStateAction } from '../../redux/reducers/auth.reducer';
 import { CartState } from '../../redux/reducers/cart.reducer';
+import { useAppSelector } from '../../redux/store';
 
 export default memo(function Cart() {
-  const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
-  const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
+  const cart = useAppSelector((state) => state.cartReducer)
+  const user = useAppSelector((state) => state.authReducer)
 
   return (
     <Link
@@ -28,15 +28,15 @@ export default memo(function Cart() {
             color: '#000'
           }}
         />
-        {cart.orders.length > 0 && <div
-          key={cart.orders.length}
+        {cart.data.orders.length > 0 && <div
+          key={cart.data.orders.length}
           className='cart-badge cart-badge-animate'
         >
           <Typography
             fontSize={14}
             fontFamily='UdemySansBold'
           >
-            {cart.orders.length}
+            {cart.data.orders.length}
           </Typography>
         </div>}
       </Box>

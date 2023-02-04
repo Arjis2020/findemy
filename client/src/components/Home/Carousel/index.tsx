@@ -1,7 +1,6 @@
-import { Box, Card, CardActionArea, IconButton, Rating, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
-// import CarouselData from '../../../carousel.data.json'
+import { Box, Card, CardActionArea, IconButton, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import GridCarousel from 'react-grid-carousel'
-import { ArrowBackIosSharp, ArrowForwardIosSharp, StarBorder } from '@mui/icons-material'
+import { ArrowBackIosSharp, ArrowForwardIosSharp } from '@mui/icons-material'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../redux/reducers'
 import { CourseAction, triggerCoursesRetrieval } from '../../../redux/actions/course.action'
@@ -10,23 +9,31 @@ import { Link } from 'react-router-dom'
 import Loader from '../../Loader'
 import ICourseModel from '../../../models/course.model'
 import Ratings from '../../Ratings'
+import { fetchCourses } from '../../../redux/reducers/course.reducer'
+import { useAppDispatch, useAppSelector } from '../../../redux/store'
 
 export default function Carousel() {
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.up('tablet'))
     const desktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('desktop'))
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const courses = useSelector<RootState>((state) => state.courseReducer) as CourseAction
+    const courses = useAppSelector((state) => state.courseReducer)
 
     useEffect(() => {
-        dispatch(triggerCoursesRetrieval())
+        dispatch(fetchCourses())
     }, [])
 
     const datasetLength = desktop ? 5 : tablet ? 3 : 1
 
     return (
-        courses.data.length ?
+        courses.isLoading ?
+            <Loader
+                sx={{
+                    height: 'auto'
+                }}
+            />
+            :
             <GridCarousel
                 containerClassName='grid-carousel-container'
                 gap={15}
@@ -88,7 +95,7 @@ export default function Carousel() {
                     </IconButton>
                 }
             >
-                {courses.data?.map((data: ICourseModel) => {
+                {courses.data.map((data: ICourseModel) => {
                     return (
                         <GridCarousel.Item
                             key={data._id}
@@ -222,11 +229,5 @@ export default function Carousel() {
                     )
                 })}
             </GridCarousel>
-            :
-            <Loader
-                sx={{
-                    height: 'auto'
-                }}
-            />
     )
 }

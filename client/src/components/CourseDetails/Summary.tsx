@@ -7,6 +7,7 @@ import ICourseModel from '../../models/course.model'
 import { LoginAction } from '../../redux/actions/auth.action'
 import { RootState } from '../../redux/reducers'
 import { CartState } from '../../redux/reducers/cart.reducer'
+import { useAppSelector } from '../../redux/store'
 
 type SummaryProps = {
     values: ICourseModel
@@ -49,11 +50,11 @@ export default memo(function Summary({ values }: SummaryProps) {
         discountPercentage: Math.floor((values.price - values.discountedPrice) / values.price),
         discount: values.price - values.discountedPrice
     }
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
-    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as ICourseModel[]
+    const cart = useAppSelector((state) => state.cartReducer)
+    const purchases = useAppSelector((state) => state.purchaseReducer)
 
-    const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
-    const isPurchased = purchases.findIndex(course => course._id === values._id) !== -1
+    const doesCourseExistInCart = cart.data.orders.findIndex((item) => item._id === values._id) !== -1
+    const isPurchased = purchases.data.findIndex(course => course._id === values._id) !== -1
 
     const BuyButton = () => (
         <Link

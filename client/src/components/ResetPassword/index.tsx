@@ -9,6 +9,7 @@ import { resetPaths } from '../../redux/actions/history.action';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PasswordStrength from '../Signup/PasswordStrength';
+import { useAppDispatch } from '../../redux/store';
 
 interface IForm {
     password: string;
@@ -45,7 +46,7 @@ export default function ResetPassword() {
         }
     }, [])
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     if (!searchParams.get('token')) return <Navigate to='/' />
 

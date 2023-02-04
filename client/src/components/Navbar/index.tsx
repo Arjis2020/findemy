@@ -1,11 +1,11 @@
-import { AppBar, Avatar, Button, Divider, Drawer, IconButton, Paper, Stack, SwipeableDrawer, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
+import { AppBar, Avatar, Button, Divider, IconButton, Stack, SwipeableDrawer, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import Cart from './Cart'
 import Languages from './Languages'
 import Login from './Login'
 import Search, { ISearchForm } from './Search'
 import Signup from './Signup'
 import MenuIcon from '@mui/icons-material/Menu';
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { ArrowForwardIosSharp } from '@mui/icons-material'
 import LanguageIcon from '@mui/icons-material/Language';
 import SearchIcon from '@mui/icons-material/Search';
@@ -14,30 +14,18 @@ import { APP_NAME } from '../../utils/constants'
 import UserAvatar from './UserAvatar'
 import Notification from './Notification'
 import MyLearning from './MyLearning'
-import { useDispatch, useSelector } from 'react-redux'
-import { ILoginStateAction } from '../../redux/reducers/auth.reducer'
-import { RootState } from '../../redux/reducers'
-import { resetAuthErrors } from '../../redux/actions/auth.action'
-import { addPath } from '../../redux/actions/history.action'
 import './index.css'
-import { FieldValues, SubmitHandler } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
+import { useAppSelector } from '../../redux/store'
+import Loader from '../Loader'
 
 export default function Header() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
-    const [open, setOpen] = useState(false)
-    const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
+    const [open, setOpen] = useState<boolean>(false)
+    const user = useAppSelector((state) => state.authReducer)
 
     const location = useLocation()
     const navigate = useNavigate()
-
-    // const dispatch = useDispatch()
-
-    // // Resets all auth errors when the pathname changes
-    // // Adds the current path to the redux state
-    // useEffect(() => {
-    //     dispatch(addPath(location.pathname + location.search))
-    //     dispatch(resetAuthErrors())
-    // }, [location.pathname, location.search])
 
     const whitelistedAppbarRelativeRoutes = [
         '/course'
@@ -58,7 +46,7 @@ export default function Header() {
         setOpen(!open);
     }
 
-    const onSearch : SubmitHandler<ISearchForm> = (values) => {
+    const onSearch: SubmitHandler<ISearchForm> = (values) => {
         navigate(`/search?q=${values.search}&page=1`)
     }
 
@@ -120,31 +108,40 @@ export default function Header() {
                     onSearch={onSearch}
                 />
             </Stack>
-            {!user.data ?
-                <Stack
-                    direction='row'
-                    alignItems='center'
-                    spacing={1}
-                >
-                    <Cart />
-                    <Login />
-                    <Signup />
-                    <Languages />
-
-                </Stack>
-                :
-                <Stack
-                    direction='row'
-                    alignItems='center'
-                    spacing={2}
-                >
-                    <MyLearning />
-                    <Cart />
-                    <Notification />
-                    <UserAvatar
-                        name={user.data.name}
+            {
+                user.isLoading ?
+                    <Loader
+                        sx={{
+                            height: 'auto',
+                            mt: 0
+                        }}
+                        size={30}
                     />
-                </Stack>
+                    :
+                    !!!user.data._id ?
+                        <Stack
+                            direction='row'
+                            alignItems='center'
+                            spacing={1}
+                        >
+                            <Cart />
+                            <Login />
+                            <Signup />
+                            <Languages />
+                        </Stack>
+                        :
+                        <Stack
+                            direction='row'
+                            alignItems='center'
+                            spacing={2}
+                        >
+                            <MyLearning />
+                            <Cart />
+                            <Notification />
+                            <UserAvatar
+                                name={user.data.name}
+                            />
+                        </Stack>
             }
         </Stack>
     )
@@ -222,93 +219,114 @@ export default function Header() {
                 divider={<Divider />}
                 width='100%'
             >
-                {!user && <Stack
-                    spacing={1}
-                    px={2}
-                    py={1}
-                >
-                    <Typography>
-                        <Link
-                            to='/login'
-                            style={{
-                                textDecoration: 'none'
-                            }}
-                            onClick={toggleDrawer}
-                        >
-                            Log in
-                        </Link>
-                    </Typography>
-                    <Typography>
-                        <Link
-                            to='/signup'
-                            style={{
-                                textDecoration: 'none'
-                            }}
-                            onClick={toggleDrawer}
-                        >
-                            Sign up
-                        </Link>
-                    </Typography>
-                </Stack>}
-                {user.data && <Stack
-                    divider={<Divider />}
-                >
-                    <Stack
-                        px={2}
-                        py={1}
-                        direction='row'
-                        spacing={1}
-                        alignItems='center'
-                        sx={{
-                            background: '#f7f9fa'
-                        }}
-                    >
-                        <Avatar
+                {
+                    user.isLoading ?
+                        <Loader
                             sx={{
-                                height: 65,
-                                width: 65,
-                                background: '#000',
-                                fontSize: 24,
-                                fontFamily: 'UdemySansBold'
+                                height: 'auto',
+                                mt: 0
                             }}
-                        >
-                            {(user.data?.name.charAt(0) + user.data?.name.split(' ')[1].charAt(0)).toUpperCase()}
-                        </Avatar>
-                        <Stack>
-                            <Typography
-                                fontFamily='UdemySansBold'
-                            >
-                                Hi, {user.data.name}
-                            </Typography>
-                            <Typography
-                                variant='caption'
-                            >
-                                Welcome back
-                            </Typography>
-                        </Stack>
-                    </Stack>
-                    <Stack
-                        px={2}
-                        py={2}
-                        spacing={1}
-                    >
-                        <Typography
-                            fontFamily='UdemySansBold'
-                            color='#6a6f73'
-                            fontSize={14}
-                        >
-                            Learn
-                        </Typography>
-                        <Link
-                            to='/my-learning'
-                            className='link-unstyled'
+                            size={30}
+                        />
+                        :
+                        !user.data._id && <Stack
+                            spacing={1}
+                            px={2}
+                            py={1}
                         >
                             <Typography>
-                                My learning
+                                <Link
+                                    to='/login'
+                                    style={{
+                                        textDecoration: 'none'
+                                    }}
+                                    onClick={toggleDrawer}
+                                >
+                                    Log in
+                                </Link>
                             </Typography>
-                        </Link>
-                    </Stack>
-                </Stack>
+                            <Typography>
+                                <Link
+                                    to='/signup'
+                                    style={{
+                                        textDecoration: 'none'
+                                    }}
+                                    onClick={toggleDrawer}
+                                >
+                                    Sign up
+                                </Link>
+                            </Typography>
+                        </Stack>
+                }
+                {
+                    user.isLoading ?
+                        <Loader
+                            sx={{
+                                height: 'auto',
+                                mt: 0
+                            }}
+                            size={30}
+                        />
+                        :
+                        user.data._id && <Stack
+                            divider={<Divider />}
+                        >
+                            <Stack
+                                px={2}
+                                py={1}
+                                direction='row'
+                                spacing={1}
+                                alignItems='center'
+                                sx={{
+                                    background: '#f7f9fa'
+                                }}
+                            >
+                                <Avatar
+                                    sx={{
+                                        height: 65,
+                                        width: 65,
+                                        background: '#000',
+                                        fontSize: 24,
+                                        fontFamily: 'UdemySansBold'
+                                    }}
+                                >
+                                    {(user.data?.name.charAt(0) + user.data?.name.split(' ')[1].charAt(0)).toUpperCase()}
+                                </Avatar>
+                                <Stack>
+                                    <Typography
+                                        fontFamily='UdemySansBold'
+                                    >
+                                        Hi, {user.data.name}
+                                    </Typography>
+                                    <Typography
+                                        variant='caption'
+                                    >
+                                        Welcome back
+                                    </Typography>
+                                </Stack>
+                            </Stack>
+                            <Stack
+                                px={2}
+                                py={2}
+                                spacing={1}
+                            >
+                                <Typography
+                                    fontFamily='UdemySansBold'
+                                    color='#6a6f73'
+                                    fontSize={14}
+                                >
+                                    Learn
+                                </Typography>
+                                <Link
+                                    to='/my-learning'
+                                    className='link-unstyled'
+                                >
+                                    <Typography>
+                                        My learning
+                                    </Typography>
+                                </Link>
+                            </Stack>
+                        </Stack>
                 }
                 <Stack
                     mt={1}

@@ -5,14 +5,15 @@ import { Link } from 'react-router-dom'
 import ICartOrderMetaModel from '../../models/cart.meta.model'
 import { RootState } from '../../redux/reducers'
 import { CartState } from '../../redux/reducers/cart.reducer'
+import { useAppSelector } from '../../redux/store'
 
 export default function CheckoutView() {
 
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
+    const cart = useAppSelector((state) => state.cartReducer)
 
-    const { totalPrice, totalDiscountedPrice, discountPercentage }: ICartOrderMetaModel = cart
+    const { totalPrice, totalDiscountedPrice, discountPercentage }: ICartOrderMetaModel = cart.data
 
     return (
         <Stack

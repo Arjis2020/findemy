@@ -13,7 +13,7 @@ export const LoginActions = {
 
 export const CourseActions = {
     TRIGGER_GET_ALL: 'TRIGGER_GET_ALL',
-    GET_ALL: 'GET_ALL'
+    SET_ALL: 'SET_ALL'
 }
 
 export const CartActions = {

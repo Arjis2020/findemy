@@ -10,6 +10,7 @@ import { setPaymentMethod } from '../../../redux/actions/payment.action'
 import { RootState } from '../../../redux/reducers'
 import { CartState } from '../../../redux/reducers/cart.reducer'
 import { PaymentState } from '../../../redux/reducers/payment.reducer'
+import { useAppDispatch } from '../../../redux/store'
 import CreditDebitCard from './PaymentMethods/CreditDebitCard'
 import MobileWallets from './PaymentMethods/MobileWallets'
 import NetBanking from './PaymentMethods/NetBanking'
@@ -54,8 +55,8 @@ export default function Methods({ formValues, banks, wallets }: PaymentMethodPro
 
     const location = useLocation()
 
-    const cart = location.state as CartState
-    const orderMeta: ICartOrderMetaModel = cart
+    const cart = location.state
+    const orderMeta: ICartOrderMetaModel = cart.data
 
     useEffect(() => {
         getNetbankingBanks()
@@ -149,7 +150,7 @@ export default function Methods({ formValues, banks, wallets }: PaymentMethodPro
         }
     ]
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const handleAccordionStateChange = (method: SupportedPaymentMethods) => (event: React.SyntheticEvent, isExpanded: boolean) => {
         if (isExpanded)
             // setActiveAccordion(id)

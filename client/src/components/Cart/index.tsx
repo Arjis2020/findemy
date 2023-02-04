@@ -2,18 +2,19 @@ import { Button, Container, Divider, Stack, Theme, Typography, useMediaQuery } f
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { triggerGetCart } from '../../redux/actions/cart.action'
+// import { triggerGetCart } from '../../redux/actions/cart.action'
 import { RootState } from '../../redux/reducers'
-import { CartState } from '../../redux/reducers/cart.reducer'
+import { triggerGetCart } from '../../redux/reducers/cart.reducer'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 import Loader from '../Loader'
 import CheckoutView from './CheckoutView'
 import CourseView from './CourseView'
 import YouMayAlsoLike from './YouMayAlsoLike'
 
 export default function Cart() {
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
+    const cart = useAppSelector((state) => state.cartReducer)
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(triggerGetCart())
@@ -22,7 +23,7 @@ export default function Cart() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
     return (
-        cart.orders ?
+        cart.data.orders ?
             <Container
                 maxWidth='xl'
                 sx={{
@@ -40,7 +41,7 @@ export default function Cart() {
                         Shopping Cart
                     </Typography>
                     {
-                        cart.orders.length > 0 ?
+                        cart.data.orders.length > 0 ?
                             !matches ?
                                 <Stack
                                     direction='row'
@@ -54,9 +55,9 @@ export default function Cart() {
                                             fontSize={14}
                                             fontFamily='UdemySansBold'
                                         >
-                                            {cart.orders.length} Courses in Cart
+                                            {cart.data.orders.length} Courses in Cart
                                         </Typography>
-                                        {cart.orders.map(course => (
+                                        {cart.data.orders.map(course => (
                                             <CourseView
                                                 key={course._id}
                                                 item={course}
@@ -77,12 +78,12 @@ export default function Cart() {
                                             fontSize={14}
                                             fontFamily='UdemySansBold'
                                         >
-                                            {cart.orders.length} Courses in Cart
+                                            {cart.data.orders.length} Courses in Cart
                                         </Typography>
                                         <Stack
                                             divider={<Divider />}
                                         >
-                                            {cart.orders.map(course => (
+                                            {cart.data.orders.map(course => (
                                                 <CourseView
                                                     key={course._id}
                                                     item={course}
@@ -100,7 +101,7 @@ export default function Cart() {
                                     fontSize={14}
                                     fontFamily='UdemySansBold'
                                 >
-                                    {cart.orders.length} Courses in Cart
+                                    {cart.data.orders.length} Courses in Cart
                                 </Typography>
                                 <Stack
                                     sx={{
@@ -143,7 +144,7 @@ export default function Cart() {
                                 </Stack>
                             </Stack>
                     }
-                    {cart.orders.length > 0 && <Stack
+                    {cart.data.orders.length > 0 && <Stack
                         spacing={2}
                     >
                         <Typography

@@ -9,35 +9,28 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 import { LoginAction } from '../../redux/actions/auth.action';
 import { Report } from '@mui/icons-material';
+import { useAppSelector } from '../../redux/store';
 
 type SignupDetailsProps = {
-    onSignup: (values: FieldValues) => void
+    onSignup: SubmitHandler<ISignupForm>
 }
 
-interface IForm {
+export interface ISignupForm {
     name: string;
     email: string;
     password: string;
 }
 
 export default function Details({ onSignup }: SignupDetailsProps) {
-    const { handleSubmit, formState: { errors }, register } = useForm<IForm>()
-    const [btnDisabled, setBtnDisabled] = useState<boolean>(false)
+    const { handleSubmit, formState: { errors }, register } = useForm<ISignupForm>()
 
-    const user = useSelector<RootState>((state) => state.authReducer) as LoginAction
+    const user = useAppSelector((state) => state.authReducer)
 
-    const onSubmit: SubmitHandler<IForm> = (values) => {
-        setBtnDisabled(true)
+    const onSubmit: SubmitHandler<ISignupForm> = (values) => {
         onSignup(values)
     }
 
-    const error = user.err?.signup
-
-    useEffect(() => {
-        if (error) {
-            setBtnDisabled(false)
-        }
-    }, [error])
+    const error = !!user.err?.signup.status
 
     const [visibility, setVisibility] = useState(false)
     const [password, setPassword] = useState("")
@@ -251,7 +244,7 @@ export default function Details({ onSignup }: SignupDetailsProps) {
                                 fullWidth
                                 disableElevation
                                 disableRipple
-                                disabled={btnDisabled}
+                                disabled={user.isLoading}
                             >
                                 Sign up
                             </Button>

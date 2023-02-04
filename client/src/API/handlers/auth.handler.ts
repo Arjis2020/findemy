@@ -2,8 +2,9 @@ import axios from "axios";
 import IUserModel from "../../models/user.model";
 import { URL_AUTHORIZE, URL_FORGOT_PASSWORD, URL_LOGIN, URL_LOGOUT, URL_RESET_PASSWORD, URL_SIGNUP } from "../endpoints";
 
-export const handleLogin = async (email: string, password: string): Promise<IUserModel> => {
+export const handleLogin = async (creds: { email: string, password: string }): Promise<IUserModel> => {
     try {
+        const { email, password } = creds
         const { data } = await axios.post<IUserModel>(URL_LOGIN, {
             email,
             password
@@ -13,10 +14,8 @@ export const handleLogin = async (email: string, password: string): Promise<IUse
     catch (err: any) {
         console.error(err);
         throw {
-            err: {
-                status: err.response.status,
-                data: err.response.data
-            }
+            status: err.response.status,
+            data: err.response.data
         }
     }
 }
@@ -29,16 +28,15 @@ export const handleAuthorization = async (): Promise<IUserModel> => {
     catch (err: any) {
         console.error(err)
         throw {
-            err: {
-                status: err.response.status,
-                data: err.response.data
-            }
+            status: err.response.status,
+            data: err.response.data
         }
     }
 }
 
-export const handleSignup = async (name: string, email: string, password: string): Promise<IUserModel> => {
+export const handleSignup = async (creds: { name: string, email: string, password: string }): Promise<IUserModel> => {
     try {
+        const { name, email, password } = creds
         const { data } = await axios.post<IUserModel>(URL_SIGNUP, {
             name,
             email,
@@ -50,10 +48,8 @@ export const handleSignup = async (name: string, email: string, password: string
     catch (err: any) {
         console.error(err);
         throw {
-            err: {
-                status: err.response.status,
-                data: err.response.data
-            }
+            status: err.response.status,
+            data: err.response.data
         }
     }
 }
@@ -65,10 +61,8 @@ export const handleLogout = async (): Promise<void> => {
     catch (err: any) {
         console.log(err)
         throw {
-            err: {
-                status: err.response.status,
-                data: err.response.data
-            }
+            status: err.response.status,
+            data: err.response.data
         }
     }
 }

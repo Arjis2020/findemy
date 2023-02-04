@@ -3,9 +3,11 @@ import { Box, Button, Rating, Stack, Theme, Typography, useMediaQuery } from '@m
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { triggerRemoveFromCart } from '../../redux/actions/cart.action';
+// import { triggerRemoveFromCart } from '../../redux/actions/cart.action';
 import ICourseModel from '../../models/course.model';
 import Ratings from '../Ratings';
+import { useAppDispatch } from '../../redux/store';
+import { triggerRemoveFromCart } from '../../redux/reducers/cart.reducer';
 
 type CourseViewProps = {
     item: ICourseModel
@@ -20,7 +22,7 @@ export default function CourseView({ item }: CourseViewProps) {
         else return
     })()
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const handleRemoveClicked = () => {
         dispatch(triggerRemoveFromCart(item._id))

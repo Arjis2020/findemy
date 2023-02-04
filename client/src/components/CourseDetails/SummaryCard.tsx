@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import ICourseModel from '../../models/course.model';
 import { Link } from 'react-router-dom';
 import { LoginAction } from '../../redux/actions/auth.action';
+import { useAppSelector } from '../../redux/store';
 
 type SummaryCardProps = {
     showVideo?: boolean,
@@ -26,11 +27,11 @@ type SummaryCardProps = {
 export default function SummaryCard({ showVideo = true, values, onAddToCartClicked }: SummaryCardProps) {
     const discountPercentage = Math.floor(((values.price - values.discountedPrice) / values.price) * 100)
 
-    const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
-    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as ICourseModel[]
+    const cart = useAppSelector((state) => state.cartReducer)
+    const purchases = useAppSelector((state) => state.purchaseReducer)
 
-    const doesCourseExistInCart = cart.orders.findIndex((item) => item._id === values._id) !== -1
-    const isPurchased = purchases.findIndex(course => course._id === values._id) !== -1
+    const doesCourseExistInCart = cart.data.orders.findIndex((item) => item._id === values._id) !== -1
+    const isPurchased = purchases.data.findIndex(course => course._id === values._id) !== -1
 
     const features = [
         {

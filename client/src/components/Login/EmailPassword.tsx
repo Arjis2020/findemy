@@ -1,38 +1,28 @@
 import { Box, Button, IconButton, Stack, TextField, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ReportIcon from '@mui/icons-material/Report';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/reducers';
-import { ILoginStateAction } from '../../redux/reducers/auth.reducer';
+import { useAppSelector } from '../../redux/store';
 
 type EmailPasswordProps = {
-    onLogin: (values: FieldValues) => void
+    onLogin: SubmitHandler<ILoginForm>
 }
 
-interface IForm {
+export interface ILoginForm {
     email: string;
     password: string;
 }
 
 export default function EmailPassword({ onLogin }: EmailPasswordProps) {
-    const { handleSubmit, formState: { errors }, register, getValues } = useForm<IForm>()
-    const [btnDisabled, setBtnDisabled] = useState<boolean>(false)
+    const { handleSubmit, formState: { errors }, register } = useForm<ILoginForm>()
+    const user = useAppSelector((state) => state.authReducer)
+    const loading = user.isLoading
+    const error = !!(user.err.login?.status)
 
-    const user = useSelector<RootState>((state) => state.authReducer) as ILoginStateAction
-    const error = user.err?.login
-
-    useEffect(() => {
-        if (error) {
-            setBtnDisabled(false)
-        }
-    }, [error])
-
-    const onSubmit: SubmitHandler<IForm> = (values) => {
-        setBtnDisabled(true)
+    const onSubmit: SubmitHandler<ILoginForm> = (values) => {
         onLogin(values)
     }
 
@@ -194,7 +184,7 @@ export default function EmailPassword({ onLogin }: EmailPasswordProps) {
                                 py: 1.5,
                                 fontSize: 16,
                             }}
-                            disabled={btnDisabled}
+                            disabled={loading}
                             disableElevation
                             disableRipple
                             fullWidth

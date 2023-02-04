@@ -1,40 +1,117 @@
-import { LoginAction } from "../actions/auth.action";
+import { LoginAction, TriggerLoginAction } from "../actions/auth.action";
 import { LoginActions } from "../constants";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import IUserModel from "../../models/user.model";
+import { IAuthError, ILoginError } from "../../API/responseTypes/auth.type";
+import { ILoginForm } from "../../components/Login/EmailPassword";
+import { ISignupForm } from "../../components/Signup/Details";
 
-export interface ILoginStateAction extends LoginAction {
-    type?: string,
+// export interface ILoginStateAction extends LoginAction {
+//     type?: string,
+// }
+
+interface ILogin {
+    data: IUserModel;
+    err: IAuthError;
+    isLoading?: boolean | false;
 }
 
-const initialState: ILoginStateAction = {}
+const initialState: ILogin = {
+    data: {
+        _id: "",
+        name: "",
+        email: "",
+        purchases: [],
+        cart: {
+            totalDiscountedPrice: 0,
+            totalPrice: 0,
+            orders: [],
+            discount: 0,
+            discountPercentage: 0
+        }
+    },
+    err: {
+        login: {},
+        signup: {}
+    },
+    isLoading: false
+}
 
-export const authReducer = (state = initialState, action: ILoginStateAction) => {
-    switch (action.type) {
-        case LoginActions.LOGIN:
-            return {
-                ...state,
-                data: action.data,
-            }
-        case LoginActions.LOGIN_ERROR:
-            return {
-                ...state,
-                err: {
-                    login: action.err
-                }
-            }
-        case LoginActions.SIGNUP_ERROR:
-            return {
-                ...state,
-                err: {
-                    signup: action.err
-                }
-            }
-        case LoginActions.RESET_ERRORS:
-            return {
-                ...state,
-                err: {}
-            }
-        case LoginActions.LOGOUT:
-            return initialState
+// export const authReducer = (state = initialState, action: ILoginStateAction) => {
+//     switch (action.type) {
+//         case LoginActions.LOGIN:
+//             return {
+//                 ...state,
+//                 data: action.data,
+//             }
+//         case LoginActions.LOGIN_ERROR:
+//             return {
+//                 ...state,
+//                 err: {
+//                     login: action.err
+//                 }
+//             }
+//         case LoginActions.SIGNUP_ERROR:
+//             return {
+//                 ...state,
+//                 err: {
+//                     signup: action.err
+//                 }
+//             }
+//         case LoginActions.RESET_ERRORS:
+//             return {
+//                 ...state,
+//                 err: {}
+//             }
+//         case LoginActions.LOGOUT:
+//             return initialState
+//     }
+//     return state
+// }
+
+const userSlice = createSlice({
+    name: "users",
+    initialState,
+    reducers: {
+        triggerLogin: (store, action: PayloadAction<ILoginForm>) => {
+            store.isLoading = true
+        },
+        triggerSignup: (store, action: PayloadAction<ISignupForm>) => {
+            store.isLoading = true
+        },
+        triggerAuthorize: (store) => {
+            store.isLoading = true
+        },
+        triggerLogout: (store) => {
+            store.isLoading = true
+        },
+        logoutUser: (store) => {
+            store = initialState
+            // store.isLoading = false
+            return store
+        },
+        setUserData: (store, action: PayloadAction<ILogin>) => {
+            store = action.payload
+            store.isLoading = false
+            return store
+        },
+        login_error: (store, action: PayloadAction<ILoginError>) => {
+            store.err.login = action.payload
+            store.isLoading = false
+            return store
+        },
+        signup_error: (store, action: PayloadAction<ILoginError>) => {
+            store.err.signup = action.payload
+            store.isLoading = false
+            return store
+        },
+        reset_errors: (store) => {
+            store.err = { login: {}, signup: {} }
+            store.isLoading = false
+            return store
+        }
     }
-    return state
-}
+})
+
+export const { triggerLogin, triggerSignup, triggerAuthorize, triggerLogout, setUserData, login_error, signup_error, reset_errors, logoutUser } = userSlice.actions
+export default userSlice.reducer

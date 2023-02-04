@@ -1,27 +1,36 @@
+import { PayloadAction } from '@reduxjs/toolkit'
 import { all, call, put, takeEvery } from 'redux-saga/effects'
 import { handleAuthorization, handleLogin, handleLogout, handleSignup } from '../../API/handlers/auth.handler'
+import { ILoginForm } from '../../components/Login/EmailPassword'
+import { ISignupForm } from '../../components/Signup/Details'
 import IUserModel from '../../models/user.model'
-import { logoutUser, TriggerLoginAction, TriggerSignupAction, userData, loginError, signupError } from '../actions/auth.action'
-import { setCart } from '../actions/cart.action'
-import { setPurchases } from '../actions/purchase.action'
-import { LoginActions } from '../constants'
+import { login_error, logoutUser, setUserData, signup_error } from '../reducers/auth.reducer'
+import { setCart } from '../reducers/cart.reducer'
+import { setPurchases } from '../reducers/purchase.reducer'
 
-function* login(action?: TriggerLoginAction) {
+function* login(action?: PayloadAction<ILoginForm>) {
     try {
-        const data: IUserModel = yield call(handleLogin, action!.email, action!.password)
+        const data: IUserModel = yield call(handleLogin, action!.payload!)
+
         yield put(
-            userData(data)
+            setUserData({
+                data,
+                err: {
+                    login: {},
+                    signup: {}
+                }
+            })
         )
         yield put(
             setCart(data.cart)
         )
         yield put(
-            setPurchases(data.purchases)
+            setPurchases({ data: data.purchases, isLoading: false })
         )
     }
     catch (err: any) {
         yield put(
-            loginError(err)
+            login_error(err)
         )
     }
 }
@@ -31,30 +40,63 @@ function* authorize() {
         const data: IUserModel = yield call(handleAuthorization)
 
         yield put(
-            userData(data)
+            setUserData({
+                data,
+                err: {
+                    login: {},
+                    signup: {}
+                }
+            })
         )
         yield put(
             setCart(data.cart)
         )
         yield put(
-            setPurchases(data.purchases)
+            setPurchases({ data: data.purchases, isLoading: false })
         )
     }
     catch (err: any) {
         // console.log(err)
+        yield put(
+            setUserData({
+                data: {
+                    _id: "",
+                    name: "",
+                    email: "",
+                    cart: {
+                        orders: [],
+                        totalDiscountedPrice: 0,
+                        totalPrice: 0,
+                        discount: 0,
+                        discountPercentage: 0
+                    },
+                    purchases: []
+                },
+                err: {
+                    login: {},
+                    signup: {}
+                }
+            })
+        )
     }
 }
 
-function* signup(action?: TriggerSignupAction) {
+function* signup(action?: PayloadAction<ISignupForm>) {
     try {
-        const data: IUserModel = yield call(handleSignup, action!.name, action!.email, action!.password)
+        const data: IUserModel = yield call(handleSignup, action?.payload!)
         yield put(
-            userData(data)
+            setUserData({
+                data,
+                err: {
+                    login: {},
+                    signup: {}
+                }
+            })
         )
     }
     catch (err: any) {
         yield put(
-            signupError(err)
+            signup_error(err)
         )
     }
 }
@@ -68,15 +110,16 @@ function* logout() {
     }
     catch (err) {
         // console.log(err)
+        console.log(err)
     }
 }
 
 function* loginSaga() {
     yield all([
-        takeEvery(LoginActions.TRIGGER_LOGIN, login),
-        takeEvery(LoginActions.TRIGGER_AUTHORIZE, authorize),
-        takeEvery(LoginActions.TRIGGER_LOGOUT, logout),
-        takeEvery(LoginActions.TRIGGER_SIGNUP, signup)
+        takeEvery("users/triggerLogin", login),
+        takeEvery("users/triggerAuthorize", authorize),
+        takeEvery("users/triggerLogout", logout),
+        takeEvery("users/triggerSignup", signup)
     ])
 }
 

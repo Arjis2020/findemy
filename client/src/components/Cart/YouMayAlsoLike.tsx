@@ -1,22 +1,25 @@
 import { Box, Card, CardActionArea, IconButton, Rating, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import GridCarousel from 'react-grid-carousel'
 import { ArrowBackIosSharp, ArrowForwardIosSharp, StarBorder } from '@mui/icons-material'
-import { CourseAction, triggerCoursesRetrieval } from '../../redux/actions/course.action'
+// import { CourseAction, triggerCoursesRetrieval } from '../../redux/actions/course.action'
 import { useEffect } from 'react'
-import { RootState } from '../../redux/reducers'
-import { useDispatch, useSelector } from 'react-redux'
+// import { RootState } from '../../redux/reducers'
+// import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Loader from '../Loader'
 import Ratings from '../Ratings'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { fetchCourses } from '../../redux/reducers/course.reducer'
 
 export default function YouMayAlsoLike() {
     const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.up('tablet'))
     const desktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('desktop'))
 
-    const courses = useSelector<RootState>((state) => state.courseReducer) as CourseAction
-    const dispatch = useDispatch()
+    const courses = useAppSelector((state) => state.courseReducer)
+    const dispatch = useAppDispatch()
+
     useEffect(() => {
-        dispatch(triggerCoursesRetrieval())
+        dispatch(fetchCourses())
     }, [])
 
     const datasetLength = desktop ? 5 : tablet ? 3 : 1

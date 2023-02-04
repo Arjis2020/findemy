@@ -4,16 +4,18 @@ import React, { useEffect } from 'react'
 import { Avatar, Box, Button, Divider, Stack, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/reducers'
-import { LoginAction, triggerLogout } from '../../redux/actions/auth.action'
+// import { LoginAction, triggerLogout } from '../../redux/actions/auth.action'
 import { Link, useNavigate } from 'react-router-dom'
 import { CartState } from '../../redux/reducers/cart.reducer'
+import { logoutUser, triggerLogout } from '../../redux/reducers/auth.reducer'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 
 const MenuContents = () => {
-    const user = useSelector<RootState>((state) => state.authReducer) as LoginAction
+    const user = useAppSelector((state) => state.authReducer)
     const splittedName = user.data?.name.split(' ')
     const initials = splittedName?.at(0)?.charAt(0)?.concat(splittedName?.at(1)?.charAt(0) || "")
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
     const logout = () => {
@@ -107,7 +109,7 @@ const MenuContents = () => {
                                 fontSize={14}
                                 fontFamily='UdemySansBold'
                             >
-                                {cart.orders.length}
+                                {cart.data.orders.length}
                             </Typography>
                         </Box>
                     </Stack>
@@ -122,8 +124,23 @@ const MenuContents = () => {
                         Help
                     </Typography>
                 </Link>
-                <div
+                <Button
+                    variant='text'
                     onClick={logout}
+                    disabled={user.isLoading}
+                    sx={{
+                        background: 'none',
+                        "&:hover": {
+                            background: 'none'
+                        },
+                        textTransform: 'none',
+                        textAlign: 'left',
+                        justifyContent: 'start',
+                        minWidth: 0,
+                        p: 0
+                    }}
+                    disableElevation
+                    disableRipple
                 >
                     <Typography
                         fontSize={14}
@@ -136,7 +153,7 @@ const MenuContents = () => {
                     >
                         Log out
                     </Typography>
-                </div>
+                </Button>
             </Stack>
         </Stack>
     )

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setPaymentDetails, IUPIDetails } from '../../../../redux/actions/payment.action'
 import { RootState } from '../../../../redux/reducers'
 import { PaymentState } from '../../../../redux/reducers/payment.reducer'
+import { useAppDispatch } from '../../../../redux/store'
 import Loader from '../../../Loader'
 
 type UPIProps = {
@@ -19,7 +20,7 @@ export default function UPI({ qrCode }: UPIProps) {
     const { handleSubmit, register, formState: { errors }, reset, setError } = useForm<IForm>()
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
     const paymentMethod = payment.method
 

@@ -11,9 +11,9 @@ export const triggerCoursesRetrieval = () => {
     }
 }
 
-export const setCourses = (data : Array<ICourseModel>) => {
+const setCourses = (data : Array<ICourseModel>) => {
     return {
-        type: CourseActions.GET_ALL,
+        type: CourseActions.SET_ALL,
         data
     }
 }

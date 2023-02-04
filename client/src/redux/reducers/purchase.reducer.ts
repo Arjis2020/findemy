@@ -1,19 +1,46 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import ICourseModel from "../../models/course.model";
-import { IPurchaseCourse, ISetPurchases } from "../action.types";
+import { IPurchaseAction } from "../action.types";
 import { PurchaseActions } from "../constants";
 
-export type PurchaseAction = IPurchaseCourse | ISetPurchases
-
-export const purchaseReducer = (state: ICourseModel[] = [], action: PurchaseAction) : ICourseModel[] => {
-    switch (action.type) {
-        case PurchaseActions.SET_PURCHASES:
-            return action.courses as ICourseModel[]
-        case PurchaseActions.PURCHASE_COURSES:
-            return [
-                ...state,
-                ...action.courses
-            ] as ICourseModel[]
-    }
-
-    return state
+export type PurchaseAction = {
+    data: ICourseModel[],
+    isLoading: boolean | false
 }
+
+const initialState: PurchaseAction = {
+    data: [],
+    isLoading: false
+}
+
+// export const purchaseReducer = (state: ICourseModel[] = [], action: PurchaseAction) : ICourseModel[] => {
+//     switch (action.type) {
+//         case PurchaseActions.SET_PURCHASES:
+//             return action.courses as ICourseModel[]
+//         case PurchaseActions.PURCHASE_COURSES:
+//             return [
+//                 ...state,
+//                 ...action.courses
+//             ] as ICourseModel[]
+//     }
+
+//     return state
+// }
+
+const purchaseSlice = createSlice({
+    name: 'purchases',
+    initialState,
+    reducers: {
+        purchaseCourses: (store, action: PayloadAction<PurchaseAction>) => {
+            store.data = action.payload.data
+            store.isLoading = false
+        },
+        setPurchases: (store, action: PayloadAction<PurchaseAction>) => {
+            store.data = action.payload.data
+            store.isLoading = false
+        },
+    }
+})
+
+export const { setPurchases, purchaseCourses } = purchaseSlice.actions
+export default purchaseSlice.reducer
