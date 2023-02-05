@@ -5,7 +5,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { searchCoursesByCategory } from '../../API/handlers/search.handler';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
-import { HistoryState } from '../../redux/reducers/history.reducers';
+import { HistoryState } from '../../redux/reducers/history.reducer';
 import Loader from '../Loader';
 import { Link } from 'react-router-dom';
 import Pagination from '../Pagination';

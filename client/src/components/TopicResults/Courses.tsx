@@ -26,10 +26,10 @@ export default function Courses({ course }: SearchResultCourseProps) {
 
     const cart = useSelector<RootState>((state) => state.cartReducer) as CartState
     const user = useAppSelector((state) => state.authReducer)
-    const purchases = useSelector<RootState>((state) => state.purchaseReducer) as ICourseModel[]
+    const purchases = useAppSelector((state) => state.purchaseReducer)
 
     const doesCourseExistInCart = cart.data.orders.findIndex((item) => item._id === course._id) !== -1
-    const isPurchased = purchases.findIndex(item => item._id === course._id) !== -1
+    const isPurchased = purchases.data.findIndex(item => item._id === course._id) !== -1
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()

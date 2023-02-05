@@ -7,7 +7,6 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import PasswordStrength from './PasswordStrength';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
-import { LoginAction } from '../../redux/actions/auth.action';
 import { Report } from '@mui/icons-material';
 import { useAppSelector } from '../../redux/store';
 

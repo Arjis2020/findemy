@@ -61,3 +61,42 @@ export interface IGenerateQRResponseModel {
 }
 
 export type SupportedPaymentMethods = 'card' | 'upi' | 'netbanking' | 'wallet'
+
+interface ICommonDetails {
+    method?: SupportedPaymentMethods;
+}
+
+export interface ICardDetails {
+    name: string;
+    number: string;
+    cvv: string;
+    expiry: string;
+    notes?: {
+        [x: string]: string
+    };
+}
+
+export interface IUPIDetails {
+    vpa: string;
+    notes?: {
+        [x: string]: string
+    };
+}
+
+export interface INetbankingDetails {
+    bank: string;
+    notes?: {
+        [x: string]: string
+    };
+}
+
+export interface IMobileWalletDetails {
+    wallet: string;
+    notes?: {
+        [x: string]: string
+    };
+}
+
+export interface IPaymentDetails extends ICommonDetails {
+    details?: ICardDetails | IUPIDetails | INetbankingDetails | IMobileWalletDetails
+}

@@ -2,10 +2,11 @@ import { Button, Divider, Stack, TextField, Theme, Typography, useMediaQuery } f
 import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { setPaymentDetails, IUPIDetails } from '../../../../redux/actions/payment.action'
+import { IUPIDetails } from '../../../../models/order.model'
+// import { setPaymentDetails, IUPIDetails } from '../../../../redux/actions/payment.action'
 import { RootState } from '../../../../redux/reducers'
-import { PaymentState } from '../../../../redux/reducers/payment.reducer'
-import { useAppDispatch } from '../../../../redux/store'
+import { PaymentState, setPaymentDetails } from '../../../../redux/reducers/payment.reducer'
+import { useAppDispatch, useAppSelector } from '../../../../redux/store'
 import Loader from '../../../Loader'
 
 type UPIProps = {
@@ -21,7 +22,7 @@ export default function UPI({ qrCode }: UPIProps) {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
 
     const dispatch = useAppDispatch()
-    const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
+    const payment = useAppSelector((state) => state.paymentReducer)
     const paymentMethod = payment.method
 
     const onSubmit: SubmitHandler<IForm> = (values) => {

@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 import { CartState } from '../../redux/reducers/cart.reducer';
-import { LoginAction } from '../../redux/actions/auth.action';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../redux/store';
 

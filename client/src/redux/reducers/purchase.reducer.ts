@@ -31,12 +31,11 @@ const purchaseSlice = createSlice({
     name: 'purchases',
     initialState,
     reducers: {
-        purchaseCourses: (store, action: PayloadAction<PurchaseAction>) => {
-            store.data = action.payload.data
-            store.isLoading = false
+        purchaseCourses: (store, action: PayloadAction<ICourseModel[]>) => {
+            store.isLoading = true
         },
-        setPurchases: (store, action: PayloadAction<PurchaseAction>) => {
-            store.data = action.payload.data
+        setPurchases: (store, action: PayloadAction<ICourseModel[]>) => {
+            store.data = action.payload
             store.isLoading = false
         },
     }

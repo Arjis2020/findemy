@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { createOrder, verifyOrder } from '../../API/handlers/payment.handler'
 import ICartOrderMetaModel from '../../models/cart.meta.model'
-import { ICreateOrderModel, IVerifyOrderModel } from '../../models/order.model'
+import { ICardDetails, ICreateOrderModel, IMobileWalletDetails, INetbankingDetails, IUPIDetails, IVerifyOrderModel } from '../../models/order.model'
 // import { clearCart } from '../../redux/actions/cart.action'
 // import { ICardDetails, IMobileWalletDetails, INetbankingDetails, resetPayment, setPaymentDetails, IUPIDetails } from '../../redux/actions/payment.action'
 // import { purchaseCourses } from '../../redux/actions/purchase.action'
 // import { RootState } from '../../redux/reducers'
 import { CartState } from '../../redux/reducers/cart.reducer'
+import { resetPayment, setPaymentDetails } from '../../redux/reducers/payment.reducer'
+import { purchaseCourses } from '../../redux/reducers/purchase.reducer'
 // import { PaymentState } from '../../redux/reducers/payment.reducer'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { APP_NAME } from '../../utils/constants'
@@ -67,19 +69,19 @@ export default function Checkout() {
     useEffect(() => {
         if (payment.details) {
             if (paymentMethod === 'card') {
-                displayRazorpay(buildCardPrefillOptions(payment.details as ICardDetails), payment.details as ICardDetails)
+                displayRazorpay(buildCardPrefillOptions(payment.details as ICardDetails), payment.details)
             }
             else if (paymentMethod === 'upi') {
-                displayRazorpay(buildUPIPrefillOptions(payment.details as IUPIDetails), payment.details as IUPIDetails)
+                displayRazorpay(buildUPIPrefillOptions(payment.details as IUPIDetails), payment.details)
             }
             // else if (paymentMethod === 'paytm') {
             //     displayRazorpay(null)
             // }
             else if (paymentMethod === 'netbanking') {
-                displayRazorpay(buildNetbankingPrefillOptions(payment.details as INetbankingDetails), payment.details as INetbankingDetails)
+                displayRazorpay(buildNetbankingPrefillOptions(payment.details as INetbankingDetails), payment.details)
             }
             else if (paymentMethod === 'wallet') {
-                displayRazorpay(buildWalletPrefillOptions(payment.details as IMobileWalletDetails), payment.details as IMobileWalletDetails)
+                displayRazorpay(buildWalletPrefillOptions(payment.details as IMobileWalletDetails), payment.details)
             }
         }
     }, [payment.details])
@@ -120,16 +122,16 @@ export default function Checkout() {
     const onSubmit: SubmitHandler<IForm> = (values) => {
         if (paymentMethod === 'card') {
             values.number = values.number.split(' ').join('')
-            const details: ICardDetails = {
-                ...values as ICardDetails
+            const details = {
+                ...values
             }
             dispatch(setPaymentDetails(details))
         }
         else if (paymentMethod === 'netbanking') {
-            dispatch(setPaymentDetails(values as INetbankingDetails))
+            dispatch(setPaymentDetails(values))
         }
         else if (paymentMethod === 'wallet') {
-            dispatch(setPaymentDetails(values as IMobileWalletDetails))
+            dispatch(setPaymentDetails(values))
         }
     }
 

@@ -15,7 +15,6 @@ import { CartState } from '../../redux/reducers/cart.reducer';
 import { useNavigate } from 'react-router-dom';
 import ICourseModel from '../../models/course.model';
 import { Link } from 'react-router-dom';
-import { LoginAction } from '../../redux/actions/auth.action';
 import { useAppSelector } from '../../redux/store';
 
 type SummaryCardProps = {

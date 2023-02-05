@@ -8,7 +8,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { searchCourses } from '../../API/handlers/search.handler';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducers';
-import { HistoryState } from '../../redux/reducers/history.reducers';
+import { HistoryState } from '../../redux/reducers/history.reducer';
 import Loader from '../Loader';
 import { Link } from 'react-router-dom';
 import Pagination from '../Pagination';
@@ -17,6 +17,7 @@ import { ISearchResultModel } from '../../models/searchResult.model';
 import { ISearchResultMetaModel } from '../../models/searchResult.meta.model';
 import { SortByModel } from '../../models/sortBy.filter.model';
 import EmptySearch from './EmptySearch';
+import { useAppSelector } from '../../redux/store';
 
 const RESULTS_PER_PAGE = 10
 
@@ -52,7 +53,7 @@ export default function SearchResults() {
     const [searchParams, setSearchParams] = useSearchParams()
     const navigate = useNavigate()
     const [searchResults, setSearchResults] = useState<ISearchResultModel>()
-    const { paths: [previousPath] } = useSelector<RootState>((state) => state.historyReducer) as HistoryState
+    const { paths: [previousPath] } = useAppSelector((state) => state.historyReducer)
 
     const query = searchParams.get('q')
     const page = Number(searchParams.get('page') || 1)

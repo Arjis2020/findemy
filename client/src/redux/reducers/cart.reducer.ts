@@ -42,7 +42,6 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         setCart: (store, action: PayloadAction<ICartModel>) => {
-            console.log(action.payload)
             store.data = action.payload
             store.isLoading = false
             return store

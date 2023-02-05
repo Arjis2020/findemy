@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { resetAuthErrors } from '../redux/actions/auth.action'
-import { addPath } from '../redux/actions/history.action'
+import { resetAuthErrors } from '../redux/reducers/auth.reducer'
+import { addPath } from '../redux/reducers/history.reducer'
+import { useAppDispatch } from '../redux/store'
 
 export default function History() {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const location = useLocation()
     
     // Resets all auth errors when the pathname changes

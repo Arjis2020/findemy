@@ -6,11 +6,11 @@ import { PaymentMethodProps } from '..'
 import { generateUpiQR, getMobileWallets, getNetbankingBanks } from '../../../API/handlers/payment.handler'
 import ICartOrderMetaModel from '../../../models/cart.meta.model'
 import { SupportedPaymentMethods } from '../../../models/order.model'
-import { setPaymentMethod } from '../../../redux/actions/payment.action'
+// import { setPaymentMethod } from '../../../redux/actions/payment.action'
 import { RootState } from '../../../redux/reducers'
 import { CartState } from '../../../redux/reducers/cart.reducer'
-import { PaymentState } from '../../../redux/reducers/payment.reducer'
-import { useAppDispatch } from '../../../redux/store'
+import { PaymentState, setPaymentMethod } from '../../../redux/reducers/payment.reducer'
+import { useAppDispatch, useAppSelector } from '../../../redux/store'
 import CreditDebitCard from './PaymentMethods/CreditDebitCard'
 import MobileWallets from './PaymentMethods/MobileWallets'
 import NetBanking from './PaymentMethods/NetBanking'
@@ -33,7 +33,7 @@ export const IconGenerator = ({ icon, height }: IconGeneratorProps) => (
 )
 
 export default function Methods({ formValues, banks, wallets }: PaymentMethodProps) {
-    const payment = useSelector<RootState>((state) => state.paymentReducer) as PaymentState
+    const payment = useAppSelector((state) => state.paymentReducer)
     const activePaymentMethod = payment.method
 
     type AccordionGeneratorProps = PaymentMethodArgs

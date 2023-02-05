@@ -1,4 +1,3 @@
-import { LoginAction, TriggerLoginAction } from "../actions/auth.action";
 import { LoginActions } from "../constants";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import IUserModel from "../../models/user.model";
@@ -95,17 +94,17 @@ const userSlice = createSlice({
             store.isLoading = false
             return store
         },
-        login_error: (store, action: PayloadAction<ILoginError>) => {
+        loginError: (store, action: PayloadAction<ILoginError>) => {
             store.err.login = action.payload
             store.isLoading = false
             return store
         },
-        signup_error: (store, action: PayloadAction<ILoginError>) => {
+        signupError: (store, action: PayloadAction<ILoginError>) => {
             store.err.signup = action.payload
             store.isLoading = false
             return store
         },
-        reset_errors: (store) => {
+        resetAuthErrors: (store) => {
             store.err = { login: {}, signup: {} }
             store.isLoading = false
             return store
@@ -113,5 +112,5 @@ const userSlice = createSlice({
     }
 })
 
-export const { triggerLogin, triggerSignup, triggerAuthorize, triggerLogout, setUserData, login_error, signup_error, reset_errors, logoutUser } = userSlice.actions
+export const { triggerLogin, triggerSignup, triggerAuthorize, triggerLogout, setUserData, loginError, signupError, resetAuthErrors, logoutUser } = userSlice.actions
 export default userSlice.reducer

@@ -5,11 +5,10 @@ import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { resetPassword } from '../../API/handlers/auth.handler';
-import { resetPaths } from '../../redux/actions/history.action';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PasswordStrength from '../Signup/PasswordStrength';
 import { useAppDispatch } from '../../redux/store';
+import { resetPaths } from '../../redux/reducers/history.reducer';
 
 interface IForm {
     password: string;

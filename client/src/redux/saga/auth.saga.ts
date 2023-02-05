@@ -4,7 +4,7 @@ import { handleAuthorization, handleLogin, handleLogout, handleSignup } from '..
 import { ILoginForm } from '../../components/Login/EmailPassword'
 import { ISignupForm } from '../../components/Signup/Details'
 import IUserModel from '../../models/user.model'
-import { login_error, logoutUser, setUserData, signup_error } from '../reducers/auth.reducer'
+import { loginError, logoutUser, setUserData, signupError } from '../reducers/auth.reducer'
 import { setCart } from '../reducers/cart.reducer'
 import { setPurchases } from '../reducers/purchase.reducer'
 
@@ -25,12 +25,12 @@ function* login(action?: PayloadAction<ILoginForm>) {
             setCart(data.cart)
         )
         yield put(
-            setPurchases({ data: data.purchases, isLoading: false })
+            setPurchases(data.purchases)
         )
     }
     catch (err: any) {
         yield put(
-            login_error(err)
+            loginError(err)
         )
     }
 }
@@ -52,7 +52,7 @@ function* authorize() {
             setCart(data.cart)
         )
         yield put(
-            setPurchases({ data: data.purchases, isLoading: false })
+            setPurchases(data.purchases)
         )
     }
     catch (err: any) {
@@ -96,7 +96,7 @@ function* signup(action?: PayloadAction<ISignupForm>) {
     }
     catch (err: any) {
         yield put(
-            signup_error(err)
+            signupError(err)
         )
     }
 }

@@ -4,10 +4,11 @@ import { PurchaseAction, setPurchases } from "../reducers/purchase.reducer";
 import { checkout as purchaseCoursesHandler } from '../../API/handlers/purchase.handler'
 import { setCart } from "../reducers/cart.reducer";
 import { PayloadAction } from "@reduxjs/toolkit";
+import ICourseModel from "../../models/course.model";
 
-function* checkout(action?: PayloadAction<PurchaseAction>) {
+function* checkout(action?: PayloadAction<ICourseModel[]>) {
     try {
-        const updatedCart: ICartModel = yield call(purchaseCoursesHandler, action?.payload.data!)
+        const updatedCart: ICartModel = yield call(purchaseCoursesHandler, action?.payload!)
         yield put(
             setCart(updatedCart)
         )

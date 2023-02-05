@@ -17,12 +17,12 @@ import SearchResults from './components/SearchResults'
 import Signup from './components/Signup'
 import TopicResults from './components/TopicResults'
 import { RootState } from './redux/reducers'
-import { HistoryState } from './redux/reducers/history.reducers'
+import { HistoryState } from './redux/reducers/history.reducer'
 import { useAppSelector } from './redux/store'
 
 export default function Router() {
   const user = useAppSelector((state) => state.authReducer)
-  const { paths: [previousPath, currentPath] } = useSelector<RootState>((state) => state.historyReducer) as HistoryState
+  const { paths: [previousPath] } = useAppSelector((state) => state.historyReducer)
 
   return (
     <BrowserRouter>
