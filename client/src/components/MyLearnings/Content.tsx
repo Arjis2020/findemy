@@ -8,16 +8,6 @@ import Course from './Course'
 import Empty from './Empty'
 
 export default function Content() {
-    // const [purchases, setPurchases] = useState<ICourseModel[] | undefined>(undefined)
-    // useEffect(() => {
-    //     getPurchases()
-    //         .then(data => {
-    //             // console.log(data)
-    //             setPurchases(data)
-    //         })
-    //         .catch(err => console.log(err.toString()))
-    // }, [])
-
     const purchases = useAppSelector(state => state.purchaseReducer)
 
     return (
