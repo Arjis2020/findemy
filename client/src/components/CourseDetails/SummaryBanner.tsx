@@ -1,5 +1,4 @@
-import { StarBorder } from '@mui/icons-material'
-import { Box, Button, Rating, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
+import { Box, Button, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import LanguageIcon from '@mui/icons-material/Language';
 import SubtitlesIcon from '@mui/icons-material/Subtitles';
@@ -8,9 +7,6 @@ import VideoPreview from './VideoPreview';
 import ICourseModel from '../../models/course.model';
 import Ratings from '../Ratings';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/reducers';
-import { CartState } from '../../redux/reducers/cart.reducer';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../redux/store';
 
@@ -388,6 +384,7 @@ export default function SummaryBanner({ values, onAddToCartClicked }: SummaryBan
                                 fullWidth
                                 disableElevation
                                 disableRipple
+                                disabled={cart.isLoading}
                             >
                                 {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
                             </Button>

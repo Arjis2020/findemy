@@ -1,11 +1,8 @@
 import { Box, Fade, Stack, Theme, useMediaQuery, useScrollTrigger } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getCourseDetails } from '../../API/handlers/course.handler'
 import ICourseModel from '../../models/course.model'
-// import { triggerAddToCart } from '../../redux/actions/cart.action'
-import { RootState } from '../../redux/reducers'
 import { triggerAddToCart } from '../../redux/reducers/cart.reducer'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import Loader from '../Loader'
@@ -74,7 +71,9 @@ export default function CourseDetails() {
       dispatch(triggerAddToCart(courseDetails?._id!))
     }
     else {
-      navigate('/login')
+      navigate('/login', {
+        replace: true
+      })
     }
   }
 

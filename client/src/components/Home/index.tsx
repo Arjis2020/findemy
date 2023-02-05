@@ -1,5 +1,4 @@
-import { ArrowForwardIos } from '@mui/icons-material'
-import { IconButton, Stack, Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import Carousel from './Carousel'
 import Topics from './Topics'
 

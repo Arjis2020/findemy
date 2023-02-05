@@ -1,4 +1,4 @@
-import { Box, Button, Stack, SxProps, Theme, Typography } from '@mui/material'
+import { Box, Button, SxProps, Theme, Typography } from '@mui/material'
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import { useState } from 'react';
 import Video from './Video';

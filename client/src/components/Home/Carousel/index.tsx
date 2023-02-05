@@ -1,8 +1,6 @@
 import { Box, Card, CardActionArea, IconButton, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import GridCarousel from 'react-grid-carousel'
 import { ArrowBackIosSharp, ArrowForwardIosSharp } from '@mui/icons-material'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../redux/reducers'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Loader from '../../Loader'

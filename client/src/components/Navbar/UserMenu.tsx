@@ -1,13 +1,13 @@
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Avatar, Box, Button, Divider, Stack, Typography } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/reducers'
 // import { LoginAction, triggerLogout } from '../../redux/actions/auth.action'
 import { Link, useNavigate } from 'react-router-dom'
 import { CartState } from '../../redux/reducers/cart.reducer'
-import { logoutUser, triggerLogout } from '../../redux/reducers/auth.reducer'
+import { triggerLogout } from '../../redux/reducers/auth.reducer'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 
 const MenuContents = () => {

@@ -2,6 +2,7 @@ import { Button, Stack, Typography } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../redux/store';
 
 type SearchResultTooltipProps = {
     learnings: Array<string>,
@@ -11,6 +12,7 @@ type SearchResultTooltipProps = {
 }
 
 export default function SearchResultTooltip({ learnings, doesCourseExistInCart, isPurchased, onAddToCartClicked }: SearchResultTooltipProps) {
+    const cart = useAppSelector(state => state.cartReducer)
     return (
         <Stack
             spacing={2}
@@ -76,6 +78,7 @@ export default function SearchResultTooltip({ learnings, doesCourseExistInCart, 
                     disableElevation
                     disableRipple
                     onClick={onAddToCartClicked}
+                    disabled={cart.isLoading}
                 >
                     {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
                 </Button>

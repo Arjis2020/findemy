@@ -1,6 +1,5 @@
 import { Container, Stack, Typography } from '@mui/material'
-import { FieldValues, SubmitHandler } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
+import { SubmitHandler } from 'react-hook-form'
 import { triggerSignup } from '../../redux/reducers/auth.reducer'
 import { useAppDispatch } from '../../redux/store'
 // import { triggerSignup, TriggerSignupAction } from '../../redux/actions/auth.action'

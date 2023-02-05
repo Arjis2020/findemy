@@ -1,10 +1,7 @@
 import { Check } from '@mui/icons-material'
 import { Button, Divider, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ICartOrderMetaModel from '../../models/cart.meta.model'
-import { RootState } from '../../redux/reducers'
-import { CartState } from '../../redux/reducers/cart.reducer'
 import { useAppSelector } from '../../redux/store'
 
 export default function CheckoutView() {

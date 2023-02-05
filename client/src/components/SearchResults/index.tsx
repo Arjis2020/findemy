@@ -6,9 +6,6 @@ import Courses from './Courses';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { searchCourses } from '../../API/handlers/search.handler';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/reducers';
-import { HistoryState } from '../../redux/reducers/history.reducer';
 import Loader from '../Loader';
 import { Link } from 'react-router-dom';
 import Pagination from '../Pagination';
@@ -70,7 +67,7 @@ export default function SearchResults() {
 
     const [sortBy, setSortBy] = useState<SortByModel>("mostRelevant")
 
-    let appliedFilters = filters.prices.length + filters.levels.length + (filters.rating ? 1 : 0)
+    const appliedFilters = filters.prices.length + filters.levels.length + (filters.rating ? 1 : 0)
 
     const getCourses = () => {
         searchCourses(

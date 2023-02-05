@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material'
-import { PaymentMethodProps } from '../..'
 
 
 export default function Paytm() {

@@ -1,6 +1,6 @@
-import { Box, Button, Stack, Theme, Typography, useMediaQuery } from "@mui/material";
+import { Box, Stack, Theme, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ICourseModel from "../../models/course.model";
 // import { triggerAddToCart } from "../../redux/actions/cart.action";
@@ -36,7 +36,7 @@ export default function Courses({ course }: SearchResultCourseProps) {
 
     const onAddToCartClicked = (e: React.MouseEvent) => {
         e.stopPropagation()
-        if (!user.data?._id) navigate('/login')
+        if (!user.data?._id) navigate('/login', { replace: true })
         if (doesCourseExistInCart) navigate('/cart')
         else dispatch(triggerAddToCart(course._id))
     }

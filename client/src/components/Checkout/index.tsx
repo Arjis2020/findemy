@@ -1,7 +1,6 @@
 import { Box, Container, Stack, Theme, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { createOrder, verifyOrder } from '../../API/handlers/payment.handler'
 import ICartOrderMetaModel from '../../models/cart.meta.model'

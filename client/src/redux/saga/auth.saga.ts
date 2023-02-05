@@ -5,8 +5,8 @@ import { ILoginForm } from '../../components/Login/EmailPassword'
 import { ISignupForm } from '../../components/Signup/Details'
 import IUserModel from '../../models/user.model'
 import { loginError, logoutUser, setUserData, signupError } from '../reducers/auth.reducer'
-import { setCart } from '../reducers/cart.reducer'
-import { setPurchases } from '../reducers/purchase.reducer'
+import { resetCart, setCart } from '../reducers/cart.reducer'
+import { resetPurchases, setPurchases } from '../reducers/purchase.reducer'
 
 function* login(action?: PayloadAction<ILoginForm>) {
     try {
@@ -106,6 +106,12 @@ function* logout() {
         yield call(handleLogout)
         yield put(
             logoutUser()
+        )
+        yield put(
+            resetCart()
+        )
+        yield put(
+            resetPurchases()
         )
     }
     catch (err) {

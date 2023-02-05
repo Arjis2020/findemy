@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import ICourseModel from "../../models/course.model";
-import { IPurchaseAction } from "../action.types";
-import { PurchaseActions } from "../constants";
 
 export type PurchaseAction = {
     data: ICourseModel[],
@@ -38,8 +36,17 @@ const purchaseSlice = createSlice({
             store.data = action.payload
             store.isLoading = false
         },
+        addPurchase: (store, action: PayloadAction<ICourseModel[]>) => {
+            store.data.push(...action.payload)
+            store.isLoading = false
+            return store
+        },
+        resetPurchases: (store) => {
+            store = initialState
+            return store
+        }
     }
 })
 
-export const { setPurchases, purchaseCourses } = purchaseSlice.actions
+export const { setPurchases, purchaseCourses, resetPurchases, addPurchase } = purchaseSlice.actions
 export default purchaseSlice.reducer

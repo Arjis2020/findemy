@@ -1,6 +1,6 @@
 import { all, call, put, takeLeading } from "redux-saga/effects";
 import ICartModel from "../../models/cart.model";
-import { PurchaseAction, setPurchases } from "../reducers/purchase.reducer";
+import { addPurchase, setPurchases } from "../reducers/purchase.reducer";
 import { checkout as purchaseCoursesHandler } from '../../API/handlers/purchase.handler'
 import { setCart } from "../reducers/cart.reducer";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -13,7 +13,7 @@ function* checkout(action?: PayloadAction<ICourseModel[]>) {
             setCart(updatedCart)
         )
         yield put(
-            setPurchases(action?.payload!)
+            addPurchase(action?.payload!)
         )
     }
     catch (err: any) {

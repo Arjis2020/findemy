@@ -118,7 +118,7 @@ export default function Header() {
                         size={30}
                     />
                     :
-                    !!!user.data._id ?
+                    !user.data._id ?
                         <Stack
                             direction='row'
                             alignItems='center'

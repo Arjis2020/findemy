@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { HistoryActions } from "../constants"
 
 export type HistoryState = {
     paths: Array<string>,
@@ -34,10 +33,19 @@ const historySlice = createSlice({
     initialState,
     reducers: {
         addPath: (store, action: PayloadAction<string>) => {
-            store.paths.push(action.payload)
+            let currentPaths = [...store.paths, action.payload]
+            currentPaths = currentPaths.slice(-2)
+            const [previousPath, currentPath] = currentPaths
+            if (previousPath === currentPath) {
+                currentPaths.unshift('/')
+                currentPaths.pop()
+            }
+            store.paths = currentPaths
+            return store
         },
         resetPaths: (store) => {
             store = initialState
+            return store
         }
     }
 })

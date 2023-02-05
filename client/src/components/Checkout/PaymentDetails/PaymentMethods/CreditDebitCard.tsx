@@ -18,7 +18,7 @@ export default function CreditDebitCard({ formValues: { register, formState: { e
     function getCardIcon(number: string): JSX.Element {
         number = number.replace(/ /g, "")
         // visa
-        var re = new RegExp("^4");
+        let re = new RegExp("^4");
         if (number.match(re)) {
             setCardType('visa')
             return <IconGenerator
@@ -45,7 +45,7 @@ export default function CreditDebitCard({ formValues: { register, formState: { e
                 height={18}
                 icon='https://www.udemy.com/staticx/udemy/images/v9/card-amex.svg'
             />
-        };
+        }
 
         // Discover
         re = new RegExp("^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)");
@@ -55,7 +55,7 @@ export default function CreditDebitCard({ formValues: { register, formState: { e
                 height={18}
                 icon='https://www.udemy.com/staticx/udemy/images/v9/card-discover.svg'
             />
-        };
+        }
 
         // Diners
         re = new RegExp("^36");
@@ -65,7 +65,7 @@ export default function CreditDebitCard({ formValues: { register, formState: { e
                 height={18}
                 icon='https://www.udemy.com/staticx/udemy/images/v9/card-dinersclub.svg'
             />
-        };
+        }
 
         // Rupay
         re = new RegExp("^6(?:0[0-9]{14}|52[12][0-9]{12})$")
@@ -85,10 +85,10 @@ export default function CreditDebitCard({ formValues: { register, formState: { e
     }
 
     function formatCard(value: string): string {
-        var v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-        var matches = v.match(/\d{4,16}/g);
-        var match = matches && matches[0] || ''
-        var parts = []
+        const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
+        const matches = v.match(/\d{4,16}/g);
+        const match = matches && matches[0] || ''
+        const parts = []
 
         for (let i = 0, len = match.length; i < len; i += 4) {
             parts.push(match.substring(i, i + 4))

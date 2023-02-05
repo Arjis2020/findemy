@@ -1,5 +1,5 @@
 import { ExpandMore } from '@mui/icons-material'
-import { FormControl, NativeSelect, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
+import { FormControl, NativeSelect, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { PaymentMethodProps } from '..'
 
@@ -82,7 +82,7 @@ export default function StateTerritory({ formValues: { register, formState: { er
                         sx={{
                             // minWidth: '11rem',
                             // width: matches ? '100%' : 'unset',
-                            border: theme => `1px solid ${!!errors.state ? theme.palette.error.main : theme.palette.common.black}`,
+                            border: theme => `1px solid ${errors.state ? theme.palette.error.main : theme.palette.common.black}`,
                             py: 1,
                             px: 1.5,
                             width: '100%',

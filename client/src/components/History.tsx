@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { resetAuthErrors } from '../redux/reducers/auth.reducer'
 import { addPath } from '../redux/reducers/history.reducer'

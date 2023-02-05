@@ -1,10 +1,8 @@
 import { Star } from '@mui/icons-material'
 import { AppBar, Box, Button, Slide, Stack, Theme, Toolbar, Typography, useMediaQuery, useScrollTrigger } from '@mui/material'
 import { memo, ReactElement } from 'react'
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ICourseModel from '../../models/course.model'
-import { RootState } from '../../redux/reducers'
 import { CartState } from '../../redux/reducers/cart.reducer'
 import { useAppSelector } from '../../redux/store'
 
@@ -42,13 +40,16 @@ export default memo(function Summary({ values }: SummaryProps) {
         )
     }
 
-    const courseAsCart = {
-        orders: [values],
-        totalPrice: values.price,
-        totalDiscountedPrice: values.discountedPrice,
-        discountPercentage: Math.floor((values.price - values.discountedPrice) / values.price),
-        discount: values.price - values.discountedPrice
+    const courseAsCart: CartState = {
+        data: {
+            orders: [values],
+            totalPrice: values.price,
+            totalDiscountedPrice: values.discountedPrice,
+            discountPercentage: Math.floor((values.price - values.discountedPrice) / values.price),
+            discount: values.price - values.discountedPrice
+        }
     }
+
     const cart = useAppSelector((state) => state.cartReducer)
     const purchases = useAppSelector((state) => state.purchaseReducer)
 

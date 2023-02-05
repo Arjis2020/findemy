@@ -1,12 +1,10 @@
 import { Box, Button, Divider, IconButton, Stack, TextField, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import PasswordStrength from './PasswordStrength';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/reducers';
 import { Report } from '@mui/icons-material';
 import { useAppSelector } from '../../redux/store';
 

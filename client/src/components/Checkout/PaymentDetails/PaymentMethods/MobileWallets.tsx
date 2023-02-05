@@ -23,7 +23,7 @@ export default function MobileWallets({ formValues: { register, formState: { err
                     direction='row'
                     alignItems='center'
                     sx={{
-                        border: theme => `1px solid ${!!errors.wallet ? theme.palette.error.main : theme.palette.common.black}`,
+                        border: theme => `1px solid ${errors.wallet ? theme.palette.error.main : theme.palette.common.black}`,
                         py: 1,
                         px: 1.5,
                         width: '100%',

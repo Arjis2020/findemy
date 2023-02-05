@@ -1,6 +1,5 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { useEffect } from 'react';
-import { useCookies } from 'react-cookie';
 import './index.css';
 import Router from './Router';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';

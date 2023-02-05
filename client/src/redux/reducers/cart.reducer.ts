@@ -46,6 +46,10 @@ const cartSlice = createSlice({
             store.isLoading = false
             return store
         },
+        resetCart: (store) => {
+            store = initialState
+            return store
+        },
         triggerAddToCart: (store, action: PayloadAction<string>) => {
             store.isLoading = true
         },
@@ -58,5 +62,5 @@ const cartSlice = createSlice({
     }
 })
 
-export const { setCart, triggerAddToCart, triggerGetCart, triggerRemoveFromCart } = cartSlice.actions
+export const { setCart, resetCart, triggerAddToCart, triggerGetCart, triggerRemoveFromCart } = cartSlice.actions
 export default cartSlice.reducer

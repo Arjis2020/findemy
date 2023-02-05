@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import ICourseModel from "../../models/course.model"
-import { CourseActions } from "../constants"
 
 type CourseAction = {
     data: ICourseModel[],

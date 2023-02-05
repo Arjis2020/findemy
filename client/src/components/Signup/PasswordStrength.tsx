@@ -19,7 +19,7 @@ export default function PasswordStrength({ password }: PasswordStrengthProps) {
     const computeStrength = () => {
         if (password.length >= 6) {
             let pwdStrength = 0;
-            let validateRegex = ["[A-Z]", "[a-z]", "[0-9]", "\\W"];
+            const validateRegex = ["[A-Z]", "[a-z]", "[0-9]", "\\W"];
             validateRegex.forEach((regex, i) => {
                 if (new RegExp(regex).test(password)) {
                     pwdStrength += 1;

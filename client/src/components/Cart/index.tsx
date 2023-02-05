@@ -1,9 +1,7 @@
 import { Button, Container, Divider, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 // import { triggerGetCart } from '../../redux/actions/cart.action'
-import { RootState } from '../../redux/reducers'
 import { triggerGetCart } from '../../redux/reducers/cart.reducer'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import Loader from '../Loader'
@@ -23,7 +21,7 @@ export default function Cart() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('tablet'))
 
     return (
-        cart.data.orders ?
+        !cart.isLoading ?
             <Container
                 maxWidth='xl'
                 sx={{

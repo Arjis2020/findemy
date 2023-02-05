@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
+import { Box, Button, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import LanguageIcon from '@mui/icons-material/Language';
 import './index.css'
 import Partners from './Partners';

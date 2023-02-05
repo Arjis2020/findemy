@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { ICardDetails, IMobileWalletDetails, INetbankingDetails, IPaymentDetails, IUPIDetails, SupportedPaymentMethods } from "../../models/order.model"
 // import { ICardDetails, IPaymentDetails, IUPIDetails, INetbankingDetails, IMobileWalletDetails } from "../actions/payment.action"
-import { PaymentActions } from "../constants"
 
 export type PaymentState = IPaymentDetails
 
@@ -12,7 +11,7 @@ type PaymentAction = {
     details: ICardDetails | IUPIDetails | INetbankingDetails | IMobileWalletDetails
 }
 
-let initialState: PaymentState = {}
+const initialState: PaymentState = {}
 
 // export const paymentReducer = (state = initialState, action: PaymentAction) => {
 //     switch (action.type) {

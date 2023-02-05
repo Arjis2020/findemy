@@ -1,8 +1,6 @@
-import { StarBorder } from '@mui/icons-material'
-import { Box, Button, Rating, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
+import { Box, Button, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 // import { triggerRemoveFromCart } from '../../redux/actions/cart.action';
 import ICourseModel from '../../models/course.model';
 import Ratings from '../Ratings';

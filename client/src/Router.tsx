@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Cart from './components/Cart'
 import Checkout from './components/Checkout'
@@ -16,8 +15,6 @@ import ScrollToTop from './components/ScrollToTop'
 import SearchResults from './components/SearchResults'
 import Signup from './components/Signup'
 import TopicResults from './components/TopicResults'
-import { RootState } from './redux/reducers'
-import { HistoryState } from './redux/reducers/history.reducer'
 import { useAppSelector } from './redux/store'
 
 export default function Router() {

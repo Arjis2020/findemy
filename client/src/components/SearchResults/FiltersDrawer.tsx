@@ -1,7 +1,6 @@
-import { Accordion, AccordionDetails, AccordionSummary, AppBar, Box, Button, Checkbox, Divider, Drawer, Radio, RadioGroup, Rating, Stack, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, AppBar, Box, Button, Checkbox, Divider, Drawer, Radio, RadioGroup, Stack, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { ReactNode, useEffect, useState } from 'react';
-import { StarBorder } from '@mui/icons-material';
+import React, { ReactNode } from 'react';
 import {ISearchResultMetaModel} from '../../models/searchResult.meta.model';
 import Ratings from '../Ratings';
 import { RatingFilterModel } from '../../models/rating.filter.model';

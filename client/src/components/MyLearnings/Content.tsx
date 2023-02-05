@@ -1,22 +1,24 @@
-import { Container, Grid, Stack } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { getPurchases } from '../../API/handlers/purchase.handler'
 import ICourseModel from '../../models/course.model'
+import { useAppSelector } from '../../redux/store'
 import Loader from '../Loader'
 import Course from './Course'
 import Empty from './Empty'
 
 export default function Content() {
-    const [purchases, setPurchases] = useState<ICourseModel[] | undefined>(undefined)
-    useEffect(() => {
-        getPurchases()
-            .then(data => {
-                // console.log(data)
-                setPurchases(data)
-            })
-            .catch(err => console.log(err.toString()))
-    }, [])
+    // const [purchases, setPurchases] = useState<ICourseModel[] | undefined>(undefined)
+    // useEffect(() => {
+    //     getPurchases()
+    //         .then(data => {
+    //             // console.log(data)
+    //             setPurchases(data)
+    //         })
+    //         .catch(err => console.log(err.toString()))
+    // }, [])
+
+    const purchases = useAppSelector(state => state.purchaseReducer)
 
     return (
         <Container
@@ -26,13 +28,13 @@ export default function Content() {
             }}
         >
             {
-                purchases ?
-                    purchases.length > 0 ?
+                !purchases.isLoading ?
+                    purchases.data.length > 0 ?
                         <Grid
                             container
                             gap={2}
                         >
-                            {purchases.map(course => (
+                            {purchases.data.map(course => (
                                 <Grid
                                     item
                                     key={course._id}

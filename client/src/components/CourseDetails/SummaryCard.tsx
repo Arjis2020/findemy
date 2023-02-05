@@ -1,4 +1,4 @@
-import { Box, Button, Card, List, ListItem, ListItemIcon, ListItemText, Stack, Typography } from '@mui/material'
+import { Button, Card, Stack, Typography } from '@mui/material'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
@@ -9,13 +9,11 @@ import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import ClosedCaptionOffRoundedIcon from '@mui/icons-material/ClosedCaptionOffRounded';
 import React from 'react';
 import VideoPreview from './VideoPreview';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/reducers';
-import { CartState } from '../../redux/reducers/cart.reducer';
 import { useNavigate } from 'react-router-dom';
 import ICourseModel from '../../models/course.model';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../redux/store';
+import { CartState } from '../../redux/reducers/cart.reducer';
 
 type SummaryCardProps = {
     showVideo?: boolean,
@@ -67,12 +65,14 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
         }
     ]
 
-    const courseAsCart = {
-        orders: [values],
-        totalPrice: values.price,
-        totalDiscountedPrice: values.discountedPrice,
-        discountPercentage: Math.floor((values.price - values.discountedPrice) / values.price),
-        discount: values.price - values.discountedPrice
+    const courseAsCart: CartState = {
+        data: {
+            orders: [values],
+            totalPrice: values.price,
+            totalDiscountedPrice: values.discountedPrice,
+            discountPercentage: Math.floor((values.price - values.discountedPrice) / values.price),
+            discount: values.price - values.discountedPrice
+        }
     }
     const navigate = useNavigate()
 
@@ -150,6 +150,7 @@ export default function SummaryCard({ showVideo = true, values, onAddToCartClick
                                     fullWidth
                                     disableElevation
                                     disableRipple
+                                    disabled={cart.isLoading}
                                 >
                                     {doesCourseExistInCart ? 'Go to cart' : 'Add to cart'}
                                 </Button>

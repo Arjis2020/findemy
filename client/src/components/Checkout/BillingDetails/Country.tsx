@@ -1,5 +1,5 @@
 import { ExpandMore, Language } from '@mui/icons-material'
-import { FormControl, NativeSelect, Stack, Theme, Typography, useMediaQuery } from '@mui/material'
+import { FormControl, NativeSelect, Stack, Typography } from '@mui/material'
 
 export default function Country() {
     const countries = [

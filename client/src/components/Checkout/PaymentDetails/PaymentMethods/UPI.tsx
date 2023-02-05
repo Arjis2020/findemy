@@ -1,11 +1,9 @@
 import { Button, Divider, Stack, TextField, Theme, Typography, useMediaQuery } from '@mui/material'
 import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
 import { IUPIDetails } from '../../../../models/order.model'
 // import { setPaymentDetails, IUPIDetails } from '../../../../redux/actions/payment.action'
-import { RootState } from '../../../../redux/reducers'
-import { PaymentState, setPaymentDetails } from '../../../../redux/reducers/payment.reducer'
+import { setPaymentDetails } from '../../../../redux/reducers/payment.reducer'
 import { useAppDispatch, useAppSelector } from '../../../../redux/store'
 import Loader from '../../../Loader'
 

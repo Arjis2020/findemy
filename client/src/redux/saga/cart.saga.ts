@@ -7,7 +7,6 @@ import { setCart } from "../reducers/cart.reducer";
 function* callAddToCart(action?: PayloadAction<string>) {
     try {
         const data: ICartModel = yield call(addToCart, action?.payload!)
-        console.log(data)
         yield put(
             setCart(data)
         )

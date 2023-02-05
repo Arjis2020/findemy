@@ -1,8 +1,7 @@
 import { ExpandMore } from '@mui/icons-material'
 import { NativeSelect, Stack, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { PaymentMethodProps } from '../..'
-import { getNetbankingBanks } from '../../../../API/handlers/payment.handler'
 
 export default function NetBanking({ formValues: { register, formState: { errors }}, banks }: PaymentMethodProps) {
     return (
@@ -24,7 +23,7 @@ export default function NetBanking({ formValues: { register, formState: { errors
                     alignItems='center'
                     spacing={2}
                     sx={{
-                        border: theme => `1px solid ${!!errors.bank ? theme.palette.error.main : theme.palette.common.black}`,
+                        border: theme => `1px solid ${errors.bank ? theme.palette.error.main : theme.palette.common.black}`,
                         py: 1,
                         px: 1.5,
                         width: '100%',
