@@ -32,7 +32,12 @@ const authorize = async (req, res) => {
 
     const purchases = (await Purchases.find({
         user_id
-    }).populate('course_id')).map(item => ({ ...item.course_id.toJSON() }))
+    }).populate({
+        path: 'course_id',
+        populate: {
+            path: 'instructors'
+        }
+    })).map(item => ({ ...item.course_id.toJSON() }))
 
     const totalDiscountedPrice = orders.reduce((sum, i) => sum + i.discountedPrice, 0)
     const totalPrice = orders.reduce((sum, i) => sum + i.price, 0)
@@ -84,7 +89,12 @@ const login = async (req, res) => {
 
             const purchases = (await Purchases.find({
                 user_id: user._id
-            }).populate('course_id')).map(item => ({ ...item.course_id.toJSON() }))
+            }).populate({
+                path: 'course_id',
+                populate: {
+                    path: 'instructors'
+                }
+            })).map(item => ({ ...item.course_id.toJSON() }))
 
             const totalDiscountedPrice = orders.reduce((sum, i) => sum + i.discountedPrice, 0)
             const totalPrice = orders.reduce((sum, i) => sum + i.price, 0)

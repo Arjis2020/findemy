@@ -1,6 +1,4 @@
 const insert = require('../databaseUtils/insert')
-const ValidationError = require('../errors/ValidationError')
-const Cart = require('../models/cart.model')
 const Courses = require('../models/course.model')
 
 const getAllCourses = async (req, res) => {
