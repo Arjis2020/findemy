@@ -1,0 +1,46 @@
+version: "3.9"
+
+networks:
+  virtual-network:
+    name: findemy-network
+
+services:
+  # runs the server as a microservice inside an isolated container
+  server:
+    networks:
+      - "virtual-network"
+    container_name: "findemy-server"
+    restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file: ./.env
+    expose:
+      - "9000"
+
+  frontend:
+    networks:
+      - "virtual-network"
+    container_name: "findemy-client"
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: ./.env
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot/
+    ports:
+      - 80:80
+      - 443:443
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    depends_on:
+      - server
+
+  # certbot:
+  #   image: certbot/certbot:latest
+  #   volumes:
+  #     - ./certbot/www/:/var/www/certbot/
+  #     - ./certbot/conf:/etc/letsencrypt/
+  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
