@@ -1,25 +1,53 @@
+import React, { Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import Cart from './components/Cart'
 import Checkout from './components/Checkout'
-import CourseDetails from './components/CourseDetails'
 import Footer from './components/Footer'
-import ForgotPassword from './components/ForgotPassword'
 import History from './components/History'
 import Home from './components/Home'
-import Login from './components/Login'
-import MyLearnings from './components/MyLearnings'
+import Loader from './components/Loader'
 import Navbar from './components/Navbar'
-import OrderPlaced from './components/OrderPlaced'
-import ResetPassword from './components/ResetPassword'
 import ScrollToTop from './components/ScrollToTop'
-import SearchResults from './components/SearchResults'
-import Signup from './components/Signup'
-import TopicResults from './components/TopicResults'
+// import CourseDetails from './components/CourseDetails'
+// import Login from './components/Login'
+// import ForgotPassword from './components/ForgotPassword'
+// import Cart from './components/Cart'
+// import MyLearnings from './components/MyLearnings'
+// import OrderPlaced from './components/OrderPlaced'
+// import ResetPassword from './components/ResetPassword'
+// import SearchResults from './components/SearchResults'
+// import Signup from './components/Signup'
+// import TopicResults from './components/TopicResults'
 import { useAppSelector } from './redux/store'
 
 export default function Router() {
   const user = useAppSelector((state) => state.authReducer)
   const { paths: [previousPath] } = useAppSelector((state) => state.historyReducer)
+
+  type LazyLoaderProps = {
+    LazyComponent: ReturnType<typeof React.lazy>;
+    fallback: React.ReactNode;
+  }
+
+  const Login = React.lazy(() => import('./components/Login'))
+  const CourseDetails = React.lazy(() => import('./components/CourseDetails'))
+  const Cart = React.lazy(() => import('./components/Cart'))
+  const ForgotPassword = React.lazy(() => import('./components/ForgotPassword'))
+  const MyLearnings = React.lazy(() => import('./components/MyLearnings'))
+  const OrderPlaced = React.lazy(() => import('./components/OrderPlaced'))
+  const ResetPassword = React.lazy(() => import('./components/ResetPassword'))
+  const SearchResults = React.lazy(() => import('./components/SearchResults'))
+  const Signup = React.lazy(() => import('./components/Signup'))
+  const TopicResults = React.lazy(() => import('./components/TopicResults'))
+
+  const LazyLoader = ({ LazyComponent, fallback }: LazyLoaderProps) => {
+    return (
+      <Suspense
+        fallback={fallback}
+      >
+        <LazyComponent />
+      </Suspense>
+    )
+  }
 
   return (
     <BrowserRouter>
@@ -38,7 +66,10 @@ export default function Router() {
               to={previousPath}
             />
             :
-            <Login />
+            <LazyLoader
+              LazyComponent={Login}
+              fallback={<Loader />}
+            />
           }
         />
         <Route
@@ -49,20 +80,38 @@ export default function Router() {
                 to={previousPath}
               />
               :
-              <Signup />
+              <LazyLoader
+                LazyComponent={Signup}
+                fallback={<Loader />}
+              />
           }
         />
         <Route
           path='/search'
-          element={<SearchResults />}
+          element={
+            <LazyLoader
+              LazyComponent={SearchResults}
+              fallback={<Loader />}
+            />
+          }
         />
         <Route
           path='/topic/:category'
-          element={<TopicResults />}
+          element={
+            <LazyLoader
+              LazyComponent={TopicResults}
+              fallback={<Loader />}
+            />
+          }
         />
         <Route
           path='/course/:slug'
-          element={<CourseDetails />}
+          element={
+            <LazyLoader
+              LazyComponent={CourseDetails}
+              fallback={<Loader />}
+            />
+          }
         />
         <Route
           path='/cart'
@@ -72,7 +121,10 @@ export default function Router() {
                 to='/'
               />
               :
-              <Cart />
+              <LazyLoader
+                LazyComponent={Cart}
+                fallback={<Loader />}
+              />
           }
         />
         <Route
@@ -81,8 +133,9 @@ export default function Router() {
             <Checkout
             />
             :
-            <Navigate
-              to='/login'
+            <LazyLoader
+              LazyComponent={Login}
+              fallback={<Loader />}
             />
           }
         />
@@ -94,12 +147,20 @@ export default function Router() {
                 to='/'
               />
               :
-              <MyLearnings />
+              <LazyLoader
+                LazyComponent={MyLearnings}
+                fallback={<Loader />}
+              />
           }
         />
         <Route
           path='/order/success/:oid'
-          element={<OrderPlaced />}
+          element={
+            <LazyLoader
+              LazyComponent={OrderPlaced}
+              fallback={<Loader />}
+            />
+          }
         />
         <Route
           path='/forgotPassword'
@@ -109,22 +170,31 @@ export default function Router() {
                 to='/'
               />
               :
-              <ForgotPassword />
+              <LazyLoader
+                LazyComponent={ForgotPassword}
+                fallback={<Loader />}
+              />
           }
         />
         <Route
           path='/resetPassword'
-          element={<ResetPassword />}
+          element={
+            <LazyLoader
+              LazyComponent={ResetPassword}
+              fallback={<Loader />}
+            />
+          }
         />
         <Route
           path='*'
-          element={<Navigate
-            to='/'
-          />}
+          element={
+            <Navigate
+              to='/'
+            />
+          }
         />
       </Routes>
-      <Footer
-      />
+      <Footer />
     </BrowserRouter>
   )
 }
