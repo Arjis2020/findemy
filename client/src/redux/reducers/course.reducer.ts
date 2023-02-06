@@ -11,19 +11,6 @@ const initialState: CourseAction = {
     isLoading: false
 }
 
-
-// export const courseReducer = (state = initialState, action: CourseAction) => {
-//     switch (action.type) {
-//         case CourseActions.GET_ALL:
-//             return {
-//                 ...state,
-//                 data: action.data
-//             }
-//     }
-
-//     return state
-// }
-
 const courseSlice = createSlice({
     name: 'courses',
     initialState,

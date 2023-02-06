@@ -4,9 +4,10 @@ import { handleAuthorization, handleLogin, handleLogout, handleSignup } from '..
 import { ILoginForm } from '../../components/Login/EmailPassword'
 import { ISignupForm } from '../../components/Signup/Details'
 import IUserModel from '../../models/user.model'
-import { loginError, logoutUser, setUserData, signupError } from '../reducers/auth.reducer'
+import { loginError, logoutUser, resetUserData, setUserData, signupError } from '../reducers/auth.reducer'
 import { resetCart, setCart } from '../reducers/cart.reducer'
 import { resetPurchases, setPurchases } from '../reducers/purchase.reducer'
+import { UserSagaActions } from '../saga.constants'
 
 function* login(action?: PayloadAction<ILoginForm>) {
     try {
@@ -58,25 +59,7 @@ function* authorize() {
     catch (err: any) {
         // console.log(err)
         yield put(
-            setUserData({
-                data: {
-                    _id: "",
-                    name: "",
-                    email: "",
-                    cart: {
-                        orders: [],
-                        totalDiscountedPrice: 0,
-                        totalPrice: 0,
-                        discount: 0,
-                        discountPercentage: 0
-                    },
-                    purchases: []
-                },
-                err: {
-                    login: {},
-                    signup: {}
-                }
-            })
+            resetUserData()
         )
     }
 }
@@ -122,10 +105,10 @@ function* logout() {
 
 function* loginSaga() {
     yield all([
-        takeEvery("users/triggerLogin", login),
-        takeEvery("users/triggerAuthorize", authorize),
-        takeEvery("users/triggerLogout", logout),
-        takeEvery("users/triggerSignup", signup)
+        takeEvery(UserSagaActions.TRIGGER_LOGIN, login),
+        takeEvery(UserSagaActions.TRIGGER_AUTHORIZE, authorize),
+        takeEvery(UserSagaActions.TRIGGER_LOGOUT, logout),
+        takeEvery(UserSagaActions.TRIGGER_SIGNUP, signup)
     ])
 }
 

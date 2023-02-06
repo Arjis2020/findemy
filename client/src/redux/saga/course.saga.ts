@@ -2,6 +2,7 @@ import { all, call, put, takeEvery } from "redux-saga/effects";
 import { getAllCourses } from "../../API/handlers/course.handler";
 import ICourseModel from "../../models/course.model";
 import { setCourses } from "../reducers/course.reducer";
+import { CourseSagaActions } from "../saga.constants";
 
 function* getCourses() {
     try {
@@ -17,6 +18,6 @@ function* getCourses() {
 
 export default function* courseSaga() {
     yield all([
-        takeEvery("courses/fetchCourses", getCourses)
+        takeEvery(CourseSagaActions.FETCH_COURSES, getCourses)
     ])
 }

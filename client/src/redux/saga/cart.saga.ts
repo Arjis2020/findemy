@@ -3,6 +3,7 @@ import { all, call, put, takeEvery, takeLeading } from "redux-saga/effects";
 import { addToCart, getCartCourses, removeFromCart } from "../../API/handlers/cart.handler";
 import ICartModel from "../../models/cart.model";
 import { setCart } from "../reducers/cart.reducer";
+import { CartSagaActions } from "../saga.constants";
 
 function* callAddToCart(action?: PayloadAction<string>) {
     try {
@@ -43,8 +44,8 @@ function* removeCourseFromCart(action?: PayloadAction<string>) {
 
 export default function* cartSaga() {
     yield all([
-        takeLeading("cart/triggerAddToCart", callAddToCart),
-        takeEvery("cart/triggerGetCart", callCartCourses),
-        takeLeading("cart/triggerRemoveFromCart", removeCourseFromCart)
+        takeLeading(CartSagaActions.TRIGGER_ADD_TO_CART, callAddToCart),
+        takeEvery(CartSagaActions.TRIGGER_GET_CART, callCartCourses),
+        takeLeading(CartSagaActions.TRIGGER_REMOVE_FROM_CART, removeCourseFromCart)
     ])
 }

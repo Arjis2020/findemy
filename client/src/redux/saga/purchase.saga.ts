@@ -5,6 +5,7 @@ import { checkout as purchaseCoursesHandler } from '../../API/handlers/purchase.
 import { setCart } from "../reducers/cart.reducer";
 import { PayloadAction } from "@reduxjs/toolkit";
 import ICourseModel from "../../models/course.model";
+import { PurchaseSagaActions } from "../saga.constants";
 
 function* checkout(action?: PayloadAction<ICourseModel[]>) {
     try {
@@ -23,6 +24,6 @@ function* checkout(action?: PayloadAction<ICourseModel[]>) {
 
 export default function* purchaseSaga() {
     yield all([
-        takeLeading("purchases/purchaseCourses", checkout)
+        takeLeading(PurchaseSagaActions.PURCHASE_COURSES, checkout)
     ])
 }

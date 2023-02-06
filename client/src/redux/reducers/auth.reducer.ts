@@ -4,10 +4,6 @@ import { IAuthError, ILoginError } from "../../API/responseTypes/auth.type";
 import { ILoginForm } from "../../components/Login/EmailPassword";
 import { ISignupForm } from "../../components/Signup/Details";
 
-// export interface ILoginStateAction extends LoginAction {
-//     type?: string,
-// }
-
 interface ILogin {
     data: IUserModel;
     err: IAuthError;
@@ -35,38 +31,6 @@ const initialState: ILogin = {
     isLoading: false
 }
 
-// export const authReducer = (state = initialState, action: ILoginStateAction) => {
-//     switch (action.type) {
-//         case LoginActions.LOGIN:
-//             return {
-//                 ...state,
-//                 data: action.data,
-//             }
-//         case LoginActions.LOGIN_ERROR:
-//             return {
-//                 ...state,
-//                 err: {
-//                     login: action.err
-//                 }
-//             }
-//         case LoginActions.SIGNUP_ERROR:
-//             return {
-//                 ...state,
-//                 err: {
-//                     signup: action.err
-//                 }
-//             }
-//         case LoginActions.RESET_ERRORS:
-//             return {
-//                 ...state,
-//                 err: {}
-//             }
-//         case LoginActions.LOGOUT:
-//             return initialState
-//     }
-//     return state
-// }
-
 const userSlice = createSlice({
     name: "users",
     initialState,
@@ -85,7 +49,10 @@ const userSlice = createSlice({
         },
         logoutUser: (store) => {
             store = initialState
-            // store.isLoading = false
+            return store
+        },
+        resetUserData: (store) => {
+            store = initialState
             return store
         },
         setUserData: (store, action: PayloadAction<ILogin>) => {
@@ -111,5 +78,5 @@ const userSlice = createSlice({
     }
 })
 
-export const { triggerLogin, triggerSignup, triggerAuthorize, triggerLogout, setUserData, loginError, signupError, resetAuthErrors, logoutUser } = userSlice.actions
+export const { triggerLogin, triggerSignup, triggerAuthorize, triggerLogout, setUserData, resetUserData, loginError, signupError, resetAuthErrors, logoutUser } = userSlice.actions
 export default userSlice.reducer
