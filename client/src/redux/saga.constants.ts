@@ -1,15 +1,3 @@
-// type ActionSet = {
-//     [x: string]: string
-// }
-
-// function builder<T>(root: string, actionSet: ActionSet): T {
-//     let modifiedActionSet: = {}
-//     Object.keys(actionSet).forEach(key => {
-//         modifiedActionSet[key as unknown as string] = root + actionSet[key]
-//     })
-//     return modifiedActionSet
-// }
-
 // root saga actions
 const UserSagaRootAction = 'users/'
 const CartSagaRootAction = 'cart/'
