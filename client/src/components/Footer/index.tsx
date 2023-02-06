@@ -34,7 +34,8 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
     const DesktopView = () => {
         return (
             <Stack
-                spacing={6}
+                spacing={10}
+                py={5}
             >
                 <Stack
                     direction='row'
@@ -81,27 +82,27 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
                             <Typography
                                 fontSize={14}
                             >
-                                Findemy Business
+                                Careers
                             </Typography>
                             <Typography
                                 fontSize={14}
                             >
-                                Teach on Findemy
+                                Blog
                             </Typography>
                             <Typography
                                 fontSize={14}
                             >
-                                Get the app
+                                Help and Support
                             </Typography>
                             <Typography
                                 fontSize={14}
                             >
-                                About us
+                                Affiliate
                             </Typography>
                             <Typography
                                 fontSize={14}
                             >
-                                Contact us
+                                Investors
                             </Typography>
                         </Stack>
                         <Stack
@@ -110,27 +111,27 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
                             <Typography
                                 fontSize={14}
                             >
-                                Findemy Business
+                                Terms
                             </Typography>
                             <Typography
                                 fontSize={14}
                             >
-                                Teach on Findemy
+                                Privacy Policy
                             </Typography>
                             <Typography
                                 fontSize={14}
                             >
-                                Get the app
+                                Cookie settings
                             </Typography>
                             <Typography
                                 fontSize={14}
                             >
-                                About us
+                                Sitemap
                             </Typography>
                             <Typography
                                 fontSize={14}
                             >
-                                Contact us
+                                Accessibility statement
                             </Typography>
                         </Stack>
                     </Stack>
@@ -163,12 +164,24 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
                         </Stack>
                     </Button>
                 </Stack>
-                <Typography
-                    fontFamily='UdemySansBold'
-                    variant='h4'
+                <Stack
+                    direction='row'
+                    justifyContent='space-between'
+                    alignContent='center'
                 >
-                    {APP_NAME}
-                </Typography>
+                    <Typography
+                        fontFamily='UdemySansBold'
+                        variant='h4'
+                    >
+                        {APP_NAME}
+                    </Typography>
+                    <Typography
+                        variant='caption'
+                        color='white'
+                    >
+                        © {new Date().getFullYear()} Findemy, Inc.
+                    </Typography>
+                </Stack>
             </Stack>
         )
     }
@@ -176,7 +189,8 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
     const MobileView = () => {
         return (
             <Stack
-                spacing={6}
+                spacing={10}
+                py={5}
             >
                 <Stack
                     spacing={2}
@@ -241,61 +255,71 @@ export default function Footer({ showBusinessBranding = true }: FooterProps) {
                         <Typography
                             fontSize={14}
                         >
-                            Findemy Business
+                            Careers
                         </Typography>
                         <Typography
                             fontSize={14}
                         >
-                            Teach on Findemy
+                            Blog
                         </Typography>
                         <Typography
                             fontSize={14}
                         >
-                            Get the app
+                            Help and Support
                         </Typography>
                         <Typography
                             fontSize={14}
                         >
-                            About us
+                            Affiliate
                         </Typography>
                         <Typography
                             fontSize={14}
                         >
-                            Contact us
+                            Investors
                         </Typography>
                         <Typography
                             fontSize={14}
                         >
-                            Findemy Business
+                            Terms
                         </Typography>
                         <Typography
                             fontSize={14}
                         >
-                            Teach on Findemy
+                            Privacy Policy
                         </Typography>
                         <Typography
                             fontSize={14}
                         >
-                            Get the app
+                            Cookie settings
                         </Typography>
                         <Typography
                             fontSize={14}
                         >
-                            About us
+                            Sitemap
                         </Typography>
                         <Typography
                             fontSize={14}
                         >
-                            Contact us
+                            Accessibility statement
                         </Typography>
                     </Stack>
                 </Stack>
-                <Typography
-                    fontFamily='UdemySansBold'
-                    variant='h4'
+                <Stack
+                    spacing={1}
                 >
-                    {APP_NAME}
-                </Typography>
+                    <Typography
+                        fontFamily='UdemySansBold'
+                        variant='h4'
+                    >
+                        {APP_NAME}
+                    </Typography>
+                    <Typography
+                        variant='caption'
+                        color='white'
+                    >
+                        © {new Date().getFullYear()} Findemy, Inc.
+                    </Typography>
+                </Stack>
             </Stack>
         )
     }

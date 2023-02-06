@@ -5,8 +5,8 @@ import Login from './Login'
 import Search, { ISearchForm } from './Search'
 import Signup from './Signup'
 import MenuIcon from '@mui/icons-material/Menu';
-import { Fragment, useState } from 'react'
-import { ArrowForwardIosSharp } from '@mui/icons-material'
+import { Fragment, useEffect, useState } from 'react'
+import { ArrowForwardIosSharp, Close } from '@mui/icons-material'
 import LanguageIcon from '@mui/icons-material/Language';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link, useLocation, useNavigate } from 'react-router-dom'
@@ -16,19 +16,20 @@ import Notification from './Notification'
 import MyLearning from './MyLearning'
 import './index.css'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { useAppSelector } from '../../redux/store'
 import Loader from '../Loader'
-import { toggleMobileSearchVisibility } from '../../redux/reducers/static.reducer'
 
 export default function Header() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
     const [open, setOpen] = useState<boolean>(false)
     const user = useAppSelector((state) => state.authReducer)
 
-    const dispatch = useAppDispatch()
+    const { handleSubmit, register } = useForm<ISearchForm>()
 
     const location = useLocation()
     const navigate = useNavigate()
+
+    const [mobileSearchVisibility, setMobileSearchVisibility] = useState<boolean>(false)
 
     const whitelistedAppbarRelativeRoutes = [
         '/course'
@@ -51,6 +52,7 @@ export default function Header() {
 
     const onSearch: SubmitHandler<ISearchForm> = (values) => {
         navigate(`/search?q=${values.search}&page=1`)
+        setMobileSearchVisibility(false)
     }
 
     const PopularItems = ({
@@ -78,6 +80,72 @@ export default function Header() {
             </Stack>
         )
     }
+
+    const MobileSearch = () => (
+        <Box
+            sx={{
+                position: 'fixed',
+                top: 0,
+                bottom: 0,
+                right: 0,
+                left: 0,
+                zIndex: 9999,
+                background: 'white',
+            }}
+        >
+            <Stack
+                direction='row'
+                justifyContent='space-between'
+                p={2}
+                alignItems='center'
+                width='100%'
+            >
+                <Stack
+                    direction='row'
+                    alignItems='center'
+                    spacing={2}
+                >
+                    <SearchIcon
+                        sx={{
+                            color: '#000'
+                        }}
+                    />
+                    <form
+                        style={{
+                            width: '100%',
+                        }}
+                        onSubmit={handleSubmit(onSearch)}
+                    >
+                        <TextField
+                            variant='standard'
+                            placeholder='Search for anything'
+                            autoComplete='off'
+                            InputProps={{
+                                disableUnderline: true
+                            }}
+                            fullWidth
+                            {...register('search', {
+                                required: true,
+                                minLength: 3
+                            })}
+                        />
+                        <input type='submit' hidden />
+                    </form>
+                </Stack>
+                <IconButton
+                    disableRipple
+                    onClick={() => setMobileSearchVisibility(false)}
+                >
+                    <Close
+                        sx={{
+                            color: '#000'
+                        }}
+                    />
+                </IconButton>
+            </Stack>
+            <Divider flexItem />
+        </Box>
+    )
 
     const DesktopView = () => (
         <Stack
@@ -150,58 +218,61 @@ export default function Header() {
     )
 
     const MobileView = () => (
-        <Fragment
-            key='left'
-        >
-            <Stack
-                direction='row'
-                justifyContent='space-between'
-                alignItems='center'
-                width='100%'
+        mobileSearchVisibility ?
+            <MobileSearch />
+            :
+            <Fragment
+                key='left'
             >
-                <IconButton
-                    onClick={toggleDrawer}
-                >
-                    <MenuIcon
-                        sx={{
-                            color: '#000'
-                        }}
-                    />
-                </IconButton>
-                <Typography
-                    fontFamily='UdemySansBold'
-                    variant='h5'
-                    fontWeight={600}
-                >
-                    <Link
-                        to='/'
-                        style={{
-                            textDecoration: 'none',
-                            color: 'inherit'
-                        }}
-                    >
-                        {APP_NAME}
-                    </Link>
-                </Typography>
                 <Stack
                     direction='row'
-                    spacing={1}
+                    justifyContent='space-between'
+                    alignItems='center'
+                    width='100%'
                 >
                     <IconButton
-                        onClick={() => dispatch(toggleMobileSearchVisibility())}
+                        onClick={toggleDrawer}
                     >
-                        <SearchIcon
+                        <MenuIcon
                             sx={{
                                 color: '#000'
                             }}
                         />
                     </IconButton>
-                    <IconButton>
-                        <Cart />
-                    </IconButton>
+                    <Typography
+                        fontFamily='UdemySansBold'
+                        variant='h5'
+                        fontWeight={600}
+                    >
+                        <Link
+                            to='/'
+                            style={{
+                                textDecoration: 'none',
+                                color: 'inherit'
+                            }}
+                        >
+                            {APP_NAME}
+                        </Link>
+                    </Typography>
+                    <Stack
+                        direction='row'
+                        spacing={1}
+                    >
+                        <IconButton
+                            onClick={() => setMobileSearchVisibility(true)}
+                        >
+                            <SearchIcon
+                                sx={{
+                                    color: '#000'
+                                }}
+                            />
+                        </IconButton>
+                        <IconButton>
+                            <Cart />
+                        </IconButton>
+                    </Stack>
                 </Stack>
-            </Stack>
-        </Fragment>
+            </Fragment>
     )
 
     const MenuDrawer = (
