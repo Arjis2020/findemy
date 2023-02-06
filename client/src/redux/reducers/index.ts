@@ -5,6 +5,7 @@ import courseReducer from "./course.reducer";
 import historyReducer from "./history.reducer";
 import paymentReducer from "./payment.reducer";
 import purchaseReducer from "./purchase.reducer";
+import staticReducer from "./static.reducer";
 
 const rootReducer = combineReducers({
     authReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     cartReducer,
     historyReducer,
     paymentReducer,
-    purchaseReducer
+    purchaseReducer,
+    staticReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

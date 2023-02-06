@@ -7,16 +7,6 @@ import Home from './components/Home'
 import Loader from './components/Loader'
 import Navbar from './components/Navbar'
 import ScrollToTop from './components/ScrollToTop'
-// import CourseDetails from './components/CourseDetails'
-// import Login from './components/Login'
-// import ForgotPassword from './components/ForgotPassword'
-// import Cart from './components/Cart'
-// import MyLearnings from './components/MyLearnings'
-// import OrderPlaced from './components/OrderPlaced'
-// import ResetPassword from './components/ResetPassword'
-// import SearchResults from './components/SearchResults'
-// import Signup from './components/Signup'
-// import TopicResults from './components/TopicResults'
 import { useAppSelector } from './redux/store'
 
 export default function Router() {
@@ -28,6 +18,7 @@ export default function Router() {
     fallback: React.ReactNode;
   }
 
+  // lazy loads
   const Login = React.lazy(() => import('./components/Login'))
   const CourseDetails = React.lazy(() => import('./components/CourseDetails'))
   const Cart = React.lazy(() => import('./components/Cart'))

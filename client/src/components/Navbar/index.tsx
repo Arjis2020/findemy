@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Button, Divider, IconButton, Stack, SwipeableDrawer, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
+import { AppBar, Avatar, Box, Button, Divider, IconButton, Stack, SwipeableDrawer, TextField, Theme, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import Cart from './Cart'
 import Languages from './Languages'
 import Login from './Login'
@@ -15,14 +15,17 @@ import UserAvatar from './UserAvatar'
 import Notification from './Notification'
 import MyLearning from './MyLearning'
 import './index.css'
-import { SubmitHandler } from 'react-hook-form'
-import { useAppSelector } from '../../redux/store'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
 import Loader from '../Loader'
+import { toggleMobileSearchVisibility } from '../../redux/reducers/static.reducer'
 
 export default function Header() {
     const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('laptop'))
     const [open, setOpen] = useState<boolean>(false)
     const user = useAppSelector((state) => state.authReducer)
+
+    const dispatch = useAppDispatch()
 
     const location = useLocation()
     const navigate = useNavigate()
@@ -184,7 +187,9 @@ export default function Header() {
                     direction='row'
                     spacing={1}
                 >
-                    <IconButton>
+                    <IconButton
+                        onClick={() => dispatch(toggleMobileSearchVisibility())}
+                    >
                         <SearchIcon
                             sx={{
                                 color: '#000'
@@ -196,7 +201,6 @@ export default function Header() {
                     </IconButton>
                 </Stack>
             </Stack>
-
         </Fragment>
     )
 
