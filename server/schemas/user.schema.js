@@ -9,7 +9,7 @@ const UsersSchema = new Schema({
     name: String,
     email: {
         type: String,
-        required: true
+        unique: true
     },
     password: String
 }, {
@@ -19,13 +19,5 @@ const UsersSchema = new Schema({
 UsersSchema.index({ email: 1 }, {
     unique: true
 })
-
-// UsersSchema.pre('save', async function (next) {
-//     const doc = await this.({ email: this.email })
-//     if (doc) {
-//         throw new ValidationError('User already exists')
-//     }
-//     next()
-// })
 
 module.exports = UsersSchema
