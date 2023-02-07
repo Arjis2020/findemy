@@ -18,7 +18,7 @@ UsersSchema.index({ email: 1 }, {
 })
 
 UsersSchema.pre('save', async function (next) {
-    const doc = await Users.find({ email: this.email })
+    const doc = await this.$model('users').find({ email: this.email })
     if (doc) {
         throw new ValidationError('User already exists')
     }
