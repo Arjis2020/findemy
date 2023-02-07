@@ -1,4 +1,4 @@
-FROM node:19-alpine
+FROM node:19-alpine as build
 WORKDIR /app
 COPY . .
 # use -f flag because there are conflicting peer dependencies in the dependencies used for this project
